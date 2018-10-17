@@ -11,3 +11,5 @@ Horas de trabalho:
 28/09/18 - Apresentação do Diagrama de Contexto, Atores e Casos de Uso
 28/09/18 - Luciano Brido 5h
 11/10/18 - Luciano Brido 2h
+11/10/18 - Leonardo Lourenço 2h
+13/10/18 - Correcção dos Casos de uso e apresentação do resultado do brainstorming
