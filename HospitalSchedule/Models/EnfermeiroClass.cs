@@ -9,7 +9,7 @@ namespace HospitalSchedule.Models
     public class EnfermeiroClass
     {
         [Required]
-        public int ID { get; set; }
+        public int EnfermeiroID { get; set; }
         [Required]
         public string nome { get; set; }
 
