@@ -1,7 +1,8 @@
 @{
     ViewData["Title"] = "Horario";
 }
-<h2>@ViewData["Title"]</h2>
+<h2>Horario</h2>
+
 
 <div>
     <table class="table">
@@ -19,43 +20,36 @@
             </tr>
         </thead>
         <tbody>
-
             <tr>
-                @foreach(var horas in Model){
-                <td scope="row">@Html.DisplayFor(modelItem => item.horas)</td>
-                }
-
+                <td scope="row">00:00</td>
             </tr>
 
             <tr>
-                @foreach (var item in Model) {
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-            }
+                <td scope="row">01:00</td>
             </tr>
         </tbody>
     </table>
 
-    <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
-    <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
-    <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
 </div>
 
 <div>
-    
-        <button class="btn btn-primary">
-            Realizar Troca
-        </button>
-   
-    <button>
+
+    <button class="btn btn-primary">
+        Realizar Troca
+    </button>
+
+    <button class=" btn btn-primary"> 
         Bloco A
     </button>
-    <button>
+
+    <button class=" btn btn-primary">
         Bloco B
     </button>
-    <button>
+
+    <button class=" btn btn-primary">
         Bloco C
     </button>
 </div>
 
+<a href="">Home Page</a>
+<a href="">Schedule Criation</a>
