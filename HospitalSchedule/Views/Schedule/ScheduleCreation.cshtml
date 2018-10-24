@@ -1,0 +1,39 @@
+﻿@model ScheduleCreationModel
+
+@{
+    ViewData["Title"] = "Schedule Creation";
+}
+
+<form asp-action="ScheduleCreation" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="BlockName">Choose the block whose schedule you want to create?</label>
+        <select asp-for="BlockName" class="form-control">
+            <option value="">Choose a block</option>    @*Here this spinner will get the blocknames and *@
+            <option value="A">A</option>                @*if it is a prevention group(ex: APrev) from a database*@
+            <option value="APrev">APrev</option>
+            <option value="B">B</option>
+            <option value="BPrev">APrev</option>
+            <option value="C">C</option>
+            <option value="CPrev">APrev</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary">Add nurse to the block</button>
+        @*Here the ideia is to have a button that on click lets you dynamically*@
+        @*choose which nurses you want to add to that block's schedule, it will let you see the nurse type as well*@
+        @*(with kids, age above 60,others). After pressing the button that nurse will stay in a block like div and *@
+        @*another button like this will be created*@
+    </div>
+
+    <div class="form-group">
+        <div class="form-group">
+            <label asp-for="CreationDate">Start Date</label>
+            <input asp-for="CreationDate" type="date" class="form-control" placeholder="mm/dd/yyyy">
+        </div>
+    </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
