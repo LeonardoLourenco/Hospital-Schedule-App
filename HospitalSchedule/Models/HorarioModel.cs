@@ -8,20 +8,20 @@ namespace HospitalSchedule.Models
 {
     public class HorarioModel
     {
-        [Required]
+        
         public int HorarioId{ set ; get; }
 
         [Required]
-        public List<String> Dias_Semana { set; get; }
+        public String Dia { set; get; }
 
         [Required]
-        public List <int> Horas { set; get; }
+        public int Hora_Inicio { set; get; }
+
+        [Required]
+        public int Hora_Fim { set; get; }
 
         [Required]
         public int Turno { set; get; }
-
-        [Required]
-        public String NomeEnfermeiro { set; get; }
 
         [Required]
         public DateTime Data { set; get; }
