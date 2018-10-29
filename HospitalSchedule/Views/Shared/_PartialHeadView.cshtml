@@ -1,0 +1,67 @@
+﻿<head>
+    <meta charset="utf-8">
+    <title>Hospital Schedule</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <script>
+        //Guarda o nome do elemento que é igual ao nome do Fragment na viewbag para ser obtido mais tarde
+        function saveFragment(element) {
+            <%= ViewData["Fragment"]=element.name; %> 
+        }
+    </script>
+
+    <!-- Favicons -->
+    <link href="~/img/favicon.png" rel="icon">
+    <link href="~/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="~/css/animate.css" rel="stylesheet" />
+
+    <!-- Squad theme CSS -->
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/color/default.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/lib/magnific-popup/magnific-popup.css" rel="stylesheet">
+    <link href="~/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="~/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+    Theme Name: Reveal
+    Theme URL: https://bootstrapmade.com/reveal-bootstrap-corporate-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+    ======================================================= -->
+    <!-- #header -->
+    <header id="header">
+        <div class="container">
+            <div id="logo" class="pull-left">
+                <h1><a>Hospital</a></h1>
+            </div>
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <!-- Utiliza operadores ternarios (palavra cara para dizer if mais curto) -->
+                    <li class="@(ViewData["Fragment"] != null && ViewData["Fragment"].ToString() == "Home" ? "menu-active" : "")"><a name="Home" Button.OnClientClick="javascript:saveFragment(this)" asp-fragment="Home" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="@(ViewData["Fragment"] != null && ViewData["Fragment"].ToString() == "Team" ? "menu-active" : "")"><a name="Team" Button.OnClientClick="javascript:saveFragment(this)" asp-fragment="Team" asp-controller="Home" asp-action="Index">Team</a></li>
+                    <li class="@(ViewData["Fragment"] != null && ViewData["Fragment"].ToString() == "Contact" ? "menu-active" : "")"><a name="Contact" Button.OnClientClick="javascript:saveFragment(this)" asp-fragment="Contact" asp-controller="Home" asp-action="Index">Contacts</a></li>
+                    <partial name="_LoginPartial" />
+                </ul>
+            </nav><!-- #nav-menu-container -->
+        </div>
+    </header>
+</head>
