@@ -12,7 +12,7 @@ namespace HospitalSchedule.Models
         public int BlockId { get; set; }            //Block Id
         [Required]
         [RegularExpression(@"[A-Z]+(_Reserva)?", ErrorMessage = "Invalid Block Name.")] //[A-Z]+(_Reserva)? Significa letra maiuscula de A a Z
-        public string BlockName { get; set; }       //Nome do bloco                     // com _Reserva presente ou não ex: A e A_Reserva
+        public string BlockName { get; set; }       //Nome do bloco                     // com _Reserva presente ou nao ex: A e A_Reserva
         [Required]
         [RegularExpression(@"[0-9]", ErrorMessage = "Invalid Max Number Of Nurses.")]
         public int MaxNumOfNurses { get; set; }     //Numero máximo de enfermeiros
