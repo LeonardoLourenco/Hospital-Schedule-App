@@ -33,5 +33,5 @@ namespace HospitalSchedule.Models
     [Required(ErrorMessage = "Por favor indroduza o numero de telefone")]
     public string NumeroTelefone { get; set; }
 
-}
-}
+        }       
+    }
