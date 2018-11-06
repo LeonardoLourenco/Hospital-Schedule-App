@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class ScheduleCreation
+    public class ScheduleCreationModel
     {
         [Required]
         public String BlockName { get; set; }
