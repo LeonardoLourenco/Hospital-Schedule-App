@@ -8,13 +8,18 @@ namespace HospitalSchedule.Models
 {
     public class Nurse_Schedule
     {
+        //Chave primária(Guarda os horários,principal e o de prevenção)
         [Required]
-        public int Nurse_ScheduleID { get; set; }//Chave primária(Guarda os horários,
-                                                        //principal e o de prevenção)
+        public int Nurse_ScheduleID { get; set; }
+        
+        //Chave estrangueira do horário
         [Required]
-        public Schedule ScheduleID {get;set; }//Chave estrangueira do horário
+        public Schedule Schedule {get;set; }
+        public int ScheduleID { get; set; }
 
+         //Chave estrangueira do enfermeiro
         [Required]
-        public Nurse NurseID { get; set; }//Chave estrangueira do enfermeiro
+        public Nurse Nurse { get; set; }
+        public int NurseID { get; set; }
     }
 }

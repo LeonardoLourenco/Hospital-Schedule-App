@@ -9,18 +9,25 @@ namespace HospitalSchedule.Models
     public class Schedule
     {
         [Required]
-        public int ScheduleId{ set ; get; }//Id do horário
+        public int ScheduleId{ get; set; }//Id do horário
 
         [Required]
-        public DateTime Date { set; get; }//19/18/2018
+        public DateTime Date { get; set; }//19/18/2018
 
+        //Chave estrangueira (Manhã,Tarde,Noite)
         [Required]
-        public Shift Shift { set; get; }//Chave estrangueira (Manhã,Tarde,Noite)
+        public Shift Shift { get; set; }
+        public int ShiftId { get; set; }
 
+        //Chave estrangueira (Nº do bloco)
         [Required]
-        public OperationBlock BlockID { set; get; }//Chave estrangueira (Nº do bloco)
+        public OperationBlock Block { get; set; }
+        public int BlockID { get; set; }
         
+        //Chave estrangueira Nome do Enfermeiro
         [Required]
-        public Nurse EnfermeiroID { set; get; } //Chave estrangueira Nome do Enfermeiro)
+        public Nurse Enfermeiro { get; set; }
+        public int EnfermeiroID { get; set; }
+
     }
 }

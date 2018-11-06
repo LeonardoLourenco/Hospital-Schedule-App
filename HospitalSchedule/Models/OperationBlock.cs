@@ -22,5 +22,11 @@ namespace HospitalSchedule.Models
         [Required]
         [RegularExpression(@"[0-9]", ErrorMessage = "Invalid Current Nurses number.")]
         public int CurrentNurses { get; set; }      //Numero actual de enfermeiros
+
+
+        //chave estrangueira do horário
+        public Schedule Schedule { get;set; }
+        public int ScheduleID { get; set; }
+
     }
 }
