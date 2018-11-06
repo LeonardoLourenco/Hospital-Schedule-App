@@ -11,8 +11,6 @@ namespace HospitalSchedule.Models
         [Required]
         public int ScheduleId{ set ; get; }//Id do horário
 
-        
-
         [Required]
         public DateTime Date { set; get; }//19/18/2018
 
@@ -23,6 +21,6 @@ namespace HospitalSchedule.Models
         public OperationBlock BlockID { set; get; }//Chave estrangueira (Nº do bloco)
         
         [Required]
-        public Enfermeiro EnfermeiroID { set; get; } //Chave estrangueira Nome do Enfermeiro)
+        public Nurse EnfermeiroID { set; get; } //Chave estrangueira Nome do Enfermeiro)
     }
 }

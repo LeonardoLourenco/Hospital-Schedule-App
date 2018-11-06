@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class Enfermeiro_Horario
+    public class Nurse_Schedule
     {
         [Required]
-        public int Enfermeiro_horarioID { get; set; }//Chave primária(Guarda os horários,
+        public int Nurse_ScheduleID { get; set; }//Chave primária(Guarda os horários,
                                                         //principal e o de prevenção)
         [Required]
         public Schedule ScheduleID {get;set; }//Chave estrangueira do horário
 
         [Required]
-        public Enfermeiro EnfermeiroID { get; set; }//Chave estrangueira do enfermeiro
+        public Nurse NurseID { get; set; }//Chave estrangueira do enfermeiro
     }
 }
