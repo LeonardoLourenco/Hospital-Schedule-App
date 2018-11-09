@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class EnfermeirosClass { 
+    public class EnfermeirosClass {
+    //chave primária
     public int EnfermeiroID { get; set; }
+
+    //chave estrangueira
+    public Nurse_Schedule nurse_Schedule { get; set; }
+    public int nurse_ScheduleID { get; set; }
 
     [Required(ErrorMessage = "Introduza o seu Nome")]
     [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Nome Inválido")]
