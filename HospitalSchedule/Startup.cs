@@ -44,12 +44,6 @@ namespace HospitalSchedule
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
             services.AddDbContext<HospitalScheduleDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("HospitalScheduleDbContext")));
 
