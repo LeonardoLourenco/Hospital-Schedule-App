@@ -18,10 +18,10 @@ namespace HospitalSchedule.Models
 
         public int FinishingHour { get; set; } //Hora de fim de cada turno
         
-        //chave estrangueira do turno_horário
+        /*//chave estrangueira do turno_horário
         public Shift_Schedule Shift_Schedule { get; set; }
         public int Shift_ScheduleID { get; set; }
-
+        */
     }
 
 }

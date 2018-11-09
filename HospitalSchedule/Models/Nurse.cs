@@ -34,8 +34,8 @@ namespace HospitalSchedule.Models
 
 
         //chave estrangueira do enfermeiro_horário
-        public Nurse_Schedule Nurse_Schedule { get; set; }
+        /*public Nurse_Schedule Nurse_Schedule { get; set; }
         public int Nurse_ScheduleID { get; set; }
-
+        */
     }
 }
