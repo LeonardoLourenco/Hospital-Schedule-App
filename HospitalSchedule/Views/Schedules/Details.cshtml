@@ -1,0 +1,36 @@
+﻿@model HospitalSchedule.Models.Schedule
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Schedule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockFK)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BlockFK)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ativeSchedule)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ativeSchedule)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ScheduleId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
