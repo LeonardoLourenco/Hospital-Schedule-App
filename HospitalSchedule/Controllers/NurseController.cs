@@ -9,22 +9,22 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    public class ScheduleController : Controller
+    public class NurseController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
 
-        public ScheduleController(HospitalScheduleDbContext context)
+        public NurseController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
-        // GET: Schedules
+        // GET: Nurses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Schedule.ToListAsync());
+            return View(await _context.Nurse.ToListAsync());
         }
 
-        // GET: Schedules/Details/5
+        // GET: Nurses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule
-                .FirstOrDefaultAsync(m => m.ScheduleId == id);
-            if (schedule == null)
+            var nurse = await _context.Nurse
+                .FirstOrDefaultAsync(m => m.NurseID == id);
+            if (nurse == null)
             {
                 return NotFound();
             }
 
-            return View(schedule);
+            return View(nurse);
         }
 
-        // GET: Schedules/Create
+        // GET: Nurses/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Schedules/Create
+        // POST: Nurses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleId,CreationDate,FinishedDate,OperationBlockFK,AtiveSchedule")] Schedule schedule)
+        public async Task<IActionResult> Create([Bind("NurseID,Name,Type,Specialties,Email,CellPhoneNumber")] Nurse nurse)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(schedule);
+                _context.Add(nurse);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(schedule);
+            return View(nurse);
         }
 
-        // GET: Schedules/Edit/5
+        // GET: Nurses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule.FindAsync(id);
-            if (schedule == null)
+            var nurse = await _context.Nurse.FindAsync(id);
+            if (nurse == null)
             {
                 return NotFound();
             }
-            return View(schedule);
+            return View(nurse);
         }
 
-        // POST: Schedules/Edit/5
+        // POST: Nurses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,CreationDate,FinishedDate,OperationBlockFK,AtiveSchedule")] Schedule schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("NurseID,Name,Type,Specialties,Email,CellPhoneNumber")] Nurse nurse)
         {
-            if (id != schedule.ScheduleId)
+            if (id != nurse.NurseID)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace HospitalSchedule.Controllers
             {
                 try
                 {
-                    _context.Update(schedule);
+                    _context.Update(nurse);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ScheduleExists(schedule.ScheduleId))
+                    if (!NurseExists(nurse.NurseID))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(schedule);
+            return View(nurse);
         }
 
-        // GET: Schedules/Delete/5
+        // GET: Nurses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule
-                .FirstOrDefaultAsync(m => m.ScheduleId == id);
-            if (schedule == null)
+            var nurse = await _context.Nurse
+                .FirstOrDefaultAsync(m => m.NurseID == id);
+            if (nurse == null)
             {
                 return NotFound();
             }
 
-            return View(schedule);
+            return View(nurse);
         }
 
-        // POST: Schedules/Delete/5
+        // POST: Nurses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var schedule = await _context.Schedule.FindAsync(id);
-            _context.Schedule.Remove(schedule);
+            var nurse = await _context.Nurse.FindAsync(id);
+            _context.Nurse.Remove(nurse);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ScheduleExists(int id)
+        private bool NurseExists(int id)
         {
-            return _context.Schedule.Any(e => e.ScheduleId == id);
+            return _context.Nurse.Any(e => e.NurseID == id);
         }
     }
 }

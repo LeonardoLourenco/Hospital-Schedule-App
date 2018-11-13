@@ -9,22 +9,22 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    public class ScheduleController : Controller
+    public class Shift_ScheduleController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
 
-        public ScheduleController(HospitalScheduleDbContext context)
+        public Shift_ScheduleController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
-        // GET: Schedules
+        // GET: Shift_Schedule
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Schedule.ToListAsync());
+            return View(await _context.Shift_Schedule.ToListAsync());
         }
 
-        // GET: Schedules/Details/5
+        // GET: Shift_Schedule/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule
-                .FirstOrDefaultAsync(m => m.ScheduleId == id);
-            if (schedule == null)
+            var shift_Schedule = await _context.Shift_Schedule
+                .FirstOrDefaultAsync(m => m.Shift_ScheduleID == id);
+            if (shift_Schedule == null)
             {
                 return NotFound();
             }
 
-            return View(schedule);
+            return View(shift_Schedule);
         }
 
-        // GET: Schedules/Create
+        // GET: Shift_Schedule/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Schedules/Create
+        // POST: Shift_Schedule/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleId,CreationDate,FinishedDate,OperationBlockFK,AtiveSchedule")] Schedule schedule)
+        public async Task<IActionResult> Create([Bind("Shift_ScheduleID,ShiftDate,ScheduleFK,ShiftFK")] Shift_Schedule shift_Schedule)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(schedule);
+                _context.Add(shift_Schedule);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(schedule);
+            return View(shift_Schedule);
         }
 
-        // GET: Schedules/Edit/5
+        // GET: Shift_Schedule/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule.FindAsync(id);
-            if (schedule == null)
+            var shift_Schedule = await _context.Shift_Schedule.FindAsync(id);
+            if (shift_Schedule == null)
             {
                 return NotFound();
             }
-            return View(schedule);
+            return View(shift_Schedule);
         }
 
-        // POST: Schedules/Edit/5
+        // POST: Shift_Schedule/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,CreationDate,FinishedDate,OperationBlockFK,AtiveSchedule")] Schedule schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("Shift_ScheduleID,ShiftDate,ScheduleFK,ShiftFK")] Shift_Schedule shift_Schedule)
         {
-            if (id != schedule.ScheduleId)
+            if (id != shift_Schedule.Shift_ScheduleID)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace HospitalSchedule.Controllers
             {
                 try
                 {
-                    _context.Update(schedule);
+                    _context.Update(shift_Schedule);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ScheduleExists(schedule.ScheduleId))
+                    if (!Shift_ScheduleExists(shift_Schedule.Shift_ScheduleID))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(schedule);
+            return View(shift_Schedule);
         }
 
-        // GET: Schedules/Delete/5
+        // GET: Shift_Schedule/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule
-                .FirstOrDefaultAsync(m => m.ScheduleId == id);
-            if (schedule == null)
+            var shift_Schedule = await _context.Shift_Schedule
+                .FirstOrDefaultAsync(m => m.Shift_ScheduleID == id);
+            if (shift_Schedule == null)
             {
                 return NotFound();
             }
 
-            return View(schedule);
+            return View(shift_Schedule);
         }
 
-        // POST: Schedules/Delete/5
+        // POST: Shift_Schedule/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var schedule = await _context.Schedule.FindAsync(id);
-            _context.Schedule.Remove(schedule);
+            var shift_Schedule = await _context.Shift_Schedule.FindAsync(id);
+            _context.Shift_Schedule.Remove(shift_Schedule);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ScheduleExists(int id)
+        private bool Shift_ScheduleExists(int id)
         {
-            return _context.Schedule.Any(e => e.ScheduleId == id);
+            return _context.Shift_Schedule.Any(e => e.Shift_ScheduleID == id);
         }
     }
 }
