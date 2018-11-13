@@ -31,6 +31,6 @@ namespace HospitalSchedule.Models
         public string CellPhoneNumber { get; set; }
 
         //DATA DE NASCIMENTO DO FILHO MAIS NOVO
-        public DateTime YongestChildBirthDate { get; set; }
+        public DateTime YoungestChildBirthDate { get; set; }
     }
 }

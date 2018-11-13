@@ -12,11 +12,11 @@ namespace HospitalSchedule.Models
         [Required]
         public int ShiftID { get; set; }
 
-        public String ShiftName { get; set; } //Manhã,Tarde,Noite
+        public string ShiftName { get; set; } //Manhã,Tarde,Noite
 
-        public int StartingHour { get; set; } //Hora de inicio de cada turno
+        public DateTime StartingHour { get; set; } //Hora de inicio de cada turno
 
-        public int FinishingHour { get; set; } //Hora de fim de cada turno
+        public DateTime FinishingHour { get; set; } //Hora de fim de cada turno
 
         
     }
