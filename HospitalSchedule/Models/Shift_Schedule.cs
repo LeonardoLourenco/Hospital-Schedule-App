@@ -11,7 +11,7 @@ namespace HospitalSchedule.Models
     {
         //chave primária
         [Required]
-        public Shift_Schedule Shift_ScheduleID { get; set; }
+        public int Shift_ScheduleID { get; set; }
 
         public DateTime ShiftDate { get; set; } //Datas dos turnos
 

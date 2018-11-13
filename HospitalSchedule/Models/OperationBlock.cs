@@ -10,7 +10,7 @@ namespace HospitalSchedule.Models
     public class OperationBlock
     {
         [Required]
-        public int BlockId { get; set; }            //Block Id
+        public int OperationBlockID { get; set; }            //Block Id
 
         [Required]
         [RegularExpression(@"[A-Z]+(_Reserva)?", ErrorMessage = "Invalid Block Name.")] //[A-Z]+(_Reserva)? Significa letra maiuscula de A a Z
