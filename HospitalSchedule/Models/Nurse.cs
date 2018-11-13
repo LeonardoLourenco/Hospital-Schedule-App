@@ -11,8 +11,6 @@ namespace HospitalSchedule.Models
         //chave primária
         public int NurseID { get; set; }
 
-
-
         [Required(ErrorMessage = "Introduza o seu Nome")]
         [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Nome Inválido")]
         public string Name { get; set; }
@@ -32,10 +30,7 @@ namespace HospitalSchedule.Models
         [Required(ErrorMessage = "Por favor indroduza o numero de telefone")]
         public string CellPhoneNumber { get; set; }
 
-
-        //chave estrangueira do enfermeiro_horário
-        /*public Nurse_Schedule Nurse_Schedule { get; set; }
-        public int Nurse_ScheduleID { get; set; }
-        */
+        //DATA DE NASCIMENTO DO FILHO MAIS NOVO
+        public DateTime YoungestChildBirthDate { get; set; }
     }
 }

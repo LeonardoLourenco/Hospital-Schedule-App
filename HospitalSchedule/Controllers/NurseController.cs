@@ -18,13 +18,13 @@ namespace HospitalSchedule.Controllers
             _context = context;
         }
 
-        // GET: Nurse
+        // GET: Nurses
         public async Task<IActionResult> Index()
         {
             return View(await _context.Nurse.ToListAsync());
         }
 
-        // GET: Nurse/Details/5
+        // GET: Nurses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,13 +42,13 @@ namespace HospitalSchedule.Controllers
             return View(nurse);
         }
 
-        // GET: Nurse/Create
+        // GET: Nurses/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Nurse/Create
+        // POST: Nurses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -64,7 +64,7 @@ namespace HospitalSchedule.Controllers
             return View(nurse);
         }
 
-        // GET: Nurse/Edit/5
+        // GET: Nurses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,7 +80,7 @@ namespace HospitalSchedule.Controllers
             return View(nurse);
         }
 
-        // POST: Nurse/Edit/5
+        // POST: Nurses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -115,7 +115,7 @@ namespace HospitalSchedule.Controllers
             return View(nurse);
         }
 
-        // GET: Nurse/Delete/5
+        // GET: Nurses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,7 +133,7 @@ namespace HospitalSchedule.Controllers
             return View(nurse);
         }
 
-        // POST: Nurse/Delete/5
+        // POST: Nurses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

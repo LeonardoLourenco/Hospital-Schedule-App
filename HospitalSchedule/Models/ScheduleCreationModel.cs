@@ -9,12 +9,17 @@ namespace HospitalSchedule.Models
     public class ScheduleCreationModel
     {
         [Required]
-        public String BlockName { get; set; }
-
-        //add here the nurse type that will come from a database
+        //Ir a buscar o BlockName da classe operationBlock
+        public OperationBlock OperationBlock { get; set; }
+        [Required]
+        //Ir a buscar dados dos enfermeiros a partir da classe dos enfermeiros
+        public Nurse Nurse { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime CreationDate { get; set; }
+        //Ir a buscar dados dos horário a partir da classe do horário
+        /*Exemplo:Gerar uma data de criação
+        */
+
+        public Schedule Schedule { get; set; }
     }
 }
