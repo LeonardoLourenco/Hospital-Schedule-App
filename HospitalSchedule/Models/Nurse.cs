@@ -29,5 +29,8 @@ namespace HospitalSchedule.Models
         [RegularExpression(@"(2\d{8})|(9[1236]\d{7})", ErrorMessage = "Contacto Inválido")]
         [Required(ErrorMessage = "Por favor indroduza o numero de telefone")]
         public string CellPhoneNumber { get; set; }
-       }
+
+        //DATA DE NASCIMENTO DO FILHO MAIS NOVO
+        public DateTime YongestChildBirthDate { get; set; }
+    }
 }

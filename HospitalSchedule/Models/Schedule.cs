@@ -20,9 +20,9 @@ namespace HospitalSchedule.Models
 
         //Chave estrangueira (Nº do bloco)
         [Required]
-        public OperationBlock Block { get; set; }
-        [ForeignKey("BlockFK")]
-        public int BlockFK { get; set; }
+        public OperationBlock OperationBlock { get; set; }
+        [ForeignKey("OperationBlockFK")]
+        public int OperationBlockFK { get; set; }
 
         //Variável que indica se o horário atual se encontra ativo
         public Boolean AtiveSchedule { get; set; }
