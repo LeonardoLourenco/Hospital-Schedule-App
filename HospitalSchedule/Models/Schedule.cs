@@ -25,6 +25,6 @@ namespace HospitalSchedule.Models
         public int OperationBlockFK { get; set; }
 
         //Variável que indica se o horário atual se encontra ativo
-        public Boolean AtiveSchedule { get; set; }
+        public bool AtiveSchedule { get; set; }
     }
 }

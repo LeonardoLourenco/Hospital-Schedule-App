@@ -14,7 +14,7 @@ namespace HospitalSchedule.Models
         {
         }
 
-        public DbSet<HospitalSchedule.Models.Nurse> Nurse { get; set; }
+        public DbSet<HospitalSchedule.Models.Nurse> Nurses { get; set; }
 
         public DbSet<HospitalSchedule.Models.Shift> Shift { get; set; }
 
