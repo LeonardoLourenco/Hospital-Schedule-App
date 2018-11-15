@@ -48,6 +48,8 @@ namespace HospitalSchedule.Migrations
                 {
                     ShiftID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Request = table.Column<string>(nullable: true),
+                    Accept = table.Column<string>(nullable: true),
                     ShiftName = table.Column<string>(nullable: true),
                     StartingHour = table.Column<DateTime>(nullable: false),
                     FinishingHour = table.Column<DateTime>(nullable: false)

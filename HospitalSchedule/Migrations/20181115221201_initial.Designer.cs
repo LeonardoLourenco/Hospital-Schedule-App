@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181114195045_initial")]
+    [Migration("20181115221201_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,7 +96,11 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Accept");
+
                     b.Property<DateTime>("FinishingHour");
+
+                    b.Property<string>("Request");
 
                     b.Property<string>("ShiftName");
 

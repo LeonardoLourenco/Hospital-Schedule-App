@@ -94,7 +94,11 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Accept");
+
                     b.Property<DateTime>("FinishingHour");
+
+                    b.Property<string>("Request");
 
                     b.Property<string>("ShiftName");
 

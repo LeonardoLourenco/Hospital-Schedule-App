@@ -16,12 +16,14 @@ namespace HospitalSchedule.Models
         //Chave estrangueira do horário
         [Required]
         public Schedule Schedule {get;set; }
+
         [ForeignKey("ScheduleFK")]
         public int ScheduleFK { get; set; }
 
          //Chave estrangueira do enfermeiro
         [Required]
         public Nurse Nurse { get; set; }
+
         [ForeignKey("NurseFK")]
         public int NurseFK { get; set; }
     }

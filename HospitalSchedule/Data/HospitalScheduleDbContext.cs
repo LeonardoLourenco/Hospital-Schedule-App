@@ -29,5 +29,6 @@ namespace HospitalSchedule.Models
         public DbSet<HospitalSchedule.Models.Schedule> Schedule { get; set; }
 
         public DbSet<HospitalSchedule.Models.Shift_Schedule> Shift_Schedule { get; set; }
+        public object OperationBlockModel { get; internal set; }
     }
 }
