@@ -9,11 +9,11 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    public class ScheduleController : Controller
+    public class SchedulesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
 
-        public ScheduleController(HospitalScheduleDbContext context)
+        public SchedulesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
@@ -53,7 +53,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleId,CreationDate,FinishedDate,OperationBlockFK,AtiveSchedule")] Schedule schedule)
+        public async Task<IActionResult> Create([Bind("ScheduleId,OperationBlockFK,Date,NurseName,OperationBlockName,ShiftType")] Schedule schedule)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +63,8 @@ namespace HospitalSchedule.Controllers
             }
             return View(schedule);
         }
+
+        //TODO:Fazer uma função que retorna true se semana,mês ou outro for escolhido na view create
 
         // GET: Schedules/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -85,7 +87,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,CreationDate,FinishedDate,OperationBlockFK,AtiveSchedule")] Schedule schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,OperationBlockFK,Date,NurseName,OperationBlockName,ShiftType")] Schedule schedule)
         {
             if (id != schedule.ScheduleId)
             {
