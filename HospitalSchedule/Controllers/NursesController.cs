@@ -9,22 +9,22 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    public class ShiftController : Controller
+    public class NursesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
 
-        public ShiftController(HospitalScheduleDbContext context)
+        public NursesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
-        // GET: Shifts
+        // GET: Nurses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Shift.ToListAsync());
+            return View(await _context.Nurse.ToListAsync());
         }
 
-        // GET: Shifts/Details/5
+        // GET: Nurses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var shift = await _context.Shift
-                .FirstOrDefaultAsync(m => m.ShiftID == id);
-            if (shift == null)
+            var nurse = await _context.Nurse
+                .FirstOrDefaultAsync(m => m.NurseID == id);
+            if (nurse == null)
             {
                 return NotFound();
             }
 
-            return View(shift);
+            return View(nurse);
         }
 
-        // GET: Shifts/Create
+        // GET: Nurses/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Shifts/Create
+        // POST: Nurses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShiftID,ShiftName,StartingHour,FinishingHour")] Shift shift)
+        public async Task<IActionResult> Create([Bind("NurseID,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(shift);
+                _context.Add(nurse);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(shift);
+            return View(nurse);
         }
 
-        // GET: Shifts/Edit/5
+        // GET: Nurses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var shift = await _context.Shift.FindAsync(id);
-            if (shift == null)
+            var nurse = await _context.Nurse.FindAsync(id);
+            if (nurse == null)
             {
                 return NotFound();
             }
-            return View(shift);
+            return View(nurse);
         }
 
-        // POST: Shifts/Edit/5
+        // POST: Nurses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShiftID,ShiftName,StartingHour,FinishingHour")] Shift shift)
+        public async Task<IActionResult> Edit(int id, [Bind("NurseID,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
         {
-            if (id != shift.ShiftID)
+            if (id != nurse.NurseID)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace HospitalSchedule.Controllers
             {
                 try
                 {
-                    _context.Update(shift);
+                    _context.Update(nurse);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ShiftExists(shift.ShiftID))
+                    if (!NurseExists(nurse.NurseID))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(shift);
+            return View(nurse);
         }
 
-        // GET: Shifts/Delete/5
+        // GET: Nurses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var shift = await _context.Shift
-                .FirstOrDefaultAsync(m => m.ShiftID == id);
-            if (shift == null)
+            var nurse = await _context.Nurse
+                .FirstOrDefaultAsync(m => m.NurseID == id);
+            if (nurse == null)
             {
                 return NotFound();
             }
 
-            return View(shift);
+            return View(nurse);
         }
 
-        // POST: Shifts/Delete/5
+        // POST: Nurses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var shift = await _context.Shift.FindAsync(id);
-            _context.Shift.Remove(shift);
+            var nurse = await _context.Nurse.FindAsync(id);
+            _context.Nurse.Remove(nurse);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ShiftExists(int id)
+        private bool NurseExists(int id)
         {
-            return _context.Shift.Any(e => e.ShiftID == id);
+            return _context.Nurse.Any(e => e.NurseID == id);
         }
     }
 }

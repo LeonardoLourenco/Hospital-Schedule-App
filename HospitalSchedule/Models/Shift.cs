@@ -18,6 +18,7 @@ namespace HospitalSchedule.Models
 
         public DateTime FinishingHour { get; set; } //Hora de fim de cada turno
 
-        
+        [Required]
+        public ICollection<Shift_Schedule> Shift_Schedules { get; set; }
     }
 }
