@@ -21,7 +21,7 @@ namespace HospitalSchedule.Controllers
         // GET: Nurses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Nurses.ToListAsync());
+            return View(await _context.Nurse.ToListAsync());
         }
 
         // GET: Nurses/Details/5
@@ -32,7 +32,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var nurse = await _context.Nurses
+            var nurse = await _context.Nurse
                 .FirstOrDefaultAsync(m => m.NurseID == id);
             if (nurse == null)
             {
@@ -72,7 +72,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var nurse = await _context.Nurses.FindAsync(id);
+            var nurse = await _context.Nurse.FindAsync(id);
             if (nurse == null)
             {
                 return NotFound();
@@ -123,7 +123,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var nurse = await _context.Nurses
+            var nurse = await _context.Nurse
                 .FirstOrDefaultAsync(m => m.NurseID == id);
             if (nurse == null)
             {
@@ -138,15 +138,15 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var nurse = await _context.Nurses.FindAsync(id);
-            _context.Nurses.Remove(nurse);
+            var nurse = await _context.Nurse.FindAsync(id);
+            _context.Nurse.Remove(nurse);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool NurseExists(int id)
         {
-            return _context.Nurses.Any(e => e.NurseID == id);
+            return _context.Nurse.Any(e => e.NurseID == id);
         }
     }
 }

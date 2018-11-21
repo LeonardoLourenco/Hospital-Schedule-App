@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181115221201_initial")]
+    [Migration("20181116114712_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,30 @@ namespace HospitalSchedule.Migrations
 
                     b.HasKey("NurseID");
 
-                    b.ToTable("Nurses");
+                    b.ToTable("Nurse");
+                });
+
+            modelBuilder.Entity("HospitalSchedule.Models.Nurse_Schedule", b =>
+                {
+                    b.Property<int>("Nurse_ScheduleID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("NurseFK");
+
+                    b.Property<int>("NurseID");
+
+                    b.Property<int>("ScheduleFK");
+
+                    b.Property<int>("ScheduleId");
+
+                    b.HasKey("Nurse_ScheduleID");
+
+                    b.HasIndex("NurseID");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("Nurse_Schedule");
                 });
 
             modelBuilder.Entity("HospitalSchedule.Models.OperationBlock", b =>
@@ -57,11 +80,10 @@ namespace HospitalSchedule.Migrations
                     b.Property<string>("BlockName")
                         .IsRequired();
 
-                    b.Property<int>("CurrentNurses");
-
-                    b.Property<int>("MaxNumOfNurses");
-
                     b.Property<int>("ScheduleFK");
+
+                    b.Property<string>("TypeOfShift")
+                        .IsRequired();
 
                     b.HasKey("OperationBlockID");
 
@@ -100,7 +122,7 @@ namespace HospitalSchedule.Migrations
 
                     b.Property<DateTime>("FinishingHour");
 
-                    b.Property<string>("Request");
+                    b.Property<int>("Request");
 
                     b.Property<string>("ShiftName");
 
@@ -134,6 +156,19 @@ namespace HospitalSchedule.Migrations
                     b.HasIndex("ShiftID");
 
                     b.ToTable("Shift_Schedule");
+                });
+
+            modelBuilder.Entity("HospitalSchedule.Models.Nurse_Schedule", b =>
+                {
+                    b.HasOne("HospitalSchedule.Models.Nurse", "Nurse")
+                        .WithMany()
+                        .HasForeignKey("NurseID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HospitalSchedule.Models.Schedule", "Schedule")
+                        .WithMany()
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HospitalSchedule.Models.OperationBlock", b =>

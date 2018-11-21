@@ -16,32 +16,56 @@ namespace HospitalSchedule.Data
             using (var serviceScope = applicationServices.CreateScope())
             {
                 var db = serviceScope.ServiceProvider.GetService<HospitalScheduleDbContext>();
-                if (db.Nurses.Any()) return;
+                if (db.Nurse.Any()) return;
 
                 SeedNurses(db);
                 //SeedNurses_Schedules(db);
                 //      SeedOperationBlockModel(db);
-                //     SeedSchedule(db);
+                SeedSchedule(db);
                 //   SeedScheduleCreationModel(db);
                 SeedShifts(db);
-                SeedShift_Schedule(db);
+                //SeedShift_Schedule(db);
 
             }
         }
 
-        private static void SeedShift_Schedule(HospitalScheduleDbContext db)
+        private static void SeedSchedule(HospitalScheduleDbContext db)
         {
-            if (db.Shift_Schedule.Any()) return;
-            db.Shift_Schedule.AddRange(
-                  new Shift_Schedule
+            if (db.Schedule.Any()) return;
+            db.Schedule.AddRange(
+                  new Schedule
                   {
-                     ShiftDate = DateTime.Parse("15-05-2018")
-                     
+
+                      CreationDate = new DateTime(2018, 5, 1, 8, 30, 00),
+                      FinishedDate = new DateTime(2018, 5, 2, 8, 30, 00),
+                      AtiveSchedule = true
+                  },
+                  new Schedule
+                  {
+
+
+                      CreationDate = new DateTime(2018, 5, 3, 00, 30, 00),
+                      FinishedDate = new DateTime(2018, 5, 4, 08, 30, 00),
+                      AtiveSchedule = true
                   });
 
             db.SaveChanges();
         }
-    
+        
+
+        //private static void seedshift_schedule(hospitalscheduledbcontext db)
+        //{
+        //    if (db.shift_schedule.any()) return;
+        //    db.shift_schedule.addrange(
+        //          new shift_schedule
+        //          {
+        //              shiftdate = datetime.parse("15-05-2018")
+
+        //          });
+
+        //    db.savechanges();
+        //}
+
 
         private static void SeedShifts(HospitalScheduleDbContext db)
         {
@@ -49,45 +73,45 @@ namespace HospitalSchedule.Data
             db.Shift.AddRange(
                   new Shift
                   {
-                      Request = "Pedro Miguel Adelino",
-                      Accept = "Ana Leopoldina",
+                      // Request = "Pedro Miguel Adelino",
+                      // Accept = "Ana Leopoldina",
                       ShiftName = "T1",
                       StartingHour = new DateTime(2018, 5, 1, 8, 30, 00),
                       FinishingHour = new DateTime(2018, 5, 1, 16, 30, 00)
                   },
                   new Shift
                   {
-                      Request = "Mario André",
-                      Accept = "Raquel Patricio",
+                      //Request = "Mario André",
+                      //  Accept = "Raquel Patricio",
                       ShiftName = "T1",
                       StartingHour = new DateTime(2018, 5, 1, 16, 30, 00),
                       FinishingHour = new DateTime(2018, 5, 1, 00, 30, 00)
                   },
                    new Shift
                    {
-                       Request = "Amandio Miguel Adelino",
-                       Accept = "Ana Leopoldina",
+                       // /Request = "Amandio Miguel Adelino",
+                       // Accept = "Ana Leopoldina",
                        ShiftName = "T2",
                        StartingHour = new DateTime(2018, 11, 1, 8, 30, 00),
                        FinishingHour = new DateTime(2018, 5, 1, 16, 30, 00)
                    },
                   new Shift
                   {
-                      Request = "Miguel Sebastião",
-                      Accept = "Raquel Patricio",
+                      // Request = "Miguel Sebastião",
+                      // Accept = "Raquel Patricio",
                       ShiftName = "T2",
                       StartingHour = new DateTime(2018, 5, 1, 16, 30, 00),
                       FinishingHour = new DateTime(2018, 5, 1, 00, 30, 00)
                   },
                       new Shift
-                  {
-                      Request = "Amandio Miguel Adelino",
-                      Accept = "Ana Leopoldina",
-                      ShiftName = "T2",
-                      StartingHour = new DateTime (2018, 5, 1, 00, 30, 00),
-                      FinishingHour = new DateTime(2018, 5, 1, 08, 30, 00)
+                      {
+                          //Request = "Amandio Miguel Adelino",
+                          // Accept = "Ana Leopoldina",
+                          ShiftName = "T2",
+                          StartingHour = new DateTime(2018, 5, 1, 00, 30, 00),
+                          FinishingHour = new DateTime(2018, 5, 1, 08, 30, 00)
 
-                  });
+                      });
 
             db.SaveChanges();
         }
@@ -100,8 +124,8 @@ namespace HospitalSchedule.Data
         private static void SeedNurses(HospitalScheduleDbContext db)
         {
 
-            if (db.Nurses.Any()) return;
-            db.Nurses.AddRange(
+            if (db.Nurse.Any()) return;
+            db.Nurse.AddRange(
 
                   new Nurse
                   {

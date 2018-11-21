@@ -9,7 +9,7 @@ namespace HospitalSchedule.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Nurses",
+                name: "Nurse",
                 columns: table => new
                 {
                     NurseID = table.Column<int>(nullable: false)
@@ -23,7 +23,7 @@ namespace HospitalSchedule.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Nurses", x => x.NurseID);
+                    table.PrimaryKey("PK_Nurse", x => x.NurseID);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,7 +48,7 @@ namespace HospitalSchedule.Migrations
                 {
                     ShiftID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Request = table.Column<string>(nullable: true),
+                    Request = table.Column<int>(nullable: false),
                     Accept = table.Column<string>(nullable: true),
                     ShiftName = table.Column<string>(nullable: true),
                     StartingHour = table.Column<DateTime>(nullable: false),
@@ -60,14 +60,41 @@ namespace HospitalSchedule.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Nurse_Schedule",
+                columns: table => new
+                {
+                    Nurse_ScheduleID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ScheduleId = table.Column<int>(nullable: false),
+                    ScheduleFK = table.Column<int>(nullable: false),
+                    NurseID = table.Column<int>(nullable: false),
+                    NurseFK = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nurse_Schedule", x => x.Nurse_ScheduleID);
+                    table.ForeignKey(
+                        name: "FK_Nurse_Schedule_Nurse_NurseID",
+                        column: x => x.NurseID,
+                        principalTable: "Nurse",
+                        principalColumn: "NurseID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Nurse_Schedule_Schedule_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedule",
+                        principalColumn: "ScheduleId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OperationBlock",
                 columns: table => new
                 {
                     OperationBlockID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BlockName = table.Column<string>(nullable: false),
-                    MaxNumOfNurses = table.Column<int>(nullable: false),
-                    CurrentNurses = table.Column<int>(nullable: false),
+                    TypeOfShift = table.Column<string>(nullable: false),
                     ScheduleFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -111,6 +138,16 @@ namespace HospitalSchedule.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Nurse_Schedule_NurseID",
+                table: "Nurse_Schedule",
+                column: "NurseID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Nurse_Schedule_ScheduleId",
+                table: "Nurse_Schedule",
+                column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OperationBlock_ScheduleFK",
                 table: "OperationBlock",
                 column: "ScheduleFK",
@@ -130,13 +167,16 @@ namespace HospitalSchedule.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Nurses");
+                name: "Nurse_Schedule");
 
             migrationBuilder.DropTable(
                 name: "OperationBlock");
 
             migrationBuilder.DropTable(
                 name: "Shift_Schedule");
+
+            migrationBuilder.DropTable(
+                name: "Nurse");
 
             migrationBuilder.DropTable(
                 name: "Schedule");
