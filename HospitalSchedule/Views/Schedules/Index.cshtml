@@ -7,22 +7,22 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Schedule</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FinishedDate)
+                @Html.DisplayNameFor(model => model.NurseName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OperationBlockFK)
+                @Html.DisplayNameFor(model => model.OperationBlockName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AtiveSchedule)
+                @Html.DisplayNameFor(model => model.ShiftType)
             </th>
             <th></th>
         </tr>
@@ -31,16 +31,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinishedDate)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.OperationBlockFK)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AtiveSchedule)
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NurseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationBlockName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShiftType)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ScheduleId">Edit</a> |
