@@ -12,19 +12,32 @@ namespace HospitalSchedule.Models
     {
         [Required]
         public int ScheduleId { get; set; }//Id do horário
-
+        /*
         [Required]
-        public DateTime CreationDate { get; set; }//19/18/2018
+        public DateTime CreationDate { get; set; }//Eliminar
+        //Colocar no controlador
         [Required]
-        public DateTime FinishedDate { get; set; }//19/18/2018
-
+        public DateTime FinishedDate { get; set; }//Eliminar
+        */
+        
         //Chave estrangueira (Nº do bloco)
         [Required]
         public OperationBlock OperationBlock { get; set; }
         [ForeignKey("OperationBlockFK")]
         public int OperationBlockFK { get; set; }
 
-        //Variável que indica se o horário atual se encontra ativo
-        public bool AtiveSchedule { get; set; }
+        [Required]
+        public DateTime Date { get; set; }//Dia desse horário
+
+        [Required]
+        public string NurseName { get; set; }//Nome do enfermerio
+
+        [Required]
+        public string OperationBlockName { get; set; }//Nome do Bloco operatin Ex: Maternidade Prevençao
+
+        [Required]
+        public string ShiftType { get; set; }//Tipo de turno, M,T ou N
+
+        
     }
 }
