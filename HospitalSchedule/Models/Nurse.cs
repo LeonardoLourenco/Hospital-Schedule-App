@@ -15,7 +15,7 @@ namespace HospitalSchedule.Models
         [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Nome Inválido")]
         public string Name { get; set; }
 
-        [Required]//1->60 anos;2-filhos menores;3-outros;4-Chefe ou não
+        [Required]//1 - Chefe ou 0 - não , deixamos assim para uma futura escalabilidade/outros tipos em que a unica forma de inserção seja aqui
         public int Type { get; set; }
 
         [Required(ErrorMessage = "Introduza a sua especialidade")]
@@ -32,5 +32,13 @@ namespace HospitalSchedule.Models
 
         //DATA DE NASCIMENTO DO FILHO MAIS NOVO
         public DateTime YoungestChildBirthDate { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; } //Data de Nascimento
+
+        [Required]
+        public string CCBI { get; set; } //Cartão de Cidadão/Bilhite de Identidade (CC/BI)
+
+
     }
 }
