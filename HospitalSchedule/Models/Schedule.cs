@@ -21,10 +21,7 @@ namespace HospitalSchedule.Models
         */
         
         //Chave estrangueira (Nº do bloco)
-        [Required]
-        public OperationBlock OperationBlock { get; set; }
-        [ForeignKey("OperationBlockFK")]
-        public int OperationBlockFK { get; set; }
+        
 
         [Required]
         public DateTime Date { get; set; }//Dia desse horário
@@ -38,6 +35,15 @@ namespace HospitalSchedule.Models
         [Required]
         public string ShiftType { get; set; }//Tipo de turno, M,T ou N
 
-        
+        [Required]
+        public OperationBlock OperationBlock { get; set; }
+        [ForeignKey("OperationBlockFK")]
+        public int OperationBlockFK { get; set; }
+
+        [Required]
+        public ICollection<Nurse_Schedule> Nurse_Schedules { get; set; }
+
+        [Required]
+        public ICollection<Shift_Schedule> Shift_Schedules { get; set; }
     }
 }
