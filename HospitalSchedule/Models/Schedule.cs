@@ -12,14 +12,14 @@ namespace HospitalSchedule.Models
     {
         [Required]
         public int ScheduleId { get; set; }//Id do horário
-        /*
-        [Required]
-        public DateTime CreationDate { get; set; }//Eliminar
-        //Colocar no controlador
-        [Required]
-        public DateTime FinishedDate { get; set; }//Eliminar
-        */
-        
+                                           /*
+                                           [Required]
+                                           public DateTime CreationDate { get; set; }//Eliminar
+                                           //Colocar no controlador
+                                           [Required]
+                                           public DateTime FinishedDate { get; set; }//Eliminar
+                                           */
+
         //Chave estrangueira (Nº do bloco)
         [Required]
         public OperationBlock OperationBlock { get; set; }
@@ -38,6 +38,6 @@ namespace HospitalSchedule.Models
         [Required]
         public string ShiftType { get; set; }//Tipo de turno, M,T ou N
 
-        
+
     }
 }

@@ -19,24 +19,16 @@
                 <span asp-validation-for="OperationBlockName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <!--Duração do horário:Mês:S/N;Semana:S/N;Outro:S/N-->
-                <div>
-                <!--TODO:SPINNER DINAMICO PARA A DURAÇÃO DO HORÁRIO-->
-                    </div>
+              <label asp-for="Date" class="control-label">Inicial Date</label>
+                <input asp-for="Date" type="date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NurseName" class="control-label"></label>
-                <input asp-for="NurseName" class="form-control" />
-                <span asp-validation-for="NurseName" class="text-danger"></span>
+                <label asp-for="Date" class="control-label">Finishing Date</label>
+                <input asp-for="Date" type="date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="ShiftType" class="control-label"></label>
-                <input asp-for="ShiftType" class="form-control" />
-                <span asp-validation-for="ShiftType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div>
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>

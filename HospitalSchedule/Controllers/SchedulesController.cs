@@ -12,6 +12,7 @@ namespace HospitalSchedule.Controllers
     public class SchedulesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
+        public Schedule schedule;
 
         public SchedulesController(HospitalScheduleDbContext context)
         {
@@ -43,11 +44,14 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: Schedules/Create
+
+
+
         public IActionResult Create()
         {
+            ViewData["Date"] = new SelectList(_context.Schedule, "Date", "Date");
             return View();
         }
-
         // POST: Schedules/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
