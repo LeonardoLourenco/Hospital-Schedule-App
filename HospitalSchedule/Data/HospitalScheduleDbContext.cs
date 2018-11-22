@@ -30,8 +30,8 @@ namespace HospitalSchedule.Models
 
         public DbSet<HospitalSchedule.Models.Shift_Schedule> Shift_Schedule { get; set; }
 
-        public DbSet<HospitalSchedule.Models.OperationBlock> OperationBlock { get; set; }
+        public DbSet<HospitalSchedule.Models.OperationBlock> OperationsBlock { get; set; }
 
-        public DbSet<HospitalSchedule.Models.Nurse_Schedule> Nurse_Schedule { get; set; }
+        public DbSet<HospitalSchedule.Models.Nurse_Schedule> Nurses_Schedule { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace HospitalSchedule.Models
         //Chave estrangueira (Nº do bloco)
         [Required]
         public OperationBlock OperationBlock { get; set; }
+
         [ForeignKey("OperationBlockFK")]
         public int OperationBlockFK { get; set; }
 

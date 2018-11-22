@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181116114712_initial")]
+    [Migration("20181122194357_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,10 @@ namespace HospitalSchedule.Migrations
                     b.Property<int>("NurseID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("BirthDate");
+
+                    b.Property<string>("CC");
 
                     b.Property<string>("CellPhoneNumber")
                         .IsRequired();
@@ -68,7 +72,7 @@ namespace HospitalSchedule.Migrations
 
                     b.HasIndex("ScheduleId");
 
-                    b.ToTable("Nurse_Schedule");
+                    b.ToTable("Nurses_Schedule");
                 });
 
             modelBuilder.Entity("HospitalSchedule.Models.OperationBlock", b =>
@@ -90,7 +94,7 @@ namespace HospitalSchedule.Migrations
                     b.HasIndex("ScheduleFK")
                         .IsUnique();
 
-                    b.ToTable("OperationBlock");
+                    b.ToTable("OperationsBlock");
                 });
 
             modelBuilder.Entity("HospitalSchedule.Models.Schedule", b =>
@@ -99,13 +103,18 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("AtiveSchedule");
+                    b.Property<DateTime>("Date");
 
-                    b.Property<DateTime>("CreationDate");
-
-                    b.Property<DateTime>("FinishedDate");
+                    b.Property<string>("NurseName")
+                        .IsRequired();
 
                     b.Property<int>("OperationBlockFK");
+
+                    b.Property<string>("OperationBlockName")
+                        .IsRequired();
+
+                    b.Property<string>("ShiftType")
+                        .IsRequired();
 
                     b.HasKey("ScheduleId");
 
@@ -118,11 +127,7 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Accept");
-
                     b.Property<DateTime>("FinishingHour");
-
-                    b.Property<int>("Request");
 
                     b.Property<string>("ShiftName");
 

@@ -21,7 +21,7 @@ namespace HospitalSchedule.Controllers
         // GET: OperationBlocks
         public async Task<IActionResult> Index()
         {
-            var hospitalScheduleDbContext = _context.OperationBlock.Include(o => o.Schedule);
+            var hospitalScheduleDbContext = _context.OperationsBlock.Include(o => o.Schedule);
             return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
@@ -33,7 +33,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock
+            var operationBlock = await _context.OperationsBlock
                 .Include(o => o.Schedule)
                 .FirstOrDefaultAsync(m => m.OperationBlockID == id);
             if (operationBlock == null)
@@ -76,7 +76,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock.FindAsync(id);
+            var operationBlock = await _context.OperationsBlock.FindAsync(id);
             if (operationBlock == null)
             {
                 return NotFound();
@@ -129,7 +129,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock
+            var operationBlock = await _context.OperationsBlock
                 .Include(o => o.Schedule)
                 .FirstOrDefaultAsync(m => m.OperationBlockID == id);
             if (operationBlock == null)
@@ -145,15 +145,15 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var operationBlock = await _context.OperationBlock.FindAsync(id);
-            _context.OperationBlock.Remove(operationBlock);
+            var operationBlock = await _context.OperationsBlock.FindAsync(id);
+            _context.OperationsBlock.Remove(operationBlock);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OperationBlockExists(int id)
         {
-            return _context.OperationBlock.Any(e => e.OperationBlockID == id);
+            return _context.OperationsBlock.Any(e => e.OperationBlockID == id);
         }
     }
 }

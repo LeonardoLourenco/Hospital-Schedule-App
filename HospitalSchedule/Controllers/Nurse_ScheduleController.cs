@@ -21,7 +21,7 @@ namespace HospitalSchedule.Controllers
         // GET: Nurse_Schedule
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Nurse_Schedule.ToListAsync());
+            return View(await _context.Nurses_Schedule.ToListAsync());
         }
 
         // GET: Nurse_Schedule/Details/5
@@ -32,7 +32,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var nurse_Schedule = await _context.Nurse_Schedule
+            var nurse_Schedule = await _context.Nurses_Schedule
                 .FirstOrDefaultAsync(m => m.Nurse_ScheduleID == id);
             if (nurse_Schedule == null)
             {
@@ -72,7 +72,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var nurse_Schedule = await _context.Nurse_Schedule.FindAsync(id);
+            var nurse_Schedule = await _context.Nurses_Schedule.FindAsync(id);
             if (nurse_Schedule == null)
             {
                 return NotFound();
@@ -123,7 +123,7 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var nurse_Schedule = await _context.Nurse_Schedule
+            var nurse_Schedule = await _context.Nurses_Schedule
                 .FirstOrDefaultAsync(m => m.Nurse_ScheduleID == id);
             if (nurse_Schedule == null)
             {
@@ -138,15 +138,15 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var nurse_Schedule = await _context.Nurse_Schedule.FindAsync(id);
-            _context.Nurse_Schedule.Remove(nurse_Schedule);
+            var nurse_Schedule = await _context.Nurses_Schedule.FindAsync(id);
+            _context.Nurses_Schedule.Remove(nurse_Schedule);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool Nurse_ScheduleExists(int id)
         {
-            return _context.Nurse_Schedule.Any(e => e.Nurse_ScheduleID == id);
+            return _context.Nurses_Schedule.Any(e => e.Nurse_ScheduleID == id);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace HospitalSchedule.Models
 
         //chave estrangueira do horário
         public Schedule Schedule { get;set; }
+
         [ForeignKey("ScheduleFK")]
         public int ScheduleFK { get; set; }
 

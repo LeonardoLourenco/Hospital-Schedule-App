@@ -12,9 +12,9 @@ namespace HospitalSchedule.Models
         [Required]
         public int ShiftID { get; set; }
 
-        public int Request { get; set; }
+        //public int Request { get; set; }
 
-        public string Accept { get; set; }
+        //public string Accept { get; set; }
 
         public string ShiftName { get; set; } //Manhã,Tarde,Noite
 

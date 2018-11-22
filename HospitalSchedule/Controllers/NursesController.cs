@@ -53,7 +53,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NurseID,Name,Type,Specialties,Email,CellPhoneNumber")] Nurse nurse)
+        public async Task<IActionResult> Create([Bind("NurseID,Name,BirthDate,CC,Type,Specialties,Email,CellPhoneNumber,YoungestChildBirthDate")] Nurse nurse)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NurseID,Name,Type,Specialties,Email,CellPhoneNumber")] Nurse nurse)
+        public async Task<IActionResult> Edit(int id, [Bind("NurseID,Name,BirthDate,CC,Type,Specialties,Email,CellPhoneNumber,YoungestChildBirthDate")] Nurse nurse)
         {
             if (id != nurse.NurseID)
             {
