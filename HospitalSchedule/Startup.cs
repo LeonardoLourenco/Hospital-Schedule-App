@@ -44,10 +44,11 @@ namespace HospitalSchedule
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddDbContext<HospitalScheduleDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("HospitalScheduleDbContext")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<HospitalScheduleDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("HospitalScheduleDbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

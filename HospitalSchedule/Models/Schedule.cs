@@ -12,38 +12,19 @@ namespace HospitalSchedule.Models
     {
         [Required]
         public int ScheduleId { get; set; }//Id do horário
-        /*
-        [Required]
-        public DateTime CreationDate { get; set; }//Eliminar
-        //Colocar no controlador
-        [Required]
-        public DateTime FinishedDate { get; set; }//Eliminar
-        */
         
-        //Chave estrangueira (Nº do bloco)
-        
-
         [Required]
         public DateTime Date { get; set; }//Dia desse horário
 
-        [Required]
-        public string NurseName { get; set; }//Nome do enfermerio
+        //Nome do enfermerio,Nome do Bloco operatin Ex: Maternidade Prevençao e Tipo de turno, M,T ou N
+        //São buscados através das chaves estrangeiras
 
         [Required]
-        public string OperationBlockName { get; set; }//Nome do Bloco operatin Ex: Maternidade Prevençao
+        public Nurse Nurse { get; set; }
+        [ForeignKey("NurseId")]
+        public int NurseId { get; set; }
 
         [Required]
-        public string ShiftType { get; set; }//Tipo de turno, M,T ou N
-
-        [Required]
-        public OperationBlock OperationBlock { get; set; }
-        [ForeignKey("OperationBlockFK")]
-        public int OperationBlockFK { get; set; }
-
-        [Required]
-        public ICollection<Nurse_Schedule> Nurse_Schedules { get; set; }
-
-        [Required]
-        public ICollection<Shift_Schedule> Shift_Schedules { get; set; }
+        public ICollection<Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
     }
 }
