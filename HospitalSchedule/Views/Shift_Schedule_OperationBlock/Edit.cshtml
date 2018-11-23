@@ -1,4 +1,4 @@
-﻿@model HospitalSchedule.Models.Shift_Schedule
+﻿@model HospitalSchedule.Models.Shift_Schedule_OperationBlock
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,13 +6,13 @@
 
 <h2>Edit</h2>
 
-<h4>Shift_Schedule</h4>
+<h4>Shift_Schedule_OperationBlock</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Shift_ScheduleId" />
+            <input type="hidden" asp-for="Shift_Schedule_OperationBlockId" />
             <div class="form-group">
                 <label asp-for="ShiftDate" class="control-label"></label>
                 <input asp-for="ShiftDate" class="form-control" />
@@ -27,6 +27,11 @@
                 <label asp-for="ShiftId" class="control-label"></label>
                 <select asp-for="ShiftId" class="form-control" asp-items="ViewBag.ShiftId"></select>
                 <span asp-validation-for="ShiftId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OperationBlockId" class="control-label"></label>
+                <select asp-for="OperationBlockId" class="form-control" asp-items="ViewBag.OperationBlockId"></select>
+                <span asp-validation-for="OperationBlockId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

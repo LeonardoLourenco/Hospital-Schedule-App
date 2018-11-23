@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Shift_Schedule>
+﻿@model IEnumerable<HospitalSchedule.Models.Shift_Schedule_OperationBlock>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Shift)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperationBlock)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -31,15 +34,18 @@
                 @Html.DisplayFor(modelItem => item.ShiftDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Schedule.NurseName)
+                @Html.DisplayFor(modelItem => item.Schedule.ScheduleId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Shift.ShiftId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Shift_ScheduleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Shift_ScheduleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Shift_ScheduleId">Delete</a>
+                @Html.DisplayFor(modelItem => item.OperationBlock.BlockName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Shift_Schedule_OperationBlockId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Shift_Schedule_OperationBlockId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Shift_Schedule_OperationBlockId">Delete</a>
             </td>
         </tr>
 }

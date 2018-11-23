@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HospitalSchedule.Models
 {
-    public class Shift_Schedule
+    public class Shift_Schedule_OperationBlock
     {
         //chave primária
         [Required]
-        public int Shift_ScheduleId { get; set; }
+        public int Shift_Schedule_OperationBlockId { get; set; }
 
         public DateTime ShiftDate { get; set; } //Datas dos turnos
 
@@ -25,8 +25,12 @@ namespace HospitalSchedule.Models
         [Required]
         public Shift Shift { get; set; }
         [ForeignKey("ShiftId")]
-        public int ShiftId { get; set;}
+        public int ShiftId { get; set; }
 
-        
+        //chave estrangueira do bloco
+        [Required]
+        public OperationBlock OperationBlock { get; set; }
+        [ForeignKey("OperationBlockId")]
+        public int OperationBlockId { get; set; }
     }
 }

@@ -9,22 +9,22 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    public class OperationBlocksController : Controller
+    public class RulesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
 
-        public OperationBlocksController(HospitalScheduleDbContext context)
+        public RulesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
-        // GET: OperationBlocks
+        // GET: Rules
         public async Task<IActionResult> Index()
         {
-            return View(await _context.OperationBlock.ToListAsync());
+            return View(await _context.Rules.ToListAsync());
         }
 
-        // GET: OperationBlocks/Details/5
+        // GET: Rules/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock
-                .FirstOrDefaultAsync(m => m.OperationBlockId == id);
-            if (operationBlock == null)
+            var rules = await _context.Rules
+                .FirstOrDefaultAsync(m => m.RulesId == id);
+            if (rules == null)
             {
                 return NotFound();
             }
 
-            return View(operationBlock);
+            return View(rules);
         }
 
-        // GET: OperationBlocks/Create
+        // GET: Rules/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: OperationBlocks/Create
+        // POST: Rules/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OperationBlockId,BlockName,TypeOfShift")] OperationBlock operationBlock)
+        public async Task<IActionResult> Create([Bind("RulesId")] Rules rules)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(operationBlock);
+                _context.Add(rules);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(operationBlock);
+            return View(rules);
         }
 
-        // GET: OperationBlocks/Edit/5
+        // GET: Rules/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock.FindAsync(id);
-            if (operationBlock == null)
+            var rules = await _context.Rules.FindAsync(id);
+            if (rules == null)
             {
                 return NotFound();
             }
-            return View(operationBlock);
+            return View(rules);
         }
 
-        // POST: OperationBlocks/Edit/5
+        // POST: Rules/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OperationBlockId,BlockName,TypeOfShift")] OperationBlock operationBlock)
+        public async Task<IActionResult> Edit(int id, [Bind("RulesId")] Rules rules)
         {
-            if (id != operationBlock.OperationBlockId)
+            if (id != rules.RulesId)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace HospitalSchedule.Controllers
             {
                 try
                 {
-                    _context.Update(operationBlock);
+                    _context.Update(rules);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OperationBlockExists(operationBlock.OperationBlockId))
+                    if (!RulesExists(rules.RulesId))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(operationBlock);
+            return View(rules);
         }
 
-        // GET: OperationBlocks/Delete/5
+        // GET: Rules/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock
-                .FirstOrDefaultAsync(m => m.OperationBlockId == id);
-            if (operationBlock == null)
+            var rules = await _context.Rules
+                .FirstOrDefaultAsync(m => m.RulesId == id);
+            if (rules == null)
             {
                 return NotFound();
             }
 
-            return View(operationBlock);
+            return View(rules);
         }
 
-        // POST: OperationBlocks/Delete/5
+        // POST: Rules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var operationBlock = await _context.OperationBlock.FindAsync(id);
-            _context.OperationBlock.Remove(operationBlock);
+            var rules = await _context.Rules.FindAsync(id);
+            _context.Rules.Remove(rules);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OperationBlockExists(int id)
+        private bool RulesExists(int id)
         {
-            return _context.OperationBlock.Any(e => e.OperationBlockId == id);
+            return _context.Rules.Any(e => e.RulesId == id);
         }
     }
 }

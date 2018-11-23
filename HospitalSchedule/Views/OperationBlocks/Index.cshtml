@@ -18,9 +18,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.TypeOfShift)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Schedule)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -32,9 +29,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TypeOfShift)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Schedule.NurseName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OperationBlockId">Edit</a> |

@@ -40,6 +40,6 @@ namespace HospitalSchedule.Models
         public DateTime YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
 
         [Required]
-        public ICollection<Nurse_Schedule> Nurse_Schedules { get; set; }
+        public ICollection<Schedule> Schedules { get; set; }
     }
 }

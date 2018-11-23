@@ -16,16 +16,7 @@
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NurseName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OperationBlockName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShiftType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OperationBlockId)
+                @Html.DisplayNameFor(model => model.Nurse)
             </th>
             <th></th>
         </tr>
@@ -37,16 +28,7 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NurseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OperationBlockName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShiftType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OperationBlockId)
+                @Html.DisplayFor(modelItem => item.Nurse.CCBI)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ScheduleId">Edit</a> |
