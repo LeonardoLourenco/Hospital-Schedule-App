@@ -48,7 +48,7 @@ namespace HospitalSchedule
             services.AddDbContext<HospitalScheduleDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("HospitalScheduleDbContext")));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+           //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +75,7 @@ namespace HospitalSchedule
             
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
+                    routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });

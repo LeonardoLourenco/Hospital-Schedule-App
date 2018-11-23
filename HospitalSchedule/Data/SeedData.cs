@@ -19,33 +19,32 @@ namespace HospitalSchedule.Data
                 //if (db.Nurse.Any()) return;
 
                 SeedNurses(db);
-                //SeedNurses_Schedules(db);
-                SeedOperationBlockModel(db);
                 SeedSchedule(db);
-                //   SeedScheduleCreationModel(db);
+                SeedNurses_Schedules(db);
+                SeedOperationBlockModel(db);
                 SeedShifts(db);
-                //SeedShift_Schedule(db);
-
+                SeedShifts_Schedule(db);
+                //SeedScheduleCreationModel(db);
             }
         }
 
-        //private static void SeedNurses_Schedules(HospitalScheduleDbContext db)
-        //{
-        //    if (db.Nurses_Schedule.Any()) return;
+        private static void SeedNurses_Schedules(HospitalScheduleDbContext db)
+        {
+            if (db.Nurses_Schedule.Any()) return;
 
-        //    Nurse nurse = db.Nurse.SingleOrDefault(n => n.NurseID == 2);
-        //    Schedule schedule = db.Schedule.SingleOrDefault(s => s.NurseName == "Manuel Alberto");
-        ////criei um objeto do tipo schedule onde vai returnar um elemento unico onde s do tipo shcedule tem como nome fabio...
+            Nurse nurse = db.Nurse.SingleOrDefault(n => n.NurseID == 3);
+            Schedule schedule = db.Schedule.SingleOrDefault(s => s.NurseName == "Diana Miguel Rapozo");
+            //criei um objeto do tipo schedule onde vai returnar um elemento unico onde s do tipo shcedule tem como nome fabio...
 
-        //       db.Nurses_Schedule.AddRange(
-        //          new Nurse_Schedule
-        //          {
-        //              ScheduleFK = schedule.ScheduleId,
-        //              NurseFK = nurse.NurseID
+            db.Nurses_Schedule.AddRange(
+               new Nurse_Schedule
+               {
+                   Schedule = schedule,
+                   Nurse = nurse
 
-        //          });
-        //    db.SaveChanges();
-        //}
+               });
+            db.SaveChanges();
+        }
 
 
 
@@ -55,7 +54,7 @@ namespace HospitalSchedule.Data
             if (db.OperationsBlock.Any()) return;
 
             Schedule schedule1 = db.Schedule.SingleOrDefault(s => s.NurseName == "Cristiano Fonseca");
-            Schedule schedule = db.Schedule.SingleOrDefault(s => s.NurseName == "Manuel Alberto");
+            Schedule schedule = db.Schedule.SingleOrDefault(s => s.NurseName == "Diana Miguel Rapozo");
             //criei um objeto do tipo schedule onde vai returnar um elemento unico onde s do tipo shcedule tem como nome fabio...
 
             db.OperationsBlock.AddRange(
@@ -89,7 +88,7 @@ namespace HospitalSchedule.Data
                       new Schedule
                       {
                           Date = new DateTime(2018, 5, 1, 8, 30, 00),
-                          NurseName = "Manuel Alberto",
+                          NurseName = "Diana Miguel Rapozo",
                           OperationBlockName = "Bloco B",
                           ShiftType = "Tarde",
 
@@ -100,22 +99,25 @@ namespace HospitalSchedule.Data
             }
 
 
-        ////private static void seedshift_schedule(hospitalscheduledbcontext db)
-        ////{
-        ////    if (db.shift_schedule.any()) return;
-        ////    db.shift_schedule.addrange(
-        ////          new shift_schedule
-        ////          {
-        ////              shiftdate = datetime.parse("15-05-2018")
-        //                 ScheduleFK
-        //                    ShiftFK
-        //    //          });
+        private static void SeedShifts_Schedule(HospitalScheduleDbContext db)
+        {
+            if (db.Shift_Schedule.Any()) return;
+            Schedule schedule = db.Schedule.SingleOrDefault(s => s.NurseName == "Diana Miguel Rapozo");
+            Shift shift = db.Shift.SingleOrDefault(s => s.ShiftName == "Diana T2");
 
-        //    //    db.savechanges();
-        //    //}
+            db.Shift_Schedule.AddRange(
+                  new Shift_Schedule
+                  {
+                      ShiftDate = new DateTime(2018, 5, 1),
+                      ScheduleFK = schedule.ScheduleId,
+                      ShiftFK = shift.ShiftID
+                  });
+
+            db.SaveChanges();
+        }
 
 
-            private static void SeedShifts(HospitalScheduleDbContext db)
+        private static void SeedShifts(HospitalScheduleDbContext db)
             {
                 if (db.Shift.Any()) return;
                 db.Shift.AddRange(
@@ -155,7 +157,7 @@ namespace HospitalSchedule.Data
                           {
                               //Request = "Amandio Miguel Adelino",
                               // Accept = "Ana Leopoldina",
-                              ShiftName = "T2",
+                              ShiftName = "Diana T2",
                               StartingHour = new DateTime(2018, 5, 1, 00, 30, 00),
                               FinishingHour = new DateTime(2018, 5, 1, 08, 30, 00)
 

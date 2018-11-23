@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181122194357_initial")]
+    [Migration("20181123013553_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,19 +58,15 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("NurseFK");
-
                     b.Property<int>("NurseID");
 
-                    b.Property<int>("ScheduleFK");
-
-                    b.Property<int>("ScheduleId");
+                    b.Property<int>("ScheduleID");
 
                     b.HasKey("Nurse_ScheduleID");
 
                     b.HasIndex("NurseID");
 
-                    b.HasIndex("ScheduleId");
+                    b.HasIndex("ScheduleID");
 
                     b.ToTable("Nurses_Schedule");
                 });
@@ -146,33 +142,25 @@ namespace HospitalSchedule.Migrations
 
                     b.Property<int>("ScheduleFK");
 
-                    b.Property<int>("ScheduleId");
-
                     b.Property<DateTime>("ShiftDate");
 
                     b.Property<int>("ShiftFK");
 
-                    b.Property<int>("ShiftID");
-
                     b.HasKey("Shift_ScheduleID");
-
-                    b.HasIndex("ScheduleId");
-
-                    b.HasIndex("ShiftID");
 
                     b.ToTable("Shift_Schedule");
                 });
 
             modelBuilder.Entity("HospitalSchedule.Models.Nurse_Schedule", b =>
                 {
-                    b.HasOne("HospitalSchedule.Models.Nurse", "Nurse")
-                        .WithMany()
+                    b.HasOne("HospitalSchedule.Models.Schedule", "Schedule")
+                        .WithMany("ScheduleNurses")
                         .HasForeignKey("NurseID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HospitalSchedule.Models.Schedule", "Schedule")
-                        .WithMany()
-                        .HasForeignKey("ScheduleId")
+                    b.HasOne("HospitalSchedule.Models.Nurse", "Nurse")
+                        .WithMany("NurseSchedules")
+                        .HasForeignKey("ScheduleID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -181,19 +169,6 @@ namespace HospitalSchedule.Migrations
                     b.HasOne("HospitalSchedule.Models.Schedule", "Schedule")
                         .WithOne("OperationBlock")
                         .HasForeignKey("HospitalSchedule.Models.OperationBlock", "ScheduleFK")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HospitalSchedule.Models.Shift_Schedule", b =>
-                {
-                    b.HasOne("HospitalSchedule.Models.Schedule", "Schedule")
-                        .WithMany()
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HospitalSchedule.Models.Shift", "Shift")
-                        .WithMany()
-                        .HasForeignKey("ShiftID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

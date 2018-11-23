@@ -61,30 +61,43 @@ namespace HospitalSchedule.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Shift_Schedule",
+                columns: table => new
+                {
+                    Shift_ScheduleID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ShiftDate = table.Column<DateTime>(nullable: false),
+                    ScheduleFK = table.Column<int>(nullable: false),
+                    ShiftFK = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shift_Schedule", x => x.Shift_ScheduleID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Nurses_Schedule",
                 columns: table => new
                 {
                     Nurse_ScheduleID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ScheduleId = table.Column<int>(nullable: false),
-                    ScheduleFK = table.Column<int>(nullable: false),
                     NurseID = table.Column<int>(nullable: false),
-                    NurseFK = table.Column<int>(nullable: false)
+                    ScheduleID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Nurses_Schedule", x => x.Nurse_ScheduleID);
                     table.ForeignKey(
-                        name: "FK_Nurses_Schedule_Nurse_NurseID",
+                        name: "FK_Nurses_Schedule_Schedule_NurseID",
                         column: x => x.NurseID,
-                        principalTable: "Nurse",
-                        principalColumn: "NurseID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Nurses_Schedule_Schedule_ScheduleId",
-                        column: x => x.ScheduleId,
                         principalTable: "Schedule",
                         principalColumn: "ScheduleId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Nurses_Schedule_Nurse_ScheduleID",
+                        column: x => x.ScheduleID,
+                        principalTable: "Nurse",
+                        principalColumn: "NurseID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -109,60 +122,21 @@ namespace HospitalSchedule.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Shift_Schedule",
-                columns: table => new
-                {
-                    Shift_ScheduleID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ShiftDate = table.Column<DateTime>(nullable: false),
-                    ScheduleId = table.Column<int>(nullable: false),
-                    ScheduleFK = table.Column<int>(nullable: false),
-                    ShiftID = table.Column<int>(nullable: false),
-                    ShiftFK = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Shift_Schedule", x => x.Shift_ScheduleID);
-                    table.ForeignKey(
-                        name: "FK_Shift_Schedule_Schedule_ScheduleId",
-                        column: x => x.ScheduleId,
-                        principalTable: "Schedule",
-                        principalColumn: "ScheduleId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Shift_Schedule_Shift_ShiftID",
-                        column: x => x.ShiftID,
-                        principalTable: "Shift",
-                        principalColumn: "ShiftID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Nurses_Schedule_NurseID",
                 table: "Nurses_Schedule",
                 column: "NurseID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Nurses_Schedule_ScheduleId",
+                name: "IX_Nurses_Schedule_ScheduleID",
                 table: "Nurses_Schedule",
-                column: "ScheduleId");
+                column: "ScheduleID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OperationsBlock_ScheduleFK",
                 table: "OperationsBlock",
                 column: "ScheduleFK",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shift_Schedule_ScheduleId",
-                table: "Shift_Schedule",
-                column: "ScheduleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shift_Schedule_ShiftID",
-                table: "Shift_Schedule",
-                column: "ShiftID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -174,6 +148,9 @@ namespace HospitalSchedule.Migrations
                 name: "OperationsBlock");
 
             migrationBuilder.DropTable(
+                name: "Shift");
+
+            migrationBuilder.DropTable(
                 name: "Shift_Schedule");
 
             migrationBuilder.DropTable(
@@ -181,9 +158,6 @@ namespace HospitalSchedule.Migrations
 
             migrationBuilder.DropTable(
                 name: "Schedule");
-
-            migrationBuilder.DropTable(
-                name: "Shift");
         }
     }
 }

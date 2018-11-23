@@ -39,6 +39,7 @@ namespace HospitalSchedule.Models
         [Required]
         public string ShiftType { get; set; }//Tipo de turno, M,T ou N
 
-        
+        // Lista de enfermeiros do horario
+        public ICollection<Nurse_Schedule> ScheduleNurses { get; set; }
     }
 }

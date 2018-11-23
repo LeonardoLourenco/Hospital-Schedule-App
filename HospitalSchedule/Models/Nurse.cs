@@ -36,5 +36,8 @@ namespace HospitalSchedule.Models
 
         //DATA DE NASCIMENTO DO FILHO MAIS NOVO
         public DateTime YoungestChildBirthDate { get; set; }
+
+        // Lista de horarios do enfermeiro
+        public ICollection<Nurse_Schedule> NurseSchedules { get; set; }
     }
 }
