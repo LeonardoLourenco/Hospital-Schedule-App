@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="OperationBlockID" />
+            <input type="hidden" asp-for="OperationBlockId" />
             <div class="form-group">
                 <label asp-for="BlockName" class="control-label"></label>
                 <input asp-for="BlockName" class="form-control" />
@@ -24,9 +24,9 @@
                 <span asp-validation-for="TypeOfShift" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ScheduleFK" class="control-label"></label>
-                <select asp-for="ScheduleFK" class="form-control" asp-items="ViewBag.ScheduleFK"></select>
-                <span asp-validation-for="ScheduleFK" class="text-danger"></span>
+                <label asp-for="ScheduleId" class="control-label"></label>
+                <select asp-for="ScheduleId" class="form-control" asp-items="ViewBag.ScheduleId"></select>
+                <span asp-validation-for="ScheduleId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

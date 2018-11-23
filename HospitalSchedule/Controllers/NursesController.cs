@@ -33,7 +33,7 @@ namespace HospitalSchedule.Controllers
             }
 
             var nurse = await _context.Nurse
-                .FirstOrDefaultAsync(m => m.NurseID == id);
+                .FirstOrDefaultAsync(m => m.NurseId == id);
             if (nurse == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NurseID,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
+        public async Task<IActionResult> Create([Bind("NurseId,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
         {
             if (ModelState.IsValid)
             {
@@ -85,9 +85,9 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NurseID,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
+        public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
         {
-            if (id != nurse.NurseID)
+            if (id != nurse.NurseId)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace HospitalSchedule.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NurseExists(nurse.NurseID))
+                    if (!NurseExists(nurse.NurseId))
                     {
                         return NotFound();
                     }
@@ -124,7 +124,7 @@ namespace HospitalSchedule.Controllers
             }
 
             var nurse = await _context.Nurse
-                .FirstOrDefaultAsync(m => m.NurseID == id);
+                .FirstOrDefaultAsync(m => m.NurseId == id);
             if (nurse == null)
             {
                 return NotFound();
@@ -146,7 +146,7 @@ namespace HospitalSchedule.Controllers
 
         private bool NurseExists(int id)
         {
-            return _context.Nurse.Any(e => e.NurseID == id);
+            return _context.Nurse.Any(e => e.NurseId == id);
         }
     }
 }

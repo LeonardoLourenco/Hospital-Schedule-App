@@ -10,7 +10,7 @@ namespace HospitalSchedule.Models
     public class OperationBlock
     {
         [Required]
-        public int OperationBlockID { get; set; }            //Block Id
+        public int OperationBlockId { get; set; }            //Block Id
 
         [Required]
         public string BlockName { get; set; }       //Nome do bloco       também é aqui que é indicado se é de prevenção ou não             
@@ -21,8 +21,8 @@ namespace HospitalSchedule.Models
 
         //chave estrangueira do horário
         public Schedule Schedule { get;set; }
-        [ForeignKey("ScheduleFK")]
-        public int ScheduleFK { get; set; }
+        [ForeignKey("ScheduleId")]
+        public int ScheduleId { get; set; }
 
     }
 }

@@ -21,7 +21,8 @@ namespace HospitalSchedule.Controllers
         // GET: Shift_Schedule
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Shift_Schedule.ToListAsync());
+            var hospitalScheduleDbContext = _context.Shift_Schedule.Include(s => s.Schedule).Include(s => s.Shift);
+            return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
         // GET: Shift_Schedule/Details/5
@@ -33,7 +34,9 @@ namespace HospitalSchedule.Controllers
             }
 
             var shift_Schedule = await _context.Shift_Schedule
-                .FirstOrDefaultAsync(m => m.Shift_ScheduleID == id);
+                .Include(s => s.Schedule)
+                .Include(s => s.Shift)
+                .FirstOrDefaultAsync(m => m.Shift_ScheduleId == id);
             if (shift_Schedule == null)
             {
                 return NotFound();
@@ -45,6 +48,8 @@ namespace HospitalSchedule.Controllers
         // GET: Shift_Schedule/Create
         public IActionResult Create()
         {
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName");
+            ViewData["ShiftId"] = new SelectList(_context.Shift, "ShiftId", "ShiftId");
             return View();
         }
 
@@ -53,7 +58,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Shift_ScheduleID,ShiftDate,ScheduleFK,ShiftFK")] Shift_Schedule shift_Schedule)
+        public async Task<IActionResult> Create([Bind("Shift_ScheduleId,ShiftDate,ScheduleId,ShiftId")] Shift_Schedule shift_Schedule)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +66,8 @@ namespace HospitalSchedule.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", shift_Schedule.ScheduleId);
+            ViewData["ShiftId"] = new SelectList(_context.Shift, "ShiftId", "ShiftId", shift_Schedule.ShiftId);
             return View(shift_Schedule);
         }
 
@@ -77,6 +84,8 @@ namespace HospitalSchedule.Controllers
             {
                 return NotFound();
             }
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", shift_Schedule.ScheduleId);
+            ViewData["ShiftId"] = new SelectList(_context.Shift, "ShiftId", "ShiftId", shift_Schedule.ShiftId);
             return View(shift_Schedule);
         }
 
@@ -85,9 +94,9 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Shift_ScheduleID,ShiftDate,ScheduleFK,ShiftFK")] Shift_Schedule shift_Schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("Shift_ScheduleId,ShiftDate,ScheduleId,ShiftId")] Shift_Schedule shift_Schedule)
         {
-            if (id != shift_Schedule.Shift_ScheduleID)
+            if (id != shift_Schedule.Shift_ScheduleId)
             {
                 return NotFound();
             }
@@ -101,7 +110,7 @@ namespace HospitalSchedule.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Shift_ScheduleExists(shift_Schedule.Shift_ScheduleID))
+                    if (!Shift_ScheduleExists(shift_Schedule.Shift_ScheduleId))
                     {
                         return NotFound();
                     }
@@ -112,6 +121,8 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", shift_Schedule.ScheduleId);
+            ViewData["ShiftId"] = new SelectList(_context.Shift, "ShiftId", "ShiftId", shift_Schedule.ShiftId);
             return View(shift_Schedule);
         }
 
@@ -124,7 +135,9 @@ namespace HospitalSchedule.Controllers
             }
 
             var shift_Schedule = await _context.Shift_Schedule
-                .FirstOrDefaultAsync(m => m.Shift_ScheduleID == id);
+                .Include(s => s.Schedule)
+                .Include(s => s.Shift)
+                .FirstOrDefaultAsync(m => m.Shift_ScheduleId == id);
             if (shift_Schedule == null)
             {
                 return NotFound();
@@ -146,7 +159,7 @@ namespace HospitalSchedule.Controllers
 
         private bool Shift_ScheduleExists(int id)
         {
-            return _context.Shift_Schedule.Any(e => e.Shift_ScheduleID == id);
+            return _context.Shift_Schedule.Any(e => e.Shift_ScheduleId == id);
         }
     }
 }

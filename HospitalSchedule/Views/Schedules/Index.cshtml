@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.ShiftType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OperationBlockFK)
+                @Html.DisplayNameFor(model => model.OperationBlockId)
             </th>
             <th></th>
         </tr>
@@ -46,7 +46,7 @@
                 @Html.DisplayFor(modelItem => item.ShiftType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OperationBlockFK)
+                @Html.DisplayFor(modelItem => item.OperationBlockId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ScheduleId">Edit</a> |

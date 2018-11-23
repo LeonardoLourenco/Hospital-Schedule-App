@@ -11,18 +11,18 @@ namespace HospitalSchedule.Models
     {
         //Chave primária(Guarda os horários,principal e o de prevenção)
         [Required]
-        public int Nurse_ScheduleID { get; set; }
+        public int Nurse_ScheduleId { get; set; }
         
         //Chave estrangueira do horário
         [Required]
         public Schedule Schedule {get;set; }
-        [ForeignKey("ScheduleFK")]
-        public int ScheduleFK { get; set; }
+        [ForeignKey("ScheduleId")]
+        public int ScheduleId { get; set; }
 
          //Chave estrangueira do enfermeiro
         [Required]
         public Nurse Nurse { get; set; }
-        [ForeignKey("NurseFK")]
-        public int NurseFK { get; set; }
+        [ForeignKey("NurseId")]
+        public int NurseId { get; set; }
     }
 }

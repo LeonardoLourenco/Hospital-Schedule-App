@@ -35,7 +35,7 @@ namespace HospitalSchedule.Controllers
 
             var operationBlock = await _context.OperationBlock
                 .Include(o => o.Schedule)
-                .FirstOrDefaultAsync(m => m.OperationBlockID == id);
+                .FirstOrDefaultAsync(m => m.OperationBlockId == id);
             if (operationBlock == null)
             {
                 return NotFound();
@@ -47,7 +47,7 @@ namespace HospitalSchedule.Controllers
         // GET: OperationBlocks/Create
         public IActionResult Create()
         {
-            ViewData["ScheduleFK"] = new SelectList(_context.Schedule, "ScheduleId", "ScheduleId");
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName");
             return View();
         }
 
@@ -56,7 +56,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OperationBlockID,BlockName,TypeOfShift,ScheduleFK")] OperationBlock operationBlock)
+        public async Task<IActionResult> Create([Bind("OperationBlockId,BlockName,TypeOfShift,ScheduleId")] OperationBlock operationBlock)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace HospitalSchedule.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ScheduleFK"] = new SelectList(_context.Schedule, "ScheduleId", "ScheduleId", operationBlock.ScheduleFK);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", operationBlock.ScheduleId);
             return View(operationBlock);
         }
 
@@ -81,7 +81,7 @@ namespace HospitalSchedule.Controllers
             {
                 return NotFound();
             }
-            ViewData["ScheduleFK"] = new SelectList(_context.Schedule, "ScheduleId", "ScheduleId", operationBlock.ScheduleFK);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", operationBlock.ScheduleId);
             return View(operationBlock);
         }
 
@@ -90,9 +90,9 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OperationBlockID,BlockName,TypeOfShift,ScheduleFK")] OperationBlock operationBlock)
+        public async Task<IActionResult> Edit(int id, [Bind("OperationBlockId,BlockName,TypeOfShift,ScheduleId")] OperationBlock operationBlock)
         {
-            if (id != operationBlock.OperationBlockID)
+            if (id != operationBlock.OperationBlockId)
             {
                 return NotFound();
             }
@@ -106,7 +106,7 @@ namespace HospitalSchedule.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OperationBlockExists(operationBlock.OperationBlockID))
+                    if (!OperationBlockExists(operationBlock.OperationBlockId))
                     {
                         return NotFound();
                     }
@@ -117,7 +117,7 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ScheduleFK"] = new SelectList(_context.Schedule, "ScheduleId", "ScheduleId", operationBlock.ScheduleFK);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", operationBlock.ScheduleId);
             return View(operationBlock);
         }
 
@@ -131,7 +131,7 @@ namespace HospitalSchedule.Controllers
 
             var operationBlock = await _context.OperationBlock
                 .Include(o => o.Schedule)
-                .FirstOrDefaultAsync(m => m.OperationBlockID == id);
+                .FirstOrDefaultAsync(m => m.OperationBlockId == id);
             if (operationBlock == null)
             {
                 return NotFound();
@@ -153,7 +153,7 @@ namespace HospitalSchedule.Controllers
 
         private bool OperationBlockExists(int id)
         {
-            return _context.OperationBlock.Any(e => e.OperationBlockID == id);
+            return _context.OperationBlock.Any(e => e.OperationBlockId == id);
         }
     }
 }

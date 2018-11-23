@@ -9,7 +9,7 @@ namespace HospitalSchedule.Models
     public class Nurse
     {
         //chave primária
-        public int NurseID { get; set; }
+        public int NurseId { get; set; }
 
         [Required(ErrorMessage = "Introduza o seu Nome")]
         [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Nome Inválido")]

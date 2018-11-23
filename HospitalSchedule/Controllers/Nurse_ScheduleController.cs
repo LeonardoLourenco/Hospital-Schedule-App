@@ -21,7 +21,8 @@ namespace HospitalSchedule.Controllers
         // GET: Nurse_Schedule
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Nurse_Schedule.ToListAsync());
+            var hospitalScheduleDbContext = _context.Nurse_Schedule.Include(n => n.Nurse).Include(n => n.Schedule);
+            return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
         // GET: Nurse_Schedule/Details/5
@@ -33,7 +34,9 @@ namespace HospitalSchedule.Controllers
             }
 
             var nurse_Schedule = await _context.Nurse_Schedule
-                .FirstOrDefaultAsync(m => m.Nurse_ScheduleID == id);
+                .Include(n => n.Nurse)
+                .Include(n => n.Schedule)
+                .FirstOrDefaultAsync(m => m.Nurse_ScheduleId == id);
             if (nurse_Schedule == null)
             {
                 return NotFound();
@@ -45,6 +48,8 @@ namespace HospitalSchedule.Controllers
         // GET: Nurse_Schedule/Create
         public IActionResult Create()
         {
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI");
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName");
             return View();
         }
 
@@ -53,7 +58,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nurse_ScheduleID,ScheduleFK,NurseFK")] Nurse_Schedule nurse_Schedule)
+        public async Task<IActionResult> Create([Bind("Nurse_ScheduleId,ScheduleId,NurseId")] Nurse_Schedule nurse_Schedule)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +66,8 @@ namespace HospitalSchedule.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", nurse_Schedule.NurseId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", nurse_Schedule.ScheduleId);
             return View(nurse_Schedule);
         }
 
@@ -77,6 +84,8 @@ namespace HospitalSchedule.Controllers
             {
                 return NotFound();
             }
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", nurse_Schedule.NurseId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", nurse_Schedule.ScheduleId);
             return View(nurse_Schedule);
         }
 
@@ -85,9 +94,9 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Nurse_ScheduleID,ScheduleFK,NurseFK")] Nurse_Schedule nurse_Schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("Nurse_ScheduleId,ScheduleId,NurseId")] Nurse_Schedule nurse_Schedule)
         {
-            if (id != nurse_Schedule.Nurse_ScheduleID)
+            if (id != nurse_Schedule.Nurse_ScheduleId)
             {
                 return NotFound();
             }
@@ -101,7 +110,7 @@ namespace HospitalSchedule.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Nurse_ScheduleExists(nurse_Schedule.Nurse_ScheduleID))
+                    if (!Nurse_ScheduleExists(nurse_Schedule.Nurse_ScheduleId))
                     {
                         return NotFound();
                     }
@@ -112,6 +121,8 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", nurse_Schedule.NurseId);
+            ViewData["ScheduleId"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", nurse_Schedule.ScheduleId);
             return View(nurse_Schedule);
         }
 
@@ -124,7 +135,9 @@ namespace HospitalSchedule.Controllers
             }
 
             var nurse_Schedule = await _context.Nurse_Schedule
-                .FirstOrDefaultAsync(m => m.Nurse_ScheduleID == id);
+                .Include(n => n.Nurse)
+                .Include(n => n.Schedule)
+                .FirstOrDefaultAsync(m => m.Nurse_ScheduleId == id);
             if (nurse_Schedule == null)
             {
                 return NotFound();
@@ -146,7 +159,7 @@ namespace HospitalSchedule.Controllers
 
         private bool Nurse_ScheduleExists(int id)
         {
-            return _context.Nurse_Schedule.Any(e => e.Nurse_ScheduleID == id);
+            return _context.Nurse_Schedule.Any(e => e.Nurse_ScheduleId == id);
         }
     }
 }

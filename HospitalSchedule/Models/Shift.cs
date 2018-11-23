@@ -10,7 +10,7 @@ namespace HospitalSchedule.Models
     {
         //chave primária
         [Required]
-        public int ShiftID { get; set; }
+        public int ShiftId { get; set; }
 
         public string ShiftName { get; set; } //Manhã,Tarde,Noite
 

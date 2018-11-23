@@ -11,21 +11,21 @@ namespace HospitalSchedule.Models
     {
         //chave primária
         [Required]
-        public int Shift_ScheduleID { get; set; }
+        public int Shift_ScheduleId { get; set; }
 
         public DateTime ShiftDate { get; set; } //Datas dos turnos
 
         //chave estrangueira do horário
         [Required]
         public Schedule Schedule { get; set; }
-        [ForeignKey("ScheduleFK")]
-        public int ScheduleFK { get; set; }
+        [ForeignKey("ScheduleId")]
+        public int ScheduleId { get; set; }
 
         //chave estrangueira do turno
         [Required]
         public Shift Shift { get; set; }
-        [ForeignKey("ShiftFK")]
-        public int ShiftFK { get; set;}
+        [ForeignKey("ShiftId")]
+        public int ShiftId { get; set;}
 
         
     }
