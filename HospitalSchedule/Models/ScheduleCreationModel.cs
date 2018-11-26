@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class ScheduleCreation
+    public class ScheduleCreationModel
     {
         [Required]
         //Ir a buscar o BlockName da classe operationBlock
