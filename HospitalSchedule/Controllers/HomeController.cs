@@ -8,6 +8,7 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public IActionResult Index()

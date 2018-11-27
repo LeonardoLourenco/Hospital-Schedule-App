@@ -9,6 +9,7 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
+    [RequireHttps]
     public class SchedulesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
