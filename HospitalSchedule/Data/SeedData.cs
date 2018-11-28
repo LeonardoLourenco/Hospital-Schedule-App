@@ -178,7 +178,7 @@ namespace HospitalSchedule.Data
                       {
                           Name = "Fabio Miguel Ambrosio",
                           BirthDate = new DateTime(1988, 5, 1),
-                          CC = "22345576",
+                          CCBI = "22345576",
                           Type = 2,
                           Specialties = "Cardiologia",
                           Email = "1011881@ipg.pt",
@@ -189,7 +189,7 @@ namespace HospitalSchedule.Data
                       {
                           Name = "Maria Luiza Ambrosio",
                           BirthDate = new DateTime(1988, 5, 1),
-                          CC = "22345576",
+                          CCBI = "22345576",
                           Type = 3,
                           Specialties = "Radiologia",
                           Email = "1010381@ipg.pt",
@@ -200,7 +200,7 @@ namespace HospitalSchedule.Data
                       {
                           Name = "Diana Miguel Rapozo",
                           BirthDate = new DateTime(1988, 5, 1),
-                          CC = "42344576",
+                          CCBI = "42344576",
                           Type = 2,
                           Specialties = "Cardiologia",
                           Email = "1111811@ipg.pt",
@@ -211,7 +211,7 @@ namespace HospitalSchedule.Data
                       {
                           Name = "Mara Andrade Gil",
                           BirthDate = new DateTime(1988, 5, 1),
-                          CC = "228574576",
+                          CCBI = "228574576",
                           Type = 3,
                           Specialties = "Radiologia",
                           Email = "101121@ipg.pt",
