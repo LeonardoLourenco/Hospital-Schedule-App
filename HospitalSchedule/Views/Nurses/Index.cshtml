@@ -12,6 +12,13 @@
 <table class="table">
     <thead>
         <tr>
+            @using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")  
+        <input type="submit" value="Search" /></p>
+}
+
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>

@@ -20,31 +20,31 @@ namespace HospitalSchedule.Data
 
                 SeedNurses(db);
                 SeedSchedule(db);
-                SeedNurses_Schedules(db);
+                //SeedNurses_Schedules(db);
                 SeedOperationBlockModel(db);
                 SeedShifts(db);
                 SeedShifts_Schedule(db);
-                //SeedScheduleCreationModel(db);
+                
             }
         }
 
-        private static void SeedNurses_Schedules(HospitalScheduleDbContext db)
-        {
-            if (db.Nurses_Schedule.Any()) return;
+        //private static void SeedNurses_Schedules(HospitalScheduleDbContext db)
+        //{
+        //    if (db.Nurses_Schedule.Any()) return;
 
-            Nurse nurse = db.Nurse.SingleOrDefault(n => n.NurseID == 3);
-            Schedule schedule = db.Schedule.SingleOrDefault(s => s.NurseName == "Diana Miguel Rapozo");
-            //criei um objeto do tipo schedule onde vai returnar um elemento unico onde s do tipo shcedule tem como nome fabio...
+        //    Nurse nurse = db.Nurse.SingleOrDefault(n => n.NurseID == 3);
+        //    Schedule schedule2 = db.Schedule.SingleOrDefault(s => s.NurseName == "Diana Miguel Rapozo");
+        //    //criei um objeto do tipo schedule onde vai returnar um elemento unico onde s do tipo shcedule tem como nome fabio...
 
-            db.Nurses_Schedule.AddRange(
-               new Nurse_Schedule
-               {
-                   Schedule = schedule,
-                   Nurse = nurse
+        //    db.Nurses_Schedule.AddRange(
+        //       new Nurse_Schedule
+        //       {
+        //           Schedule = schedule2,
+        //           Nurse = nurse
 
-               });
-            db.SaveChanges();
-        }
+        //       });
+        //    db.SaveChanges();
+        //}
 
 
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
 
+
 namespace HospitalSchedule.Controllers
 {
     public class NursesController : Controller
