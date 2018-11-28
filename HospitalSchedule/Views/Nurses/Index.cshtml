@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Nurse>
+﻿@model NursesViewModel
+
+
 
 @{
     ViewData["Title"] = "List of Nurses";
@@ -13,56 +15,101 @@
     <thead>
         <tr>
             @using (Html.BeginForm())
-{
-    <p>
-        Find by name: @Html.TextBox("SearchString")  
-        <input type="submit" value="Search" /></p>
-}
+            {
+                <p>
+                    Find by name: <input type="text" name="Search" placeholder="Insert nurse name" />
+                    <input type="submit" value="Pesquisar" />
+                </p>
+            }
 
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                
+                @Html.DisplayNameFor(i=>Model.Nurses.FirstOrDefault().Name)
             </th>
-          
+
             <th>
-                @Html.DisplayNameFor(model => model.CC)
+               
+                @Html.DisplayNameFor(i => Model.Nurses.FirstOrDefault().CC)
             </th>
-            
+
             <th>
-                @Html.DisplayNameFor(model => model.Specialties)
+                
+                @Html.DisplayNameFor(i => Model.Nurses.FirstOrDefault().Specialties)
             </th>
-            
+
             <th>
-                @Html.DisplayNameFor(model => model.CellPhoneNumber)
+                
+                @Html.DisplayNameFor(i=>Model.Nurses.FirstOrDefault().CellPhoneNumber)
             </th>
-           
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.CC)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Specialties)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.CellPhoneNumber)
-            </td>
-           
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.NurseID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NurseID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NurseID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Nurses)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CC)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Specialties)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CellPhoneNumber)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.NurseID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.NurseID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.NurseID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@*@if ((bool)(ViewData["Searched"]))
+{
+    @Html.ActionLink("Return", "Index", "Nurses");
+}*@
+
+
+
+
+@if (Model.PagingInfo.CurrentPage > 1)
+{
+    <a href="@Url.Action("Index", "Trilhos", new { @page = (Model.PagingInfo.CurrentPage > 1) ? Model.PagingInfo.CurrentPage-1 : Model.PagingInfo.CurrentPage })"><span class="icon-next"></span></a>
+    <span>&nbsp;</span>
+}
+
+@for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+{
+    if (i == Model.PagingInfo.CurrentPage)
+    {
+        <span>@i.ToString()</span>
+        <span>&nbsp;&nbsp;</span>
+    }
+    else if (i != Model.PagingInfo.CurrentPage && i <= Model.PagingInfo.CurrentPage + 1 && i >= Model.PagingInfo.CurrentPage - 1 && Model.PagingInfo.CurrentPage != 1)
+    {
+        @Html.ActionLink(i.ToString(), "Index", "Trilhos", new { @page = i })
+        <span>&nbsp;</span>
+    }
+    else if (Model.PagingInfo.CurrentPage == 1 || Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+    {
+        @Html.ActionLink(i.ToString(), "Index", "Trilhos", new { @page = i })
+        <span>&nbsp;</span>
+    }
+}
+
+@if (Model.PagingInfo.CurrentPage < Model.PagingInfo.TotalPages)
+{
+    <a href="@Url.Action("Index", "Trilhos", new { @page = (Model.PagingInfo.CurrentPage < Model.PagingInfo.TotalPages) ? Model.PagingInfo.CurrentPage + 1 : Model.PagingInfo.CurrentPage })"><span class="icon-prev"></span></a>
+    <span>&nbsp;&nbsp;</span>
+}

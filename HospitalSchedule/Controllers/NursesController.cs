@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
 
 
+
 namespace HospitalSchedule.Controllers
 {
     public class NursesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
+        public int PageSize = 5;
 
         public NursesController(HospitalScheduleDbContext context)
         {
@@ -20,9 +22,53 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: Nurses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Nurse.ToListAsync());
+            int numNurses = await _context.Nurse.CountAsync();
+
+            //ViewData["Searched"] = false;
+            //return View((await _context.Nurse.ToListAsync(),
+            //    PagingInfo = new PagingInfo
+            //    {
+            //        CurrentPage = page,
+            //        ItemsPerPage = PageSize,
+            //        TotalItems = Nurse.Count()
+            //    }));
+            var Nurse = await
+                _context.Nurse
+                    .OrderBy(p => p.Name)
+                    .Skip(PageSize * (page - 1))
+                    .Take(PageSize)
+                    .ToListAsync();
+
+            return View(
+                new NursesViewModel
+                {
+                    Nurses = Nurse,
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numNurses
+                    }
+                }
+            );
+        }
+
+    
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string search)
+        {
+
+            if (String.IsNullOrEmpty(search))
+            {
+                ViewData["Searched"] = false;
+                return View(await _context.Nurse.ToListAsync());
+            }
+
+            ViewData["Searched"] = true;
+            return View(await _context.Nurse.Where(nurse => nurse.Name.ToLower().Contains(search.ToLower())).ToListAsync());
         }
 
         // GET: Nurses/Details/5

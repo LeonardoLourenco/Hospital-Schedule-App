@@ -17,7 +17,7 @@ namespace HospitalSchedule.Models
 
         public DateTime BirthDate { get; set; }//data de nascimento
 
-        public string CCBI { get; set; }//Numero de cartao cidadao
+        public string CC { get; set; }//Numero de cartao cidadao
 
         [Required]//1->60 anos;2-filhos menores;3-outros;4-Chefe ou não
         public int Type { get; set; }
