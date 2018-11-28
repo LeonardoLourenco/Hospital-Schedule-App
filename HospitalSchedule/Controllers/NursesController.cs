@@ -26,14 +26,7 @@ namespace HospitalSchedule.Controllers
         {
             int numNurses = await _context.Nurse.CountAsync();
 
-            //ViewData["Searched"] = false;
-            //return View((await _context.Nurse.ToListAsync(),
-            //    PagingInfo = new PagingInfo
-            //    {
-            //        CurrentPage = page,
-            //        ItemsPerPage = PageSize,
-            //        TotalItems = Nurse.Count()
-            //    }));
+          
             var Nurse = await
                 _context.Nurse
                     .OrderBy(p => p.Name)
@@ -60,13 +53,13 @@ namespace HospitalSchedule.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string search)
         {
-
+            //se nao tiver nada na pesquisa retorna a view anterior
             if (String.IsNullOrEmpty(search))
             {
                 ViewData["Searched"] = false;
                 return View(await _context.Nurse.ToListAsync());
             }
-
+            //se nao devolve a pesquisa
             ViewData["Searched"] = true;
             return View(await _context.Nurse.Where(nurse => nurse.Name.ToLower().Contains(search.ToLower())).ToListAsync());
         }
