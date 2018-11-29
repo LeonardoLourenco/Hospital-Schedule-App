@@ -71,7 +71,7 @@ namespace HospitalSchedule.Data
                    {
                       
                        ShiftName = "T2",
-                       StartingHour = new DateTime(2018, 11, 1, 8, 30, 00),
+                       StartingHour = new DateTime(2018, 5, 1, 8, 30, 00),
                        FinishingHour = new DateTime(2018, 5, 1, 16, 30, 00)
                    },
                   new Shift
