@@ -101,12 +101,12 @@
     }
     else if (i != Model.PagingInfo.CurrentPage && i <= Model.PagingInfo.CurrentPage + 1 && i >= Model.PagingInfo.CurrentPage - 1 && Model.PagingInfo.CurrentPage != 1)
     {
-        @Html.ActionLink(i.ToString(), "Return", "Index", "Nurses", new { @page = i })
+        @Html.ActionLink(i.ToString(),  "Index", "Nurses", new { @page = i })
         <span>&nbsp;</span>
     }
     else if (Model.PagingInfo.CurrentPage == 1 || Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
     {
-        @Html.ActionLink(i.ToString(), "Return", "Index", "Nurses", new { @page = i })
+        @Html.ActionLink(i.ToString(), "Index", "Nurses", new { @page = i })
         <span>&nbsp;</span>
     }
 }

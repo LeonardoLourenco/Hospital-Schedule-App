@@ -14,7 +14,7 @@ namespace HospitalSchedule.Controllers
     public class NursesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
-        public int PageSize = 5;
+        public int PageSize = 3;
 
         public NursesController(HospitalScheduleDbContext context)
         {
