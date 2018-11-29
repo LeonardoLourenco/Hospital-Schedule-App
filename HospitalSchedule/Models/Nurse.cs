@@ -9,35 +9,37 @@ namespace HospitalSchedule.Models
     public class Nurse
     {
         //chave primária
-        public int NurseID { get; set; }
+        public int NurseId { get; set; }
 
         [Required(ErrorMessage = "Introduza o seu Nome")]
         [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Nome Inválido")]
-        public string Name { get; set; }
+        public string Name { get; set; } //Nome
 
-        public DateTime BirthDate { get; set; }//data de nascimento
-
-        public string CC { get; set; }//Numero de cartao cidadao
-
-        [Required]//1->60 anos;2-filhos menores;3-outros;4-Chefe ou não
-        public int Type { get; set; }
+        [Required(ErrorMessage = "Por favor introduza corretamente o seu email")]
+        [RegularExpression(@"(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})", ErrorMessage = "Email Inválido")]
+        public string Email { get; set; } //Email
 
         [Required(ErrorMessage = "Introduza a sua especialidade")]
         [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Nome Inválido")]
         public string Specialties { get; set; }
 
-        [Required(ErrorMessage = "Por favor introduza corretamente o seu email")]
-        [RegularExpression(@"(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})", ErrorMessage = "Email Inválido")]
-        public string Email { get; set; }
+        [Required]//1 - Chefe ou 0 - não , deixamos assim para uma futura escalabilidade/outros tipos em que a unica forma de inserção seja aqui
+        public int Type { get; set; }
 
         [RegularExpression(@"(2\d{8})|(9[1236]\d{7})", ErrorMessage = "Contacto Inválido")]
         [Required(ErrorMessage = "Por favor indroduza o numero de telefone")]
-        public string CellPhoneNumber { get; set; }
+        public string CellPhoneNumber { get; set; } //Número de telemovel
+        
+        [RegularExpression(@"([0-9]{8})", ErrorMessage = "CC/BI Inválido")]
+        [Required]
+        public string CCBI { get; set; } //Cartão de Cidadão/Bilhete de Identidade (CC/BI)
 
-        //DATA DE NASCIMENTO DO FILHO MAIS NOVO
-        public DateTime YoungestChildBirthDate { get; set; }
+        [Required]
+        public DateTime BirthDate { get; set; } //Data de Nascimento
 
-        // Lista de horarios do enfermeiro
-        public ICollection<Nurse_Schedule> NurseSchedules { get; set; }
+        public DateTime YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
+
+        [Required]
+        public ICollection<Schedule> Schedules { get; set; }
     }
 }
