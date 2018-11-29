@@ -19,8 +19,9 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: Nurses
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(NursesViewModelClass model = null,int page=1)
         {
+            
             int numNurses = await _context.Nurse.CountAsync();
 
             var Nurse = await
