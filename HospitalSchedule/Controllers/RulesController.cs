@@ -9,22 +9,23 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    public class RulesController : Controller
+    public class Nurse_ScheduleController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
 
-        public RulesController(HospitalScheduleDbContext context)
+        public Nurse_ScheduleController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
-        // GET: Rules
+        // GET: Nurse_Schedule
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Rules.ToListAsync());
+            var hospitalScheduleDbContext = _context.Nurses_Schedule.Include(n => n.Nurse).Include(n => n.Schedule);
+            return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
-        // GET: Rules/Details/5
+        // GET: Nurse_Schedule/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +33,45 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var rules = await _context.Rules
-                .FirstOrDefaultAsync(m => m.RulesId == id);
-            if (rules == null)
+            var nurse_Schedule = await _context.Nurses_Schedule
+                .Include(n => n.Nurse)
+                .Include(n => n.Schedule)
+                .FirstOrDefaultAsync(m => m.Nurse_ScheduleID == id);
+            if (nurse_Schedule == null)
             {
                 return NotFound();
             }
 
-            return View(rules);
+            return View(nurse_Schedule);
         }
 
-        // GET: Rules/Create
+        // GET: Nurse_Schedule/Create
         public IActionResult Create()
         {
+            ViewData["ScheduleID"] = new SelectList(_context.Nurse, "NurseID", "CellPhoneNumber");
+            ViewData["NurseID"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName");
             return View();
         }
 
-        // POST: Rules/Create
+        // POST: Nurse_Schedule/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RulesId")] Rules rules)
+        public async Task<IActionResult> Create([Bind("Nurse_ScheduleID,NurseID,ScheduleID")] Nurse_Schedule nurse_Schedule)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rules);
+                _context.Add(nurse_Schedule);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(rules);
+            ViewData["ScheduleID"] = new SelectList(_context.Nurse, "NurseID", "CellPhoneNumber", nurse_Schedule.ScheduleID);
+            ViewData["NurseID"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", nurse_Schedule.NurseID);
+            return View(nurse_Schedule);
         }
 
-        // GET: Rules/Edit/5
+        // GET: Nurse_Schedule/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +79,24 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var rules = await _context.Rules.FindAsync(id);
-            if (rules == null)
+            var nurse_Schedule = await _context.Nurses_Schedule.FindAsync(id);
+            if (nurse_Schedule == null)
             {
                 return NotFound();
             }
-            return View(rules);
+            ViewData["ScheduleID"] = new SelectList(_context.Nurse, "NurseID", "CellPhoneNumber", nurse_Schedule.ScheduleID);
+            ViewData["NurseID"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", nurse_Schedule.NurseID);
+            return View(nurse_Schedule);
         }
 
-        // POST: Rules/Edit/5
+        // POST: Nurse_Schedule/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RulesId")] Rules rules)
+        public async Task<IActionResult> Edit(int id, [Bind("Nurse_ScheduleID,NurseID,ScheduleID")] Nurse_Schedule nurse_Schedule)
         {
-            if (id != rules.RulesId)
+            if (id != nurse_Schedule.Nurse_ScheduleID)
             {
                 return NotFound();
             }
@@ -96,12 +105,12 @@ namespace HospitalSchedule.Controllers
             {
                 try
                 {
-                    _context.Update(rules);
+                    _context.Update(nurse_Schedule);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RulesExists(rules.RulesId))
+                    if (!Nurse_ScheduleExists(nurse_Schedule.Nurse_ScheduleID))
                     {
                         return NotFound();
                     }
@@ -112,10 +121,12 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(rules);
+            ViewData["ScheduleID"] = new SelectList(_context.Nurse, "NurseID", "CellPhoneNumber", nurse_Schedule.ScheduleID);
+            ViewData["NurseID"] = new SelectList(_context.Schedule, "ScheduleId", "NurseName", nurse_Schedule.NurseID);
+            return View(nurse_Schedule);
         }
 
-        // GET: Rules/Delete/5
+        // GET: Nurse_Schedule/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +134,32 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var rules = await _context.Rules
-                .FirstOrDefaultAsync(m => m.RulesId == id);
-            if (rules == null)
+            var nurse_Schedule = await _context.Nurses_Schedule
+                .Include(n => n.Nurse)
+                .Include(n => n.Schedule)
+                .FirstOrDefaultAsync(m => m.Nurse_ScheduleID == id);
+            if (nurse_Schedule == null)
             {
                 return NotFound();
             }
 
-            return View(rules);
+            return View(nurse_Schedule);
         }
 
-        // POST: Rules/Delete/5
+        // POST: Nurse_Schedule/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rules = await _context.Rules.FindAsync(id);
-            _context.Rules.Remove(rules);
+            var nurse_Schedule = await _context.Nurses_Schedule.FindAsync(id);
+            _context.Nurses_Schedule.Remove(nurse_Schedule);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RulesExists(int id)
+        private bool Nurse_ScheduleExists(int id)
         {
-            return _context.Rules.Any(e => e.RulesId == id);
+            return _context.Nurses_Schedule.Any(e => e.Nurse_ScheduleID == id);
         }
     }
 }

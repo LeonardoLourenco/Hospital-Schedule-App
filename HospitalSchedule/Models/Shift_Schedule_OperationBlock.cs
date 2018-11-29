@@ -1,36 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HospitalSchedule.Models
 {
-    public class Shift_Schedule_OperationBlock
+    public class Shift_Schedule
     {
         //chave primária
         [Required]
-        public int Shift_Schedule_OperationBlockId { get; set; }
+        public int Shift_ScheduleID { get; set; }
 
         public DateTime ShiftDate { get; set; } //Datas dos turnos
 
         //chave estrangueira do horário
-        [Required]
-        public Schedule Schedule { get; set; }
-        [ForeignKey("ScheduleId")]
-        public int ScheduleId { get; set; }
+        [ForeignKey("ScheduleFK")]
+        public int ScheduleFK { get; set; }
 
         //chave estrangueira do turno
-        [Required]
-        public Shift Shift { get; set; }
-        [ForeignKey("ShiftId")]
-        public int ShiftId { get; set; }
+        [ForeignKey("ShiftFK")]
+        public int ShiftFK { get; set;}
 
-        //chave estrangueira do bloco
-        [Required]
-        public OperationBlock OperationBlock { get; set; }
-        [ForeignKey("OperationBlockId")]
-        public int OperationBlockId { get; set; }
+        
     }
 }
