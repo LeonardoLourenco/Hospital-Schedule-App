@@ -1,46 +1,57 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Nurse>
+﻿
+
+@model NursesViewModelClass
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2> Nurse List</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
+                @*@Html.DisplayNameFor(model => model.Name)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
+                @*@Html.DisplayNameFor(model => model.Email)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Specialties)
+                Specialties
+                @*@Html.DisplayNameFor(model => model.Specialties)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                Type
+                @*@Html.DisplayNameFor(model => model.Type)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CellPhoneNumber)
+                CellPhoneNumber
+                @*@Html.DisplayNameFor(model => model.CellPhoneNumber)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CCBI)
+                CCBI
+                @*@Html.DisplayNameFor(model => model.CCBI)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                BirthDate
+                @*@Html.DisplayNameFor(model => model.BirthDate)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.YoungestChildBirthDate)
+                YoungestChildBirthDate
+                @*@Html.DisplayNameFor(model => model.YoungestChildBirthDate)*@
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Nurses) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -75,3 +86,4 @@
 }
     </tbody>
 </table>
+<div page-model="@Model.PagingInfo"></div>

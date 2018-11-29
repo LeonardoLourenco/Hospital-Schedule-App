@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class NursesViewModel
+    public class NursesViewModelClass
     {
         public IEnumerable<Nurse> Nurses { get; set; }
         public PagingInfo PagingInfo { get; set; }
