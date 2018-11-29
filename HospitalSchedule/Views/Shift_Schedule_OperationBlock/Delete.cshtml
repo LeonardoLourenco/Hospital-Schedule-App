@@ -1,4 +1,4 @@
-﻿@model HospitalSchedule.Models.Shift_Schedule
+﻿@model HospitalSchedule.Models.Shift_Schedule_OperationBlock
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,7 +8,7 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Shift_Schedule</h4>
+    <h4>Shift_Schedule_OperationBlock</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -18,21 +18,27 @@
             @Html.DisplayFor(model => model.ShiftDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ScheduleFK)
+            @Html.DisplayNameFor(model => model.Schedule)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ScheduleFK)
+            @Html.DisplayFor(model => model.Schedule.ScheduleId)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ShiftFK)
+            @Html.DisplayNameFor(model => model.Shift)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ShiftFK)
+            @Html.DisplayFor(model => model.Shift.ShiftId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OperationBlock)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OperationBlock.BlockName)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Shift_ScheduleID" />
+        <input type="hidden" asp-for="Shift_Schedule_OperationBlockId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

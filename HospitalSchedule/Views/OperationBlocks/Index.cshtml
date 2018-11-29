@@ -18,9 +18,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.TypeOfShift)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Schedule)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,12 +31,9 @@
                 @Html.DisplayFor(modelItem => item.TypeOfShift)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Schedule.ScheduleId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.OperationBlockID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.OperationBlockID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.OperationBlockID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.OperationBlockId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OperationBlockId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OperationBlockId">Delete</a>
             </td>
         </tr>
 }

@@ -23,16 +23,10 @@
         <dd>
             @Html.DisplayFor(model => model.TypeOfShift)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Schedule)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Schedule.ScheduleId)
-        </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="OperationBlockID" />
+        <input type="hidden" asp-for="OperationBlockId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

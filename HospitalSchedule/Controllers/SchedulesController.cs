@@ -9,11 +9,9 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    [RequireHttps]
     public class SchedulesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
-        public Schedule schedule;
 
         public SchedulesController(HospitalScheduleDbContext context)
         {
@@ -23,7 +21,8 @@ namespace HospitalSchedule.Controllers
         // GET: Schedules
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Schedule.ToListAsync());
+            var hospitalScheduleDbContext = _context.Schedule.Include(s => s.Nurse);
+            return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
         // GET: Schedules/Details/5
@@ -35,6 +34,7 @@ namespace HospitalSchedule.Controllers
             }
 
             var schedule = await _context.Schedule
+                .Include(s => s.Nurse)
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
             if (schedule == null)
             {
@@ -45,20 +45,18 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: Schedules/Create
-
-
-
         public IActionResult Create()
         {
-            ViewData["Date"] = new SelectList(_context.Schedule, "Date", "Date");
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI");
             return View();
         }
+
         // POST: Schedules/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleId,Date,NurseName,OperationBlockName,ShiftType,OperationBlockFK")] Schedule schedule)
+        public async Task<IActionResult> Create([Bind("ScheduleId,Date,NurseId")] Schedule schedule)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +64,7 @@ namespace HospitalSchedule.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", schedule.NurseId);
             return View(schedule);
         }
 
@@ -82,6 +81,7 @@ namespace HospitalSchedule.Controllers
             {
                 return NotFound();
             }
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", schedule.NurseId);
             return View(schedule);
         }
 
@@ -90,7 +90,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,Date,NurseName,OperationBlockName,ShiftType,OperationBlockFK")] Schedule schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,Date,NurseId")] Schedule schedule)
         {
             if (id != schedule.ScheduleId)
             {
@@ -117,6 +117,7 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", schedule.NurseId);
             return View(schedule);
         }
 
@@ -129,6 +130,7 @@ namespace HospitalSchedule.Controllers
             }
 
             var schedule = await _context.Schedule
+                .Include(s => s.Nurse)
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
             if (schedule == null)
             {

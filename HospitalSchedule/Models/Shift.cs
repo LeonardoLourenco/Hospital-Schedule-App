@@ -10,7 +10,7 @@ namespace HospitalSchedule.Models
     {
         //chave primária
         [Required]
-        public int ShiftID { get; set; }
+        public int ShiftId { get; set; }
 
         public string ShiftName { get; set; } //Manhã,Tarde,Noite
 
@@ -19,6 +19,6 @@ namespace HospitalSchedule.Models
         public DateTime FinishingHour { get; set; } //Hora de fim de cada turno
 
         [Required]
-        public ICollection<Shift_Schedule> Shift_Schedules { get; set; }
+        public ICollection<Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
     }
 }

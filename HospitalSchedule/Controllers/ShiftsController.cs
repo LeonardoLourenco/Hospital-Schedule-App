@@ -34,7 +34,7 @@ namespace HospitalSchedule.Controllers
             }
 
             var shift = await _context.Shift
-                .FirstOrDefaultAsync(m => m.ShiftID == id);
+                .FirstOrDefaultAsync(m => m.ShiftId == id);
             if (shift == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShiftID,ShiftName,StartingHour,FinishingHour")] Shift shift)
+        public async Task<IActionResult> Create([Bind("ShiftId,ShiftName,StartingHour,FinishingHour")] Shift shift)
         {
             if (ModelState.IsValid)
             {
@@ -88,9 +88,9 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShiftID,ShiftName,StartingHour,FinishingHour")] Shift shift)
+        public async Task<IActionResult> Edit(int id, [Bind("ShiftId,ShiftName,StartingHour,FinishingHour")] Shift shift)
         {
-            if (id != shift.ShiftID)
+            if (id != shift.ShiftId)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace HospitalSchedule.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ShiftExists(shift.ShiftID))
+                    if (!ShiftExists(shift.ShiftId))
                     {
                         return NotFound();
                     }
@@ -127,7 +127,7 @@ namespace HospitalSchedule.Controllers
             }
 
             var shift = await _context.Shift
-                .FirstOrDefaultAsync(m => m.ShiftID == id);
+                .FirstOrDefaultAsync(m => m.ShiftId == id);
             if (shift == null)
             {
                 return NotFound();
@@ -149,7 +149,7 @@ namespace HospitalSchedule.Controllers
 
         private bool ShiftExists(int id)
         {
-            return _context.Shift.Any(e => e.ShiftID == id);
+            return _context.Shift.Any(e => e.ShiftId == id);
         }
     }
 }

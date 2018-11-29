@@ -1,4 +1,4 @@
-﻿@model HospitalSchedule.Models.Shift_Schedule
+﻿@model HospitalSchedule.Models.Shift_Schedule_OperationBlock
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h2>Create</h2>
 
-<h4>Shift_Schedule</h4>
+<h4>Shift_Schedule_OperationBlock</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,14 +18,16 @@
                 <span asp-validation-for="ShiftDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ScheduleFK" class="control-label"></label>
-                <input asp-for="ScheduleFK" class="form-control" />
-                <span asp-validation-for="ScheduleFK" class="text-danger"></span>
+                <label asp-for="ScheduleId" class="control-label"></label>
+                <select asp-for="ScheduleId" class ="form-control" asp-items="ViewBag.ScheduleId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ShiftFK" class="control-label"></label>
-                <input asp-for="ShiftFK" class="form-control" />
-                <span asp-validation-for="ShiftFK" class="text-danger"></span>
+                <label asp-for="ShiftId" class="control-label"></label>
+                <select asp-for="ShiftId" class ="form-control" asp-items="ViewBag.ShiftId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="OperationBlockId" class="control-label"></label>
+                <select asp-for="OperationBlockId" class ="form-control" asp-items="ViewBag.OperationBlockId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -38,3 +40,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
