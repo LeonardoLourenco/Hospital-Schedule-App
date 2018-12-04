@@ -138,6 +138,25 @@ namespace HospitalSchedule.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Rules",
+                columns: table => new
+                {
+                    RulesID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    InBeetweenHoursShift = table.Column<int>(nullable: false),
+                    HasChild = table.Column<bool>(nullable: false),
+                    NurseAge = table.Column<int>(nullable: false),
+                    ShiftDuration = table.Column<int>(nullable: false),
+                    WeeklyHours = table.Column<int>(nullable: false),
+                    YoungestChildAge = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RulesID", x => x.RulesID);
+                });
+
+
             migrationBuilder.CreateIndex(
                 name: "IX_Nurse_Schedule_NurseID",
                 table: "Nurse_Schedule",

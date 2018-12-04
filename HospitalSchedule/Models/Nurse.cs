@@ -21,7 +21,7 @@ namespace HospitalSchedule.Models
 
         [Required(ErrorMessage = "Introduza a sua especialidade")]
         [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Nome Inválido")]
-        public string Specialties { get; set; }
+        public string SpecialtiesName { get; set; }
 
         [Required]//1 - Chefe ou 0 - não , deixamos assim para uma futura escalabilidade/outros tipos em que a unica forma de inserção seja aqui
         public int Type { get; set; }
@@ -41,5 +41,9 @@ namespace HospitalSchedule.Models
 
         [Required]
         public ICollection<Schedule> Schedules { get; set; }
+
+        [Required]
+        public ICollection<Specialities> Specialities { get; set; }
+
     }
 }

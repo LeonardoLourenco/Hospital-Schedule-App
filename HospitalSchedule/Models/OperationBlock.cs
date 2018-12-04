@@ -18,8 +18,8 @@ namespace HospitalSchedule.Models
         [Required]
         public string TypeOfShift { get; set; }     //Os tipos de turnos presentes neste bloco M - manha T - Tarde N - Noite
                                                     //Ex M:T:N funciona de manha,tarde e noite                
-        [Required]
-        public ICollection<Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
+        
+        public ICollection<OperationBlock_Shift> Shift_Schedule_OperationBlock { get; set; }
 
     }
 }

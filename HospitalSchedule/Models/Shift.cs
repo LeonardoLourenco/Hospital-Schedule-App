@@ -12,13 +12,19 @@ namespace HospitalSchedule.Models
         [Required]
         public int ShiftId { get; set; }
 
+        [Required]
         public string ShiftName { get; set; } //Manhã,Tarde,Noite
 
-        public DateTime StartingHour { get; set; } //Hora de inicio de cada turno
-
-        public DateTime FinishingHour { get; set; } //Hora de fim de cada turno
+        [Required]
+        public int Hour { get; set; }//Limite : 0 a 23
 
         [Required]
-        public ICollection<Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
+        public int Minutes { get; set; }//Limitie : 0 a 59
+        //Hora de inicio de cada turno. Vai ser criada pelos inteiros Hour e Minutes
+
+        [Required]
+        public int ShiftDuration { get; set; }//Limite: 0 a (limite pela lei)8
+
+        public ICollection<OperationBlock_Shift> OperationBlock_Shifts { get; set; }
     }
 }

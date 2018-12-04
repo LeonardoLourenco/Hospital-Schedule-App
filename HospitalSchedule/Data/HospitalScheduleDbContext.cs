@@ -26,19 +26,19 @@ namespace HospitalSchedule.Models
 
 
             //tabela shift schedule operationblock
-            modelBuilder.Entity<Shift_Schedule_OperationBlock>()
+            modelBuilder.Entity<OperationBlock_Shift>()
                 .HasOne(a => a.Shift)
                 .WithMany(S => S.Shift_Schedule_OperationBlock)
                 .HasForeignKey(a => a.ShiftId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Shift_Schedule_OperationBlock>()
+            modelBuilder.Entity<OperationBlock_Shift>()
                 .HasOne(b => b.Schedule)
                 .WithMany(s => s.Shift_Schedule_OperationBlock)
                 .HasForeignKey(b => b.ScheduleId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Shift_Schedule_OperationBlock>()
+            modelBuilder.Entity<OperationBlock_Shift>()
                 .HasOne(c => c.OperationBlock)
                 .WithMany(s => s.Shift_Schedule_OperationBlock)
                 .HasForeignKey(c => c.OperationBlockId)
@@ -56,6 +56,6 @@ namespace HospitalSchedule.Models
 
         public DbSet<HospitalSchedule.Models.OperationBlock> OperationBlock { get; set; }
 
-        public DbSet<HospitalSchedule.Models.Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
+        public DbSet<HospitalSchedule.Models.OperationBlock_Shift> Shift_Schedule_OperationBlock { get; set; }
     }
 }
