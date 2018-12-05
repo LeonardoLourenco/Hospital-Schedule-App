@@ -20,9 +20,6 @@ namespace HospitalSchedule.Models
         [RegularExpression(@"(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})", ErrorMessage = "Email Inválido")]
         public string Email { get; set; } //Email
 
-        [Required(ErrorMessage = "Introduza a sua especialidade")]
-        [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Nome Inválido")]
-        public string Specialties { get; set; }
 
         [Required]//1 - Chefe ou 0 - não , deixamos assim para uma futura escalabilidade/outros tipos em que a unica forma de inserção seja aqui
         public int Type { get; set; } //Na view apenas aparece um drop list com Enfermeiro ou Enfermeiro Chefe, o valor dos mesmos é 0 ou 1
@@ -42,8 +39,8 @@ namespace HospitalSchedule.Models
 
         public ICollection<Schedule> Schedules { get; set; }
 
-        [Required]
         public Specialty Specialty { get; set; }
+        [Required]
         [ForeignKey("NurseId")]
         public int SpecialtyId { get; set; }
     }

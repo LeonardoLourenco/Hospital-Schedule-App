@@ -47,7 +47,7 @@ namespace HospitalSchedule.Controllers
         // GET: Nurses/Create
         public IActionResult Create()
         {
-            ViewData["SpecialtyId"] = new SelectList(_context.Set<Specialty>(), "SpecialtyId", "Name");
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name");
             return View();
         }
 
@@ -56,7 +56,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NurseId,Name,Email,Specialties,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
+        public async Task<IActionResult> Create([Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace HospitalSchedule.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SpecialtyId"] = new SelectList(_context.Set<Specialty>(), "SpecialtyId", "Name", nurse.SpecialtyId);
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);
             return View(nurse);
         }
 
@@ -81,7 +81,7 @@ namespace HospitalSchedule.Controllers
             {
                 return NotFound();
             }
-            ViewData["SpecialtyId"] = new SelectList(_context.Set<Specialty>(), "SpecialtyId", "Name", nurse.SpecialtyId);
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);
             return View(nurse);
         }
 
@@ -90,7 +90,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Specialties,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
+        public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
             if (id != nurse.NurseId)
             {
@@ -117,7 +117,7 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SpecialtyId"] = new SelectList(_context.Set<Specialty>(), "SpecialtyId", "Name", nurse.SpecialtyId);
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);
             return View(nurse);
         }
 

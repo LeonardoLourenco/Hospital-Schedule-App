@@ -27,10 +27,10 @@ namespace HospitalSchedule.Migrations
                 {
                     RulesId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    WeekHours = table.Column<TimeSpan>(nullable: false),
-                    Age = table.Column<int>(nullable: false),
+                    WeeklyHours = table.Column<int>(nullable: false),
+                    NurseAge = table.Column<int>(nullable: false),
                     ChildAge = table.Column<int>(nullable: false),
-                    InBetweenShiftTime = table.Column<TimeSpan>(nullable: false)
+                    InBetweenShiftTime = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,8 +44,8 @@ namespace HospitalSchedule.Migrations
                     ShiftId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ShiftName = table.Column<string>(nullable: false),
-                    StartingHour = table.Column<TimeSpan>(nullable: false),
-                    Duration = table.Column<TimeSpan>(nullable: false)
+                    StartingHour = table.Column<string>(nullable: false),
+                    Duration = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,7 +99,6 @@ namespace HospitalSchedule.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
-                    Specialties = table.Column<string>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     CellPhoneNumber = table.Column<string>(nullable: false),
                     IDCard = table.Column<string>(nullable: false),

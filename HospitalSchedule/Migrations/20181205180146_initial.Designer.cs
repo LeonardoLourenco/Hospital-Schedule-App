@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181205170806_initial")]
+    [Migration("20181205180146_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,9 +39,6 @@ namespace HospitalSchedule.Migrations
                         .IsRequired();
 
                     b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("Specialties")
                         .IsRequired();
 
                     b.Property<int>("SpecialtyId");
@@ -96,13 +93,14 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Age");
-
                     b.Property<int>("ChildAge");
 
-                    b.Property<TimeSpan>("InBetweenShiftTime");
+                    b.Property<string>("InBetweenShiftTime")
+                        .IsRequired();
 
-                    b.Property<TimeSpan>("WeekHours");
+                    b.Property<int>("NurseAge");
+
+                    b.Property<int>("WeeklyHours");
 
                     b.HasKey("RulesId");
 
@@ -136,12 +134,13 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<TimeSpan>("Duration");
+                    b.Property<int>("Duration");
 
                     b.Property<string>("ShiftName")
                         .IsRequired();
 
-                    b.Property<TimeSpan>("StartingHour");
+                    b.Property<string>("StartingHour")
+                        .IsRequired();
 
                     b.HasKey("ShiftId");
 

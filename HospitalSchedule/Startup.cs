@@ -49,9 +49,6 @@ namespace HospitalSchedule
 
             services.AddDbContext<HospitalScheduleDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("HospitalScheduleDbContext")));
-
-            //services.AddDbContext<HospitalScheduleDbContext>(options =>
-                    //options.UseSqlServer(Configuration.GetConnectionString("HospitalScheduleDbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -39,9 +39,6 @@ namespace HospitalSchedule.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("Specialties")
-                        .IsRequired();
-
                     b.Property<int>("SpecialtyId");
 
                     b.Property<int>("Type");
@@ -94,13 +91,14 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Age");
-
                     b.Property<int>("ChildAge");
 
-                    b.Property<TimeSpan>("InBetweenShiftTime");
+                    b.Property<string>("InBetweenShiftTime")
+                        .IsRequired();
 
-                    b.Property<TimeSpan>("WeekHours");
+                    b.Property<int>("NurseAge");
+
+                    b.Property<int>("WeeklyHours");
 
                     b.HasKey("RulesId");
 
@@ -134,12 +132,13 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<TimeSpan>("Duration");
+                    b.Property<int>("Duration");
 
                     b.Property<string>("ShiftName")
                         .IsRequired();
 
-                    b.Property<TimeSpan>("StartingHour");
+                    b.Property<string>("StartingHour")
+                        .IsRequired();
 
                     b.HasKey("ShiftId");
 
