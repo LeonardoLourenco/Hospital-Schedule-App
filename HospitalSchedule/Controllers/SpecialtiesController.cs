@@ -9,22 +9,22 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    public class OperationBlocksController : Controller
+    public class SpecialtiesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
 
-        public OperationBlocksController(HospitalScheduleDbContext context)
+        public SpecialtiesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
-        // GET: OperationBlocks
+        // GET: Specialties
         public async Task<IActionResult> Index()
         {
-            return View(await _context.OperationBlock.ToListAsync());
+            return View(await _context.Specialty.ToListAsync());
         }
 
-        // GET: OperationBlocks/Details/5
+        // GET: Specialties/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock
-                .FirstOrDefaultAsync(m => m.OperationBlockId == id);
-            if (operationBlock == null)
+            var specialty = await _context.Specialty
+                .FirstOrDefaultAsync(m => m.SpecialtyId == id);
+            if (specialty == null)
             {
                 return NotFound();
             }
 
-            return View(operationBlock);
+            return View(specialty);
         }
 
-        // GET: OperationBlocks/Create
+        // GET: Specialties/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: OperationBlocks/Create
+        // POST: Specialties/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OperationBlockId,BlockName")] OperationBlock operationBlock)
+        public async Task<IActionResult> Create([Bind("SpecialtyId,Name")] Specialty specialty)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(operationBlock);
+                _context.Add(specialty);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(operationBlock);
+            return View(specialty);
         }
 
-        // GET: OperationBlocks/Edit/5
+        // GET: Specialties/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock.FindAsync(id);
-            if (operationBlock == null)
+            var specialty = await _context.Specialty.FindAsync(id);
+            if (specialty == null)
             {
                 return NotFound();
             }
-            return View(operationBlock);
+            return View(specialty);
         }
 
-        // POST: OperationBlocks/Edit/5
+        // POST: Specialties/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OperationBlockId,BlockName")] OperationBlock operationBlock)
+        public async Task<IActionResult> Edit(int id, [Bind("SpecialtyId,Name")] Specialty specialty)
         {
-            if (id != operationBlock.OperationBlockId)
+            if (id != specialty.SpecialtyId)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace HospitalSchedule.Controllers
             {
                 try
                 {
-                    _context.Update(operationBlock);
+                    _context.Update(specialty);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OperationBlockExists(operationBlock.OperationBlockId))
+                    if (!SpecialtyExists(specialty.SpecialtyId))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(operationBlock);
+            return View(specialty);
         }
 
-        // GET: OperationBlocks/Delete/5
+        // GET: Specialties/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var operationBlock = await _context.OperationBlock
-                .FirstOrDefaultAsync(m => m.OperationBlockId == id);
-            if (operationBlock == null)
+            var specialty = await _context.Specialty
+                .FirstOrDefaultAsync(m => m.SpecialtyId == id);
+            if (specialty == null)
             {
                 return NotFound();
             }
 
-            return View(operationBlock);
+            return View(specialty);
         }
 
-        // POST: OperationBlocks/Delete/5
+        // POST: Specialties/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var operationBlock = await _context.OperationBlock.FindAsync(id);
-            _context.OperationBlock.Remove(operationBlock);
+            var specialty = await _context.Specialty.FindAsync(id);
+            _context.Specialty.Remove(specialty);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OperationBlockExists(int id)
+        private bool SpecialtyExists(int id)
         {
-            return _context.OperationBlock.Any(e => e.OperationBlockId == id);
+            return _context.Specialty.Any(e => e.SpecialtyId == id);
         }
     }
 }

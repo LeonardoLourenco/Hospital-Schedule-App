@@ -21,7 +21,7 @@ namespace HospitalSchedule.Controllers
         // GET: Schedules
         public async Task<IActionResult> Index()
         {
-            var hospitalScheduleDbContext = _context.Schedule.Include(s => s.Nurse);
+            var hospitalScheduleDbContext = _context.Schedule.Include(s => s.Nurse).Include(s => s.OperationBlock_Shifts);
             return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace HospitalSchedule.Controllers
 
             var schedule = await _context.Schedule
                 .Include(s => s.Nurse)
+                .Include(s => s.OperationBlock_Shifts)
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
             if (schedule == null)
             {
@@ -47,7 +48,8 @@ namespace HospitalSchedule.Controllers
         // GET: Schedules/Create
         public IActionResult Create()
         {
-            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI");
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CellPhoneNumber");
+            ViewData["OperationBlock_ShiftsId"] = new SelectList(_context.OperationBlock_Shifts, "OperationBlock_ShiftsId", "OperationBlock_ShiftsId");
             return View();
         }
 
@@ -56,7 +58,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleId,Date,NurseId")] Schedule schedule)
+        public async Task<IActionResult> Create([Bind("ScheduleId,Date,NurseId,OperationBlock_ShiftsId")] Schedule schedule)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +66,8 @@ namespace HospitalSchedule.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", schedule.NurseId);
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CellPhoneNumber", schedule.NurseId);
+            ViewData["OperationBlock_ShiftsId"] = new SelectList(_context.OperationBlock_Shifts, "OperationBlock_ShiftsId", "OperationBlock_ShiftsId", schedule.OperationBlock_ShiftsId);
             return View(schedule);
         }
 
@@ -81,7 +84,8 @@ namespace HospitalSchedule.Controllers
             {
                 return NotFound();
             }
-            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", schedule.NurseId);
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CellPhoneNumber", schedule.NurseId);
+            ViewData["OperationBlock_ShiftsId"] = new SelectList(_context.OperationBlock_Shifts, "OperationBlock_ShiftsId", "OperationBlock_ShiftsId", schedule.OperationBlock_ShiftsId);
             return View(schedule);
         }
 
@@ -90,7 +94,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,Date,NurseId")] Schedule schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,Date,NurseId,OperationBlock_ShiftsId")] Schedule schedule)
         {
             if (id != schedule.ScheduleId)
             {
@@ -117,7 +121,8 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CCBI", schedule.NurseId);
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CellPhoneNumber", schedule.NurseId);
+            ViewData["OperationBlock_ShiftsId"] = new SelectList(_context.OperationBlock_Shifts, "OperationBlock_ShiftsId", "OperationBlock_ShiftsId", schedule.OperationBlock_ShiftsId);
             return View(schedule);
         }
 
@@ -131,6 +136,7 @@ namespace HospitalSchedule.Controllers
 
             var schedule = await _context.Schedule
                 .Include(s => s.Nurse)
+                .Include(s => s.OperationBlock_Shifts)
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
             if (schedule == null)
             {

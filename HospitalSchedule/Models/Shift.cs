@@ -12,13 +12,15 @@ namespace HospitalSchedule.Models
         [Required]
         public int ShiftId { get; set; }
 
+        [Required]
         public string ShiftName { get; set; } //Manhã,Tarde,Noite
 
-        public DateTime StartingHour { get; set; } //Hora de inicio de cada turno
-
-        public DateTime FinishingHour { get; set; } //Hora de fim de cada turno
+        [Required]
+        public TimeSpan StartingHour { get; set; } //Hora de inicio do turno
 
         [Required]
-        public ICollection<Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
+        public TimeSpan Duration { get; set; } //Duração do turno
+
+        public ICollection<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }
     }
 }

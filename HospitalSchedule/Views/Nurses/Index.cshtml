@@ -28,13 +28,16 @@
                 @Html.DisplayNameFor(model => model.CellPhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CCBI)
+                @Html.DisplayNameFor(model => model.IDCard)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BirthDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.YoungestChildBirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Specialty)
             </th>
             <th></th>
         </tr>
@@ -58,13 +61,16 @@
                 @Html.DisplayFor(modelItem => item.CellPhoneNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CCBI)
+                @Html.DisplayFor(modelItem => item.IDCard)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BirthDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.YoungestChildBirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specialty.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.NurseId">Edit</a> |

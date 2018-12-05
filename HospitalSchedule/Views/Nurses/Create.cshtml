@@ -38,9 +38,9 @@
                 <span asp-validation-for="CellPhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CCBI" class="control-label"></label>
-                <input asp-for="CCBI" class="form-control" />
-                <span asp-validation-for="CCBI" class="text-danger"></span>
+                <label asp-for="IDCard" class="control-label"></label>
+                <input asp-for="IDCard" class="form-control" />
+                <span asp-validation-for="IDCard" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BirthDate" class="control-label"></label>
@@ -51,6 +51,10 @@
                 <label asp-for="YoungestChildBirthDate" class="control-label"></label>
                 <input asp-for="YoungestChildBirthDate" class="form-control" />
                 <span asp-validation-for="YoungestChildBirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialtyId" class="control-label"></label>
+                <select asp-for="SpecialtyId" class ="form-control" asp-items="ViewBag.SpecialtyId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

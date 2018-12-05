@@ -11,8 +11,19 @@ namespace HospitalSchedule.Models
         [Required]
         public int RulesId { get; set; }
 
+        [Required]
+        public TimeSpan WeekHours { get; set; } //Numero de Horas Semanais
+
+        [Required]
+        public int Age { get; set; } //Qual a Idade do enfermeiro para fazer n turnos noturnos
+
+        [Required]
+        public int ChildAge { get; set; } //Qual a Idade do filho mais novo para fazer n turnos noturnos
+
+        [Required]
+        public TimeSpan InBetweenShiftTime { get; set; } //Qual a o tempo entre turnos
         //Regras para o algoritmo vão aqui
-        //Exemplo (Data_Actual - Nurse.Birthdate) > 60 ENTÃO não faz Noites
-        //Exemplo (Data_Actual - Nurse.YoungestBirthdate) > 18 ENTÃO não faz Noites
+        //Exemplo (Data_Actual - Nurse.Birthdate) > Age ENTÃO não faz Noites
+        //Exemplo (Data_Actual - Nurse.YoungestBirthdate) > ChildAge ENTÃO não faz Noites
     }
 }
