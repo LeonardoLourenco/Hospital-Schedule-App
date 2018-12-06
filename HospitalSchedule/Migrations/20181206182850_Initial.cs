@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HospitalSchedule.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,7 +45,7 @@ namespace HospitalSchedule.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ShiftName = table.Column<string>(nullable: false),
                     StartingHour = table.Column<string>(nullable: false),
-                    Duration = table.Column<int>(nullable: false)
+                    Duration = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

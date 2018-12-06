@@ -12,7 +12,7 @@ namespace HospitalSchedule.Models
         [Required]
         public int OperationBlockId { get; set; }            //Block Id
 
-        [Required]
+        [Required(ErrorMessage ="Please insert the name of the Block")]
         public string BlockName { get; set; }       //Nome do bloco       também é aqui que é indicado se é de prevenção ou não                  
 
         public ICollection<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }

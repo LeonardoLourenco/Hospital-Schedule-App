@@ -132,7 +132,8 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Duration");
+                    b.Property<string>("Duration")
+                        .IsRequired();
 
                     b.Property<string>("ShiftName")
                         .IsRequired();
