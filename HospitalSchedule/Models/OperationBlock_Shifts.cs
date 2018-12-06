@@ -7,19 +7,13 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class Shift_Schedule_OperationBlock
+    public class OperationBlock_Shifts
     {
-        //chave primária
         [Required]
-        public int Shift_Schedule_OperationBlockId { get; set; }
-
-        public DateTime ShiftDate { get; set; } //Datas dos turnos
+        public int OperationBlock_ShiftsId { get; set; }
 
         //chave estrangueira do horário
-        [Required]
-        public Schedule Schedule { get; set; }
-        [ForeignKey("ScheduleId")]
-        public int ScheduleId { get; set; }
+        public ICollection<Schedule> Schedules { get; set; }
 
         //chave estrangueira do turno
         [Required]

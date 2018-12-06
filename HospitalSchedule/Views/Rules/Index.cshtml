@@ -12,12 +12,36 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.WeeklyHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NurseAge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChildAge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InBetweenShiftTime)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeeklyHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NurseAge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChildAge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InBetweenShiftTime)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RulesId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.RulesId">Details</a> |

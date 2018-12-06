@@ -53,7 +53,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RulesId")] Rules rules)
+        public async Task<IActionResult> Create([Bind("RulesId,WeeklyHours,NurseAge,ChildAge,InBetweenShiftTime")] Rules rules)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RulesId")] Rules rules)
+        public async Task<IActionResult> Edit(int id, [Bind("RulesId,WeeklyHours,NurseAge,ChildAge,InBetweenShiftTime")] Rules rules)
         {
             if (id != rules.RulesId)
             {

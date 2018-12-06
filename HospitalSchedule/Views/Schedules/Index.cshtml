@@ -18,6 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nurse)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperationBlock_Shifts)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -28,7 +31,10 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nurse.CCBI)
+                @Html.DisplayFor(modelItem => item.Nurse.CellPhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperationBlock_Shifts.OperationBlock_ShiftsId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ScheduleId">Edit</a> |

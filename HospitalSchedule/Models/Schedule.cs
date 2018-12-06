@@ -25,6 +25,8 @@ namespace HospitalSchedule.Models
         public int NurseId { get; set; }
 
         [Required]
-        public ICollection<Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
+        public OperationBlock_Shifts OperationBlock_Shifts { get; set; }
+        [ForeignKey("OperationBlock_ShiftsId")]
+        public int OperationBlock_ShiftsId { get; set; }
     }
 }

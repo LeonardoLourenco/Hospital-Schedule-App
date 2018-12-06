@@ -21,28 +21,8 @@ namespace HospitalSchedule.Controllers
         // GET: Nurses
         public async Task<IActionResult> Index(NursesViewModelClass model = null,int page=1)
         {
-            
-            int numNurses = await _context.Nurse.CountAsync();
-
-            var Nurse = await
-                _context.Nurse
-                    .OrderBy(p => p.Name)
-                    .Skip(PageSize * (page - 1))
-                    .Take(PageSize)
-                    .ToListAsync();
-
-            return View(
-                new NursesViewModelClass
-                {
-                    Nurses = Nurse,
-                    PagingInfo = new PagingInfo
-                    {
-                        CurrentPage = page,
-                        ItemsPerPage = PageSize,
-                        TotalItems = numNurses
-                    }
-                }
-            );
+            var hospitalScheduleDbContext = _context.Nurse.Include(n => n.Specialty);
+            return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
         [HttpPost]
@@ -67,6 +47,7 @@ namespace HospitalSchedule.Controllers
             }
 
             var nurse = await _context.Nurse
+                .Include(n => n.Specialty)
                 .FirstOrDefaultAsync(m => m.NurseId == id);
             if (nurse == null)
             {
@@ -79,6 +60,7 @@ namespace HospitalSchedule.Controllers
         // GET: Nurses/Create
         public IActionResult Create()
         {
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name");
             return View();
         }
 
@@ -87,7 +69,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NurseId,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
+        public async Task<IActionResult> Create([Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +77,7 @@ namespace HospitalSchedule.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);
             return View(nurse);
         }
 
@@ -111,6 +94,7 @@ namespace HospitalSchedule.Controllers
             {
                 return NotFound();
             }
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);
             return View(nurse);
         }
 
@@ -119,7 +103,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
+        public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
             if (id != nurse.NurseId)
             {
@@ -146,6 +130,7 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);
             return View(nurse);
         }
 
@@ -158,6 +143,7 @@ namespace HospitalSchedule.Controllers
             }
 
             var nurse = await _context.Nurse
+                .Include(n => n.Specialty)
                 .FirstOrDefaultAsync(m => m.NurseId == id);
             if (nurse == null)
             {
