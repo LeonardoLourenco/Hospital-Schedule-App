@@ -1,17 +1,19 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Nurse>
+﻿@model NursesViewModelClass
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2> Nurse List</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
+
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -19,22 +21,26 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Specialties)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CellPhoneNumber)
+
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.IDCard)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CCBI)
+                Type
+                @*@Html.DisplayNameFor(model => model.Type)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                CellPhoneNumber
+                @*@Html.DisplayNameFor(model => model.CellPhoneNumber)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.YoungestChildBirthDate)
+                @Html.DisplayNameFor(model => model.Specialty)
             </th>
             <th></th>
         </tr>
@@ -49,22 +55,22 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Specialties)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CellPhoneNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CCBI)
+                @Html.DisplayFor(modelItem => item.IDCard)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BirthDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.YoungestChildBirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specialty.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.NurseId">Edit</a> |
@@ -75,3 +81,42 @@
 }
     </tbody>
 </table>
+
+@*//de 1 ate total de paginas da paginaçao incrementa,se a pagina actual for igual ao i entao vamos
+// escrever o valor de i em span para criar a numeraçao das paginas mas sem link,
+//senão cria cria um linkcom o numero da pagina para a que tem valor i*@
+
+@if (Model.PagingInfo.CurrentPage > 1)
+{
+    <a href="@Url.Action("Index", "Trilhos", new { @page = (Model.PagingInfo.CurrentPage > 1) ? Model.PagingInfo.CurrentPage-1 : Model.PagingInfo.CurrentPage })"><span class="icon-next"></span></a>
+    <span>&nbsp;</span>
+}
+
+@for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+{
+    if (i == Model.PagingInfo.CurrentPage)
+    {
+        <span>@i.ToString()</span>
+        <span>&nbsp;&nbsp;</span>
+    }
+    else if (i != Model.PagingInfo.CurrentPage && i <= Model.PagingInfo.CurrentPage + 1 && i >= Model.PagingInfo.CurrentPage - 1 && Model.PagingInfo.CurrentPage != 1)
+    {
+        @Html.ActionLink(i.ToString(), "Index", "Nurses", new { @page = i })
+        <span>&nbsp;</span>
+    }
+    else if (Model.PagingInfo.CurrentPage == 1 || Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+    {
+        @Html.ActionLink(i.ToString(), "Index", "Nurses", new { @page = i })
+        <span>&nbsp;</span>
+    }
+}
+
+@if (Model.PagingInfo.CurrentPage < Model.PagingInfo.TotalPages)
+{
+    <a href="@Url.Action("Index", "Nurses", new { @page = (Model.PagingInfo.CurrentPage < Model.PagingInfo.TotalPages) ? Model.PagingInfo.CurrentPage + 1 : Model.PagingInfo.CurrentPage })"><span class="icon-prev"></span></a>
+    <span>&nbsp;&nbsp;</span>
+}
+
+
+
+

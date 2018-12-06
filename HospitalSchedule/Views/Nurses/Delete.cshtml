@@ -24,12 +24,6 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Specialties)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Specialties)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Type)
         </dt>
         <dd>
@@ -42,10 +36,10 @@
             @Html.DisplayFor(model => model.CellPhoneNumber)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.CCBI)
+            @Html.DisplayNameFor(model => model.IDCard)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.CCBI)
+            @Html.DisplayFor(model => model.IDCard)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.BirthDate)
@@ -58,6 +52,12 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.YoungestChildBirthDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Specialty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Specialty.Name)
         </dd>
     </dl>
     

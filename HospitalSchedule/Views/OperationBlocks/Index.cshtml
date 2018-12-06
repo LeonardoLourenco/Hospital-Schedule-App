@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Blocks List</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -15,9 +15,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.BlockName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TypeOfShift)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -26,9 +23,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.BlockName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TypeOfShift)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OperationBlockId">Edit</a> |

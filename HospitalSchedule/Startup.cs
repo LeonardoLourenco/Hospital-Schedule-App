@@ -12,10 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+
 using HospitalSchedule.Models;
-using HospitalSchedule.Data;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace HospitalSchedule
 {
@@ -77,6 +76,7 @@ namespace HospitalSchedule
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            SeedData.Populate(app.ApplicationServices);
         }
     }
 }

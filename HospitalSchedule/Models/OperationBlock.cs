@@ -13,13 +13,9 @@ namespace HospitalSchedule.Models
         public int OperationBlockId { get; set; }            //Block Id
 
         [Required]
-        public string BlockName { get; set; }       //Nome do bloco       também é aqui que é indicado se é de prevenção ou não             
+        public string BlockName { get; set; }       //Nome do bloco       também é aqui que é indicado se é de prevenção ou não                  
 
-        [Required]
-        public string TypeOfShift { get; set; }     //Os tipos de turnos presentes neste bloco M - manha T - Tarde N - Noite
-                                                    //Ex M:T:N funciona de manha,tarde e noite                
-        
-        public ICollection<OperationBlock_Shift> Shift_Schedule_OperationBlock { get; set; }
+        public ICollection<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }
 
     }
 }

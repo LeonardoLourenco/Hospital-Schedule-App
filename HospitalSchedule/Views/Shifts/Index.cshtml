@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Shift List</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.StartingHour)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FinishingHour)
+                @Html.DisplayNameFor(model => model.Duration)
             </th>
             <th></th>
         </tr>
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.StartingHour)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FinishingHour)
+                @Html.DisplayFor(modelItem => item.Duration)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ShiftId">Edit</a> |
