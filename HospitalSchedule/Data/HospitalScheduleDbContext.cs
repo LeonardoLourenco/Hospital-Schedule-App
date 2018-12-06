@@ -20,15 +20,15 @@ namespace HospitalSchedule.Models
             //modelBuilder.Entity<OperationBlock_Shifts>().HasKey(o => new { o.OperationBlockId, o.ShiftId }); //indica a chave
 
             // one to many relarionship OperationBlock_Shifts
-            modelBuilder.Entity<OperationBlock_Shifts>()  //indica como é feita a relação
+            modelBuilder.Entity<OperationBlock_Shift>()  //indica como é feita a relação
                 .HasOne(bc => bc.OperationBlock)
-                .WithMany(b => b.OperationBlock_Shifts)
+                .WithMany(b => b.OperationBlock_Shift)
                 .HasForeignKey(bc => bc.OperationBlockId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<OperationBlock_Shifts>()
+            modelBuilder.Entity<OperationBlock_Shift>()
                 .HasOne(bc => bc.Shift)
-                .WithMany(c => c.OperationBlock_Shifts)
+                .WithMany(c => c.OperationBlock_Shift)
                 .HasForeignKey(bc => bc.ShiftId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
             // one to many relarionship Schedule
@@ -40,7 +40,7 @@ namespace HospitalSchedule.Models
 
             modelBuilder.Entity<Schedule>()
                 .HasOne(bc => bc.OperationBlock_Shifts)
-                .WithMany(c => c.Schedules)
+                .WithMany(c => c.Schedule)
                 .HasForeignKey(bc => bc.OperationBlock_ShiftsId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
             // one to many relarionship Nurse
@@ -49,7 +49,7 @@ namespace HospitalSchedule.Models
                 .WithMany(c => c.Nurses)
                 .HasForeignKey(bc => bc.SpecialtyId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-
+                
             base.OnModelCreating(modelBuilder);
         }
 
@@ -59,7 +59,7 @@ namespace HospitalSchedule.Models
 
         public DbSet<HospitalSchedule.Models.Shift> Shift { get; set; }
 
-        public DbSet<HospitalSchedule.Models.OperationBlock_Shifts> OperationBlock_Shifts { get; set; }
+        public DbSet<HospitalSchedule.Models.OperationBlock_Shift> OperationBlock_Shifts { get; set; }
 
         public DbSet<HospitalSchedule.Models.Rules> Rules { get; set; }
 

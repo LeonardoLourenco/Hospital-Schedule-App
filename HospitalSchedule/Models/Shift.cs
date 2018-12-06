@@ -21,6 +21,6 @@ namespace HospitalSchedule.Models
         [Required]
         public int Duration { get; set; } //Duração do turno
 
-        public ICollection<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }
+        public ICollection<OperationBlock_Shift> OperationBlock_Shifts { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace HospitalSchedule.Models
         [Required]
         public string BlockName { get; set; }       //Nome do bloco       também é aqui que é indicado se é de prevenção ou não                  
 
-        public ICollection<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }
+        public ICollection<OperationBlock_Shift> OperationBlock_Shifts { get; set; }
 
     }
 }
