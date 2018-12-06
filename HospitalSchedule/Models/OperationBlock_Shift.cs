@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class OperationBlock_Shifts
+    public class OperationBlock_Shift
     {
         [Required]
         public int OperationBlock_ShiftsId { get; set; }
