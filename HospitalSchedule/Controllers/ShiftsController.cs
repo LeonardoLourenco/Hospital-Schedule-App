@@ -9,6 +9,7 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
+    [RequireHttps]
     public class ShiftsController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
@@ -48,12 +49,14 @@ namespace HospitalSchedule.Controllers
             return View();
         }
 
+      
+
         // POST: Shifts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ShiftId,ShiftName,StartingHour,FinishingHour")] Shift shift)
+        public async Task<IActionResult> Create([Bind("ShiftId,ShiftName,StartingHour,Duration")] Shift shift)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +88,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ShiftId,ShiftName,StartingHour,FinishingHour")] Shift shift)
+        public async Task<IActionResult> Edit(int id, [Bind("ShiftId,ShiftName,StartingHour,Duration")] Shift shift)
         {
             if (id != shift.ShiftId)
             {

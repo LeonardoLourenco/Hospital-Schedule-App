@@ -9,6 +9,7 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
+    [RequireHttps]
     public class OperationBlocksController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
@@ -53,7 +54,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OperationBlockId,BlockName,TypeOfShift")] OperationBlock operationBlock)
+        public async Task<IActionResult> Create([Bind("OperationBlockId,BlockName")] OperationBlock operationBlock)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OperationBlockId,BlockName,TypeOfShift")] OperationBlock operationBlock)
+        public async Task<IActionResult> Edit(int id, [Bind("OperationBlockId,BlockName")] OperationBlock operationBlock)
         {
             if (id != operationBlock.OperationBlockId)
             {

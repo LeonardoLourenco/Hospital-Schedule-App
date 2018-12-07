@@ -14,48 +14,57 @@ namespace HospitalSchedule.Models
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)  //
         {
-            //Tabela Schedule
+            //Composed primary key
+            //modelBuilder.Entity<OperationBlock_Shifts>().HasKey(o => new { o.OperationBlockId, o.ShiftId }); //indica a chave
+
+            // one to many relarionship OperationBlock_Shifts
+            modelBuilder.Entity<OperationBlock_Shift>()  //indica como é feita a relação
+                .HasOne(bc => bc.OperationBlock)
+                .WithMany(b => b.OperationBlock_Shift)
+                .HasForeignKey(bc => bc.OperationBlockId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<OperationBlock_Shift>()
+                .HasOne(bc => bc.Shift)
+                .WithMany(c => c.OperationBlock_Shift)
+                .HasForeignKey(bc => bc.ShiftId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+            // one to many relarionship Schedule
             modelBuilder.Entity<Schedule>()
-                .HasOne(a => a.Nurse)
-                .WithMany(S => S.Schedules)
-                .HasForeignKey(a => a.NurseId)
+                .HasOne(bc => bc.Nurse)
+                .WithMany(c => c.Schedules)
+                .HasForeignKey(bc => bc.NurseId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-
-
-            //tabela shift schedule operationblock
-            modelBuilder.Entity<Shift_Schedule_OperationBlock>()
-                .HasOne(a => a.Shift)
-                .WithMany(S => S.Shift_Schedule_OperationBlock)
-                .HasForeignKey(a => a.ShiftId)
+            modelBuilder.Entity<Schedule>()
+                .HasOne(bc => bc.OperationBlock_Shifts)
+                .WithMany(c => c.Schedule)
+                .HasForeignKey(bc => bc.OperationBlock_ShiftsId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<Shift_Schedule_OperationBlock>()
-                .HasOne(b => b.Schedule)
-                .WithMany(s => s.Shift_Schedule_OperationBlock)
-                .HasForeignKey(b => b.ScheduleId)
+            // one to many relarionship Nurse
+            modelBuilder.Entity<Nurse>()
+                .HasOne(bc => bc.Specialty)
+                .WithMany(c => c.Nurses)
+                .HasForeignKey(bc => bc.SpecialtyId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<Shift_Schedule_OperationBlock>()
-                .HasOne(c => c.OperationBlock)
-                .WithMany(s => s.Shift_Schedule_OperationBlock)
-                .HasForeignKey(c => c.OperationBlockId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-
+                
+            base.OnModelCreating(modelBuilder);
         }
+
         public DbSet<HospitalSchedule.Models.Nurse> Nurse { get; set; }
-
-        public DbSet<HospitalSchedule.Models.Rules> Rules { get; set; }
-
-        public DbSet<HospitalSchedule.Models.Shift> Shift { get; set; }
-
-        public DbSet<HospitalSchedule.Models.Schedule> Schedule { get; set; }
 
         public DbSet<HospitalSchedule.Models.OperationBlock> OperationBlock { get; set; }
 
-        public DbSet<HospitalSchedule.Models.Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
+        public DbSet<HospitalSchedule.Models.Shift> Shift { get; set; }
+
+        public DbSet<HospitalSchedule.Models.OperationBlock_Shift> OperationBlock_Shifts { get; set; }
+
+        public DbSet<HospitalSchedule.Models.Rules> Rules { get; set; }
+
+        public DbSet<HospitalSchedule.Models.Specialty> Specialty { get; set; }
+
+        public DbSet<HospitalSchedule.Models.Schedule> Schedule { get; set; }
     }
 }

@@ -9,22 +9,22 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
-    public class RulesController : Controller
+    public class SpecialtiesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
 
-        public RulesController(HospitalScheduleDbContext context)
+        public SpecialtiesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
-        // GET: Rules
+        // GET: Specialties
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Rules.ToListAsync());
+            return View(await _context.Specialty.ToListAsync());
         }
 
-        // GET: Rules/Details/5
+        // GET: Specialties/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var rules = await _context.Rules
-                .FirstOrDefaultAsync(m => m.RulesId == id);
-            if (rules == null)
+            var specialty = await _context.Specialty
+                .FirstOrDefaultAsync(m => m.SpecialtyId == id);
+            if (specialty == null)
             {
                 return NotFound();
             }
 
-            return View(rules);
+            return View(specialty);
         }
 
-        // GET: Rules/Create
+        // GET: Specialties/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Rules/Create
+        // POST: Specialties/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RulesId,WeeklyHours,NurseAge,ChildAge,InBetweenShiftTime")] Rules rules)
+        public async Task<IActionResult> Create([Bind("SpecialtyId,Name")] Specialty specialty)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rules);
+                _context.Add(specialty);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(rules);
+            return View(specialty);
         }
 
-        // GET: Rules/Edit/5
+        // GET: Specialties/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var rules = await _context.Rules.FindAsync(id);
-            if (rules == null)
+            var specialty = await _context.Specialty.FindAsync(id);
+            if (specialty == null)
             {
                 return NotFound();
             }
-            return View(rules);
+            return View(specialty);
         }
 
-        // POST: Rules/Edit/5
+        // POST: Specialties/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RulesId,WeeklyHours,NurseAge,ChildAge,InBetweenShiftTime")] Rules rules)
+        public async Task<IActionResult> Edit(int id, [Bind("SpecialtyId,Name")] Specialty specialty)
         {
-            if (id != rules.RulesId)
+            if (id != specialty.SpecialtyId)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace HospitalSchedule.Controllers
             {
                 try
                 {
-                    _context.Update(rules);
+                    _context.Update(specialty);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RulesExists(rules.RulesId))
+                    if (!SpecialtyExists(specialty.SpecialtyId))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(rules);
+            return View(specialty);
         }
 
-        // GET: Rules/Delete/5
+        // GET: Specialties/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var rules = await _context.Rules
-                .FirstOrDefaultAsync(m => m.RulesId == id);
-            if (rules == null)
+            var specialty = await _context.Specialty
+                .FirstOrDefaultAsync(m => m.SpecialtyId == id);
+            if (specialty == null)
             {
                 return NotFound();
             }
 
-            return View(rules);
+            return View(specialty);
         }
 
-        // POST: Rules/Delete/5
+        // POST: Specialties/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rules = await _context.Rules.FindAsync(id);
-            _context.Rules.Remove(rules);
+            var specialty = await _context.Specialty.FindAsync(id);
+            _context.Specialty.Remove(specialty);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RulesExists(int id)
+        private bool SpecialtyExists(int id)
         {
-            return _context.Rules.Any(e => e.RulesId == id);
+            return _context.Specialty.Any(e => e.SpecialtyId == id);
         }
     }
 }

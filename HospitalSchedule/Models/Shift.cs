@@ -12,13 +12,17 @@ namespace HospitalSchedule.Models
         [Required]
         public int ShiftId { get; set; }
 
+        [Required(ErrorMessage = "Please insert the name of the shift")]
         public string ShiftName { get; set; } //Manhã,Tarde,Noite
 
-        public DateTime StartingHour { get; set; } //Hora de inicio de cada turno
+        [Required(ErrorMessage = "Please insert the hour in which the shift starts")]
+        [RegularExpression(@"([0-9]{2})+:+([0-9]{2})", ErrorMessage = "Please insert the hour in which the shift starts in the format 00:00")]
+        public string StartingHour { get; set; } //Hora de inicio do turno
 
-        public DateTime FinishingHour { get; set; } //Hora de fim de cada turno
+        [Required(ErrorMessage = "Please insert duration of the shift")]
+        [RegularExpression(@"([0-9]{2})+:+([0-9]{2})", ErrorMessage = "Please insert duration of the shift in the format 00:00")]
+        public string Duration { get; set; } //Duração do turno
 
-        [Required]
-        public ICollection<Shift_Schedule_OperationBlock> Shift_Schedule_OperationBlock { get; set; }
+        public ICollection<OperationBlock_Shift> OperationBlock_Shifts { get; set; }
     }
 }
