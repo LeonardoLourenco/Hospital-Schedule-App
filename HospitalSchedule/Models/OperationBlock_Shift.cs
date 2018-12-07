@@ -16,15 +16,13 @@ namespace HospitalSchedule.Models
         public ICollection<Schedule> Schedules { get; set; }
 
         //chave estrangueira do turno
-        [Required(ErrorMessage = "Please select a shift that you want the Block to have")]
         public Shift Shift { get; set; }
-        [ForeignKey("ShiftId")]
+        [Required(ErrorMessage = "Please select a shift that you want the Block to have")]
         public int ShiftId { get; set; }
 
         //chave estrangueira do bloco
-        [Required(ErrorMessage = "Please select an Operation Block")]
         public OperationBlock OperationBlock { get; set; }
-        [ForeignKey("OperationBlockId")]
+        [Required(ErrorMessage = "Please select an Operation Block")]
         public int OperationBlockId { get; set; }
     }
 }
