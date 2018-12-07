@@ -19,9 +19,9 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: Nurses
-        public async Task<IActionResult> Index(NursesViewModelClass model = null,int page=1)
+        public async Task<IActionResult> Index(NursesViewModelClass model = null, int page = 1)
         {
-            
+
             int numNurses = await _context.Nurse.CountAsync();
 
             var Nurse = await
@@ -44,6 +44,8 @@ namespace HospitalSchedule.Controllers
                 }
             );
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Index(string search)
@@ -89,14 +91,22 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("NurseId,Name,Email,Specialties,Type,CellPhoneNumber,CCBI,BirthDate,YoungestChildBirthDate")] Nurse nurse)
         {
-            if (ModelState.IsValid)
+
+            if (!DigitoDeControlo(nurse.CCBI))
             {
+                return View(nurse);
+            }
+
+            if (ModelState.IsValid)
+            {             
                 _context.Add(nurse);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
             return View(nurse);
         }
+
 
         // GET: Nurses/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -128,6 +138,9 @@ namespace HospitalSchedule.Controllers
 
             if (ModelState.IsValid)
             {
+                DigitoDeControlo(nurse.CCBI);
+
+
                 try
                 {
                     _context.Update(nurse);
@@ -182,5 +195,87 @@ namespace HospitalSchedule.Controllers
         {
             return _context.Nurse.Any(e => e.NurseId == id);
         }
+
+
+
+// Efectuando uma contagem da direita para a esquerda do número de BI,
+//duplicar o valor de cada 2º elemento, sendo que as letras deverão ser substituídas de
+//acordo com a tabela de conversão presente neste documento;
+
+        
+        public bool DigitoDeControlo(string numero)
+        {
+           
+            int sum = 0;
+            bool secondDigit = false;
+            if (numero.Length != 12)
+                throw new ArgumentException("Tamanho inválido");
+
+            for (int i = numero.Length - 1; i >= 0; --i)
+            {
+                string upper = numero.ToUpper();
+                int valor = GetNumberFromChar(upper[i]);
+                if (secondDigit)
+                {
+                    valor *= 2;
+                    //No caso do resultado da duplicação ser igual ou superior a 10,
+                    //subtrair 9 ao seu valor;
+                    if (valor > 9)
+                        valor -= 9;
+                }
+                //Somar a totalidade dos valores obtidos;
+                sum += valor;
+                secondDigit = !secondDigit;
+            }
+//            Ao valor obtido, deve - se calcular o resto da sua divisão por 10, sendo que se esse
+//              valor for 0 o número de documento é válido.
+            return (sum % 10) == 0;
+        }
+        public int GetNumberFromChar(char letter)
+        {
+            switch (letter)
+            {
+                case '0': return 0;
+                case '1': return 1;
+                case '2': return 2;
+                case '3': return 3;
+                case '4': return 4;
+                case '5': return 5;
+                case '6': return 6;
+                case '7': return 7;
+                case '8': return 8;
+                case '9': return 9;
+                case 'A': return 10;
+                case 'B': return 11;
+                case 'C': return 12;
+                case 'D': return 13;
+                case 'E': return 14;
+                case 'F': return 15;
+                case 'G': return 16;
+                case 'H': return 17;
+                case 'I': return 18;
+                case 'J': return 19;
+                case 'K': return 20;
+                case 'L': return 21;
+                case 'M': return 22;
+                case 'N': return 23;
+                case 'O': return 24;
+                case 'P': return 25;
+                case 'Q': return 26;
+                case 'R': return 27;
+                case 'S': return 28;
+                case 'T': return 29;
+                case 'U': return 30;
+                case 'V': return 31;
+                case 'W': return 32;
+                case 'X': return 33;
+                case 'Y': return 34;
+                case 'Z': return 35;
+            }
+            throw new ArgumentException("Valor inválido no número de documento.");
+        }
+
+
+
     }
 }

@@ -26,20 +26,20 @@ namespace HospitalSchedule.Models
         [Required]//1 - Chefe ou 0 - não , deixamos assim para uma futura escalabilidade/outros tipos em que a unica forma de inserção seja aqui
         public int Type { get; set; }
 
-        [RegularExpression(@"(2\d{8})|(9[1236]\d{7})", ErrorMessage = "Contacto Inválido")]
-        [Required(ErrorMessage = "Por favor indroduza o numero de telefone")]
+        [RegularExpression(@"(2\d{8})|(9[1236]\d{7})", ErrorMessage = "Invalid contact")]
+        [Required(ErrorMessage = "Please insert the corret number phone")]
         public string CellPhoneNumber { get; set; } //Número de telemovel
         
-        [RegularExpression(@"([0-9]{8})", ErrorMessage = "CC/BI Inválido")]
+        [RegularExpression(@"(([0-9]{8}[A-Z0-9]{4}))", ErrorMessage = "Insert the identification")]
         [Required]
         public string CCBI { get; set; } //Cartão de Cidadão/Bilhete de Identidade (CC/BI)
 
         [Required]
         public DateTime BirthDate { get; set; } //Data de Nascimento
 
-        public DateTime YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
+        public DateTime? YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
 
-        [Required]
+        
         public ICollection<Schedule> Schedules { get; set; }
     }
 }
