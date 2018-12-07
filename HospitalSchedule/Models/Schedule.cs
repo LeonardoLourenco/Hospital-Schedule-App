@@ -24,8 +24,6 @@ namespace HospitalSchedule.Models
         [Required]
         public int NurseId { get; set; }
 
-
-        
         public OperationBlock_Shifts OperationBlock_Shifts { get; set; }
         [Required]
         public int OperationBlock_ShiftsId { get; set; }
