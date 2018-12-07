@@ -40,8 +40,7 @@ namespace HospitalSchedule.Models
         public ICollection<Schedule> Schedules { get; set; }
 
         public Specialty Specialty { get; set; }
-        [Required]
-        [ForeignKey("NurseId")]
+        [Required(ErrorMessage = "Please introduce a specialty")]
         public int SpecialtyId { get; set; }
     }
 }

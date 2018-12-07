@@ -19,14 +19,12 @@ namespace HospitalSchedule.Models
         //Nome do enfermerio,Nome do Bloco operatin Ex: Maternidade Prevençao e Tipo de turno, M,T ou N
         //São buscados através das chaves estrangeiras
 
-        [Required(ErrorMessage ="Please insert a nurse")]
         public Nurse Nurse { get; set; }
-        [ForeignKey("NurseId")]
+        [Required]
         public int NurseId { get; set; }
 
-        [Required(ErrorMessage ="Please insert a shift belonging to a block")]
-        public OperationBlock_Shift OperationBlock_Shifts { get; set; }
-        [ForeignKey("OperationBlock_ShiftsId")]
+        public OperationBlock_Shifts OperationBlock_Shifts { get; set; }
+        [Required]
         public int OperationBlock_ShiftsId { get; set; }
     }
 }

@@ -13,32 +13,19 @@ namespace HospitalSchedule.Controllers
     public class NursesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
-        public int PageSize = 3;
+
         public NursesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
         // GET: Nurses
-        public async Task<IActionResult> Index(NursesViewModelClass model = null,int page=1)
+        public async Task<IActionResult> Index()
         {
             var hospitalScheduleDbContext = _context.Nurse.Include(n => n.Specialty);
             return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(string search)
-        {
-            //se nao tiver nada na pesquisa retorna a view anterior
-            if (String.IsNullOrEmpty(search))
-            {
-                ViewData["Searched"] = false;
-                return View(await _context.Nurse.ToListAsync());
-            }
-            //se nao devolve a pesquisa
-            ViewData["Searched"] = true;
-            return View(await _context.Nurse.Where(nurse => nurse.Name.ToLower().Contains(search.ToLower())).ToListAsync());
-        }
         // GET: Nurses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
