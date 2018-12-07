@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Nurse>
+﻿@model NursesView
 
 @{
     ViewData["Title"] = "Index";
@@ -13,65 +13,81 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
+                @*@Html.DisplayNameFor(model => model.Name)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
+                @*@Html.DisplayNameFor(model => model.Email)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                Type
+                @*@Html.DisplayNameFor(model => model.Type)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CellPhoneNumber)
+                CellPhoneNumber
+                @*@Html.DisplayNameFor(model => model.CellPhoneNumber)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IDCard)
+                IDCard
+                @*@Html.DisplayNameFor(model => model.IDCard)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                BirthDate
+                @*@Html.DisplayNameFor(model => model.BirthDate)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.YoungestChildBirthDate)
+                YoungestChildBirthDate
+                @*@Html.DisplayNameFor(model => model.YoungestChildBirthDate)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Specialty)
+                Specialty
+                @*@Html.DisplayNameFor(model => model.Specialty)*@
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CellPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IDCard)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.YoungestChildBirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Specialty.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.NurseId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NurseId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NurseId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Nurses)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CellPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IDCard)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YoungestChildBirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Specialty.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.NurseId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.NurseId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.NurseId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
+
 </table>
+
+<div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
+
+</div>
+
+

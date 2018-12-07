@@ -13,18 +13,38 @@ namespace HospitalSchedule.Controllers
     public class NursesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
-
+        public int PageSize = 3;
         public NursesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
-
         // GET: Nurses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var hospitalScheduleDbContext = _context.Nurse.Include(n => n.Specialty);
-            return View(await hospitalScheduleDbContext.ToListAsync());
+            int numNurses = await _context.Nurse.CountAsync();
+
+
+            var Nurse = await
+                _context.Nurse
+                    .OrderBy(p => p.Name)
+                    .Skip(PageSize * (page - 1))
+                    .Take(PageSize)
+                    .ToListAsync();
+
+            return View(
+                new NursesView
+                {
+                    Nurses = Nurse,
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numNurses
+                    }
+                }
+            );
         }
+
 
         // GET: Nurses/Details/5
         public async Task<IActionResult> Details(int? id)
