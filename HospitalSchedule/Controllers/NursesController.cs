@@ -44,7 +44,39 @@ namespace HospitalSchedule.Controllers
                 }
             );
         }
+        [HttpPost]
+        public async Task<IActionResult> Index(string search,int page = 1)
+        {
+            int numNurses = await _context.Nurse.CountAsync();
 
+            //se nao tiver nada na pesquisa retorna a view anterior
+            if (String.IsNullOrEmpty(search))
+            {
+                ViewData["Searched"] = false;
+                return View(new NursesView()
+                {
+                    Nurses = await _context.Nurse.ToListAsync(),
+                    PagingInfo = new PagingInfo()
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numNurses
+                    }
+                });
+            }
+            //se nao devolve a pesquisa
+            ViewData["Searched"] = true;
+            return View(new NursesView()
+            {
+                Nurses = await _context.Nurse.Where(nurse => nurse.Name.ToLower().Contains(search.ToLower())).ToListAsync(),
+                PagingInfo = new PagingInfo()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = numNurses
+                }
+            });
+        }
 
         // GET: Nurses/Details/5
         public async Task<IActionResult> Details(int? id)

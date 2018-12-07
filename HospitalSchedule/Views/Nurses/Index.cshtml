@@ -12,6 +12,13 @@
 <table class="table">
     <thead>
         <tr>
+            @using (Html.BeginForm())
+            {
+                <p>
+                    Find by name: <input type="text" name="Search"  placeholder="Insert nurse name" />
+                    <input type="submit" value="Pesquisar" />
+                </p>
+            }
             <th>
                 Name
                 @*@Html.DisplayNameFor(model => model.Name)*@
@@ -85,6 +92,11 @@
     </tbody>
 
 </table>
+
+@*@if ((bool)(ViewData["Searched"]))
+    {
+        @Html.ActionLink("Return", "Index", "Nurses");
+    }*@
 
 <div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
 
