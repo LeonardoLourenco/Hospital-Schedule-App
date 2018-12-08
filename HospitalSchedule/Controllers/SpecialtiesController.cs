@@ -12,16 +12,39 @@ namespace HospitalSchedule.Controllers
     public class SpecialtiesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
+        public int PageSize = 3;
 
         public SpecialtiesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
+
         // GET: Specialties
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Specialty.ToListAsync());
+            int numSpecialty = await _context.Specialty.CountAsync();
+
+
+            var Specialty = await
+                _context.Specialty
+                    .OrderBy(p => p.Name)
+                    .Skip(PageSize * (page - 1))
+                    .Take(PageSize)
+                    .ToListAsync();
+
+            return View(
+                new SpecialitiesView
+                {
+                    Specialties = Specialty,
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numSpecialty
+                    }
+                }
+            );
         }
 
         // GET: Specialties/Details/5

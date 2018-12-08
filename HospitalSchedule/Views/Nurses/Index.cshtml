@@ -23,10 +23,7 @@
                 Name
                 @*@Html.DisplayNameFor(model => model.Name)*@
             </th>
-            <th>
-                Email
-                @*@Html.DisplayNameFor(model => model.Email)*@
-            </th>
+           
             <th>
                 Type
                 @*@Html.DisplayNameFor(model => model.Type)*@
@@ -35,20 +32,9 @@
                 CellPhoneNumber
                 @*@Html.DisplayNameFor(model => model.CellPhoneNumber)*@
             </th>
+       
             <th>
-                IDCard
-                @*@Html.DisplayNameFor(model => model.IDCard)*@
-            </th>
-            <th>
-                BirthDate
-                @*@Html.DisplayNameFor(model => model.BirthDate)*@
-            </th>
-            <th>
-                YoungestChildBirthDate
-                @*@Html.DisplayNameFor(model => model.YoungestChildBirthDate)*@
-            </th>
-            <th>
-                Specialty
+                Speciality
                 @*@Html.DisplayNameFor(model => model.Specialty)*@
             </th>
             <th></th>
@@ -61,24 +47,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CellPhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IDCard)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BirthDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.YoungestChildBirthDate)
-                </td>
+                </td>                   
                 <td>
                     @Html.DisplayFor(modelItem => item.Specialty.Name)
                 </td>
@@ -93,10 +68,7 @@
 
 </table>
 
-@*@if ((bool)(ViewData["Searched"]))
-    {
-        @Html.ActionLink("Return", "Index", "Nurses");
-    }*@
+
 
 <div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
 

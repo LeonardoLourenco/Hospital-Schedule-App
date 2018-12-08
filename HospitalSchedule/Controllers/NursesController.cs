@@ -14,10 +14,13 @@ namespace HospitalSchedule.Controllers
     {
         private readonly HospitalScheduleDbContext _context;
         public int PageSize = 3;
+
         public NursesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
+
+
         // GET: Nurses
         public async Task<IActionResult> Index(int page = 1)
         {
