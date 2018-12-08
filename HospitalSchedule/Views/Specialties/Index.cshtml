@@ -12,6 +12,13 @@
 <table class="table">
     <thead>
         <tr>
+            @using (Html.BeginForm())
+            {
+                <p>
+                    Find by name: <input type="text" name="Search" placeholder="Insert Speciality name" />
+                    <input type="submit" value="Search" />
+                </p>
+            }
             <th>
                 Name
                 @*@Html.DisplayNameFor(model => model.Name)*@
