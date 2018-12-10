@@ -29,6 +29,7 @@ namespace HospitalSchedule.Controllers
             var Specialty = await
                 _context.Specialty
                     .OrderBy(p => p.Name)
+                   
                     .Skip(PageSize * (page - 1))
                     .Take(PageSize)
                     .ToListAsync();

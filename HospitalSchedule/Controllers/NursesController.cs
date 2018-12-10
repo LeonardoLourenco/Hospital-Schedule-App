@@ -27,9 +27,11 @@ namespace HospitalSchedule.Controllers
             int numNurses = await _context.Nurse.CountAsync();
 
 
-            var Nurse = await
+            var Nurse = await 
                 _context.Nurse
+                    .Include(e => e.Specialty)
                     .OrderBy(p => p.Name)
+                  
                     .Skip(PageSize * (page - 1))
                     .Take(PageSize)
                     .ToListAsync();
