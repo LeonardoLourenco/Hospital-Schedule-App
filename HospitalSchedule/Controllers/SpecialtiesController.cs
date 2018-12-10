@@ -12,17 +12,77 @@ namespace HospitalSchedule.Controllers
     public class SpecialtiesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
+        public int PageSize = 3;
 
         public SpecialtiesController(HospitalScheduleDbContext context)
         {
             _context = context;
         }
 
+
         // GET: Specialties
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Specialty.ToListAsync());
+            int numSpecialty = await _context.Specialty.CountAsync();
+
+
+            var Specialty = await
+                _context.Specialty
+                    .OrderBy(p => p.Name)
+                   
+                    .Skip(PageSize * (page - 1))
+                    .Take(PageSize)
+                    .ToListAsync();
+
+            return View(
+                new SpecialitiesView
+                {
+                    Specialties = Specialty,
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numSpecialty
+                    }
+                }
+            );
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string search, int page = 1)
+        {
+            int numSpecialty = await _context.Specialty.CountAsync();
+
+            //se nao tiver nada na pesquisa retorna a view anterior
+            if (String.IsNullOrEmpty(search))
+            {
+                ViewData["Searched"] = false;
+                return View(new SpecialitiesView()
+                {
+                    Specialties = await _context.Specialty.ToListAsync(),
+                    PagingInfo = new PagingInfo()
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numSpecialty
+                    }
+                });
+            }
+            //se nao devolve a pesquisa
+            ViewData["Searched"] = true;
+            return View(new SpecialitiesView()
+            {
+                Specialties = await _context.Specialty.Where(Specialty => Specialty.Name.ToLower().Contains(search.ToLower())).ToListAsync(),
+                PagingInfo = new PagingInfo()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = numSpecialty
+                }
+            });
+        }
+
+
 
         // GET: Specialties/Details/5
         public async Task<IActionResult> Details(int? id)

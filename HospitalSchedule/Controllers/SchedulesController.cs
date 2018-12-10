@@ -48,7 +48,7 @@ namespace HospitalSchedule.Controllers
         // GET: Schedules/Create
         public IActionResult Create()
         {
-            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CellPhoneNumber");
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "Name");
             ViewData["OperationBlock_ShiftsId"] = new SelectList(_context.OperationBlock_Shifts, "OperationBlock_ShiftsId", "OperationBlock_ShiftsId");
             return View();
         }
@@ -84,7 +84,7 @@ namespace HospitalSchedule.Controllers
             {
                 return NotFound();
             }
-            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CellPhoneNumber", schedule.NurseId);
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "Name", schedule.NurseId);
             ViewData["OperationBlock_ShiftsId"] = new SelectList(_context.OperationBlock_Shifts, "OperationBlock_ShiftsId", "OperationBlock_ShiftsId", schedule.OperationBlock_ShiftsId);
             return View(schedule);
         }

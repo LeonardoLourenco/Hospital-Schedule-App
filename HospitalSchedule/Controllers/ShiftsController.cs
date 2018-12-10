@@ -9,6 +9,7 @@ using HospitalSchedule.Models;
 
 namespace HospitalSchedule.Controllers
 {
+    [RequireHttps]
     public class ShiftsController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
@@ -47,6 +48,8 @@ namespace HospitalSchedule.Controllers
         {
             return View();
         }
+
+      
 
         // POST: Shifts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
