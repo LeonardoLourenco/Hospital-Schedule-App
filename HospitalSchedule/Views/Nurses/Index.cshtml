@@ -19,6 +19,12 @@
                     <input type="submit" value="Search" />
                 </p>
             }
+
+            @if (TempData["Success"]!= null) 
+            {
+                <p>Created successfully</p>
+            }
+
             <th>
                 Name
                 @*@Html.DisplayNameFor(model => model.Name)*@
