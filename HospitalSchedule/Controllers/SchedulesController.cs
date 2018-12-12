@@ -21,7 +21,10 @@ namespace HospitalSchedule.Controllers
         // GET: Schedules
         public async Task<IActionResult> Index()
         {
-            var hospitalScheduleDbContext = _context.Schedule.Include(s => s.Nurse).Include(s => s.OperationBlock_Shifts);
+            var hospitalScheduleDbContext = _context.Schedule.Include(s => s.Nurse)
+                .Include(s => s.OperationBlock_Shifts)
+                .Include(s => s.OperationBlock_Shifts.Shift)
+                .Include(s => s.OperationBlock_Shifts.OperationBlock);
             return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
@@ -36,6 +39,8 @@ namespace HospitalSchedule.Controllers
             var schedule = await _context.Schedule
                 .Include(s => s.Nurse)
                 .Include(s => s.OperationBlock_Shifts)
+                .Include(s => s.OperationBlock_Shifts.Shift)
+                .Include(s => s.OperationBlock_Shifts.OperationBlock)
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
             if (schedule == null)
             {
@@ -66,7 +71,7 @@ namespace HospitalSchedule.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CellPhoneNumber", schedule.NurseId);
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "Name", schedule.NurseId);
             ViewData["OperationBlock_ShiftsId"] = new SelectList(_context.OperationBlock_Shifts, "OperationBlock_ShiftsId", "OperationBlock_ShiftsId", schedule.OperationBlock_ShiftsId);
             return View(schedule);
         }
@@ -121,7 +126,7 @@ namespace HospitalSchedule.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "CellPhoneNumber", schedule.NurseId);
+            ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "Name", schedule.NurseId);
             ViewData["OperationBlock_ShiftsId"] = new SelectList(_context.OperationBlock_Shifts, "OperationBlock_ShiftsId", "OperationBlock_ShiftsId", schedule.OperationBlock_ShiftsId);
             return View(schedule);
         }
@@ -137,6 +142,8 @@ namespace HospitalSchedule.Controllers
             var schedule = await _context.Schedule
                 .Include(s => s.Nurse)
                 .Include(s => s.OperationBlock_Shifts)
+                .Include(s => s.OperationBlock_Shifts.Shift)
+                .Include(s => s.OperationBlock_Shifts.OperationBlock)
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
             if (schedule == null)
             {

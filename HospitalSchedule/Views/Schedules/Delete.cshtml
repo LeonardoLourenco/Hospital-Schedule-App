@@ -21,19 +21,31 @@
             @Html.DisplayNameFor(model => model.Nurse)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Nurse.CellPhoneNumber)
+            @Html.DisplayFor(model => model.Nurse.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OperationBlock_Shifts)
+            Nurse Email
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.OperationBlock_Shifts.OperationBlock_ShiftsId)
+            @Html.DisplayFor(model => model.Nurse.Email)
+        </dd>
+        <dt>
+            Operation Block
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OperationBlock_Shifts.OperationBlock.BlockName)
+        </dd>
+        <dt>
+            Shift
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OperationBlock_Shifts.Shift.ShiftName)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ScheduleId" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
     </form>
 </div>
