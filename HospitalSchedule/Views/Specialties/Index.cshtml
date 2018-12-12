@@ -44,6 +44,15 @@
 </table>
 
 
+
 <div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
 
 </div>
+
+
+
+
+@if (TempData["Success"] != null)
+{
+    <p>Created successfully</p>
+}

@@ -119,6 +119,7 @@ namespace HospitalSchedule.Controllers
             {
                 _context.Add(specialty);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "The Speciality has been created successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(specialty);
