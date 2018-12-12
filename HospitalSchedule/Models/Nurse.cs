@@ -33,8 +33,12 @@ namespace HospitalSchedule.Models
         public string IDCard { get; set; } //Cartão de Cidadão/Bilhete de Identidade (CC/BI)
 
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime BirthDate { get; set; } //Data de Nascimento
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime? YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
 
         public ICollection<Schedule> Schedules { get; set; }
