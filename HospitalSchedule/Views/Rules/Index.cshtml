@@ -43,9 +43,9 @@
                 @Html.DisplayFor(modelItem => item.InBetweenShiftTime)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RulesId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RulesId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RulesId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.RulesId" class="btn btn-primary">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RulesId" class="btn btn-secondary" > Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RulesId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

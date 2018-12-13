@@ -23,6 +23,6 @@ namespace HospitalSchedule.Models
         [RegularExpression(@"([0-9]{2})+:+([0-9]{2})", ErrorMessage = "Please insert duration of the shift in the format 00:00")]
         public string Duration { get; set; } //Duração do turno
 
-        public ICollection<OperationBlock_Shift> OperationBlock_Shifts { get; set; }
+        public ICollection<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }
     }
 }

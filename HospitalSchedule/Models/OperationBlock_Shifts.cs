@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class OperationBlock_Shift
+    public class OperationBlock_Shifts
     {
-        //chave primária
         [Required]
-        public int OperationBlock_ShiftID { get; set; }
+        public int OperationBlock_ShiftsId { get; set; }
+
+        //chave estrangueira do horário
+        public ICollection<Schedules> Schedules { get; set; }
 
         //chave estrangueira do turno
         public Shift Shift { get; set; }
@@ -22,9 +24,5 @@ namespace HospitalSchedule.Models
         public OperationBlock OperationBlock { get; set; }
         [Required(ErrorMessage = "Please select an Operation Block")]
         public int OperationBlockId { get; set; }
-
-        [Required]
-        public ICollection<OperationBlock> operationBlocks { get; set; }
-
     }
 }

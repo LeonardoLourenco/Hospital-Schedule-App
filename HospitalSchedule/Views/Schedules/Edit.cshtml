@@ -1,4 +1,4 @@
-﻿@model HospitalSchedule.Models.Schedule
+﻿@model HospitalSchedule.Models.Schedules
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,13 +6,13 @@
 
 <h2>Edit</h2>
 
-<h4>Schedule</h4>
+<h4>Schedules</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ScheduleId" />
+            <input type="hidden" asp-for="SchedulesId" />
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />

@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.OperationBlock.BlockName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.OperationBlock_ShiftsId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.OperationBlock_ShiftsId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.OperationBlock_ShiftsId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.OperationBlock_ShiftsId" class="btn btn-primary">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OperationBlock_ShiftsId" class="btn btn-secondary">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OperationBlock_ShiftsId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

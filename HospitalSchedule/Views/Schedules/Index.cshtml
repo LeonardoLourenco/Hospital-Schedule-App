@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Schedule>
+﻿@model IEnumerable<HospitalSchedule.Models.Schedules>
 
 @{
     ViewData["Title"] = "Index";
@@ -37,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.OperationBlock_Shifts.OperationBlock_ShiftsId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ScheduleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ScheduleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ScheduleId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.SchedulesId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SchedulesId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SchedulesId">Delete</a>
             </td>
         </tr>
 }
