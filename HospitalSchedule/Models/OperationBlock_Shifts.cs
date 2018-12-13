@@ -13,7 +13,7 @@ namespace HospitalSchedule.Models
         public int OperationBlock_ShiftsId { get; set; }
 
         //chave estrangueira do horário
-        public ICollection<Schedules> Schedules { get; set; }
+        public ICollection<Schedule> Schedules { get; set; }
 
         //chave estrangueira do turno
         public Shift Shift { get; set; }

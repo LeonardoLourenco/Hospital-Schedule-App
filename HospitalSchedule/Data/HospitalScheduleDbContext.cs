@@ -40,7 +40,7 @@ namespace HospitalSchedule.Models
 
             modelBuilder.Entity<Schedule>()
                 .HasOne(bc => bc.OperationBlock_Shifts)
-                .WithMany(c => c.Schedule)
+                .WithMany(c => c.Schedules)
                 .HasForeignKey(bc => bc.OperationBlock_ShiftsId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
             // one to many relarionship Nurse

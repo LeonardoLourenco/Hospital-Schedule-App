@@ -1,4 +1,4 @@
-﻿@model HospitalSchedule.Models.Schedules
+﻿@model HospitalSchedule.Models.Schedule
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Schedules</h4>
+    <h4>Schedule</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,17 +20,29 @@
             @Html.DisplayNameFor(model => model.Nurse)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Nurse.CellPhoneNumber)
+            @Html.DisplayFor(model => model.Nurse.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OperationBlock_Shifts)
+            Nurse Email
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.OperationBlock_Shifts.OperationBlock_ShiftsId)
+            @Html.DisplayFor(model => model.Nurse.Email)
+        </dd>
+        <dt>
+            Operation Block
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OperationBlock_Shifts.OperationBlock.BlockName)
+        </dd>
+        <dt>
+            Shift
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OperationBlock_Shifts.Shift.ShiftName)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.SchedulesId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.ScheduleId">Edit</a>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </div>
