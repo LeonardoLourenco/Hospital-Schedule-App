@@ -62,6 +62,7 @@ namespace HospitalSchedule.Controllers
             {
                 _context.Add(shift);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "The Shift " + shift.ShiftName + " has been created successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(shift);

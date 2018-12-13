@@ -11,6 +11,14 @@
 </p>
 <table class="table">
     <thead>
+
+        @if (TempData["Success"] != null)
+        {
+            <script type="text/javascript">
+                alert('@TempData["Success"]');
+            </script>
+        }
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Date)

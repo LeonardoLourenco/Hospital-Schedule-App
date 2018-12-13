@@ -69,6 +69,7 @@ namespace HospitalSchedule.Controllers
             {
                 _context.Add(schedule);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "The Schedule has been created successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "Name", schedule.NurseId);

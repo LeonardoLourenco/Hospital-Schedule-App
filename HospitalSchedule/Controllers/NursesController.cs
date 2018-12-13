@@ -128,7 +128,7 @@ namespace HospitalSchedule.Controllers
               
                 _context.Add(nurse);
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "The Nurses has been created successfully";
+                TempData["Success"] = "The Nurse "+ nurse.Name+" has been created successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);

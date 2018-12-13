@@ -60,6 +60,7 @@ namespace HospitalSchedule.Controllers
             {
                 _context.Add(operationBlock);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "The Operation Block " + operationBlock.BlockName + " has been created successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(operationBlock);

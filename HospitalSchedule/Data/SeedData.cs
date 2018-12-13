@@ -19,8 +19,8 @@ namespace HospitalSchedule.Data
 
                 SeedSpecialities(db);
                 SeedOperationBlock(db);
-                SeedOperationBlock_Shifts(db);
                 SeedShifts(db);
+                SeedOperationBlock_Shifts(db);
                 SeedNurses(db);
                 SeedSchedule(db);
                 SeedRules(db);
@@ -253,14 +253,14 @@ namespace HospitalSchedule.Data
                   {
                       Date = new DateTime(2018, 5, 1, 8, 30, 00),
                       NurseId = 1,
-                      OperationBlock_ShiftsId = 12
+                      OperationBlock_ShiftsId = 1
 
                   },
                   new Schedule
                   {
                       Date = new DateTime(2018, 5, 1, 8, 30, 00),
                       NurseId = 2,
-                      OperationBlock_ShiftsId = 13
+                      OperationBlock_ShiftsId = 2
 
                   });
 

@@ -59,6 +59,7 @@ namespace HospitalSchedule.Controllers
             {
                 _context.Add(rules);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "The Rules have been created successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(rules);
