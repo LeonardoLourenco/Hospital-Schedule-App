@@ -105,9 +105,9 @@ namespace HospitalSchedule.Migrations
                     b.ToTable("Rules");
                 });
 
-            modelBuilder.Entity("HospitalSchedule.Models.Schedules", b =>
+            modelBuilder.Entity("HospitalSchedule.Models.Schedule", b =>
                 {
-                    b.Property<int>("SchedulesId")
+                    b.Property<int>("ScheduleId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -117,7 +117,7 @@ namespace HospitalSchedule.Migrations
 
                     b.Property<int>("OperationBlock_ShiftsId");
 
-                    b.HasKey("SchedulesId");
+                    b.HasKey("ScheduleId");
 
                     b.HasIndex("NurseId");
 
@@ -178,7 +178,7 @@ namespace HospitalSchedule.Migrations
                         .HasForeignKey("ShiftId");
                 });
 
-            modelBuilder.Entity("HospitalSchedule.Models.Schedules", b =>
+            modelBuilder.Entity("HospitalSchedule.Models.Schedule", b =>
                 {
                     b.HasOne("HospitalSchedule.Models.Nurse", "Nurse")
                         .WithMany("Schedules")

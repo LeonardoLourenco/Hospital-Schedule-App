@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181211131159_Initial")]
+    [Migration("20181213183044_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,9 +107,9 @@ namespace HospitalSchedule.Migrations
                     b.ToTable("Rules");
                 });
 
-            modelBuilder.Entity("HospitalSchedule.Models.Schedules", b =>
+            modelBuilder.Entity("HospitalSchedule.Models.Schedule", b =>
                 {
-                    b.Property<int>("SchedulesId")
+                    b.Property<int>("ScheduleId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -119,7 +119,7 @@ namespace HospitalSchedule.Migrations
 
                     b.Property<int>("OperationBlock_ShiftsId");
 
-                    b.HasKey("SchedulesId");
+                    b.HasKey("ScheduleId");
 
                     b.HasIndex("NurseId");
 
@@ -180,7 +180,7 @@ namespace HospitalSchedule.Migrations
                         .HasForeignKey("ShiftId");
                 });
 
-            modelBuilder.Entity("HospitalSchedule.Models.Schedules", b =>
+            modelBuilder.Entity("HospitalSchedule.Models.Schedule", b =>
                 {
                     b.HasOne("HospitalSchedule.Models.Nurse", "Nurse")
                         .WithMany("Schedules")

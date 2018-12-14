@@ -121,7 +121,7 @@ namespace HospitalSchedule.Migrations
                 name: "Schedule",
                 columns: table => new
                 {
-                    SchedulesId = table.Column<int>(nullable: false)
+                    ScheduleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(nullable: false),
                     NurseId = table.Column<int>(nullable: false),
@@ -129,7 +129,7 @@ namespace HospitalSchedule.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedule", x => x.SchedulesId);
+                    table.PrimaryKey("PK_Schedule", x => x.ScheduleId);
                     table.ForeignKey(
                         name: "FK_Schedule_Nurse_NurseId",
                         column: x => x.NurseId,
