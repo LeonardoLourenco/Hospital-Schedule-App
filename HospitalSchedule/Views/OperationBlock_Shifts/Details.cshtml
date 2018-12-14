@@ -1,26 +1,27 @@
 ﻿@model HospitalSchedule.Models.OperationBlock_Shifts
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Operation Block - Shift's Details";
 }
 
-<h2>Details</h2>
+<h2>Operation Block - Shift's Details</h2>
 
 <div>
-    <h4>OperationBlock_Shifts</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Shift)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Shift.ShiftName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.OperationBlock)
+            Operation Block
+            @*@Html.DisplayNameFor(model => model.OperationBlock)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.OperationBlock.BlockName)
+        </dd>
+        <dt>
+            Shift
+            @*@Html.DisplayNameFor(model => model.Shift)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Shift.ShiftName)
         </dd>
     </dl>
 </div>

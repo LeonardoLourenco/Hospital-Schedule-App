@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<HospitalSchedule.Models.Rules>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Rules";
 }
 
-<h2>Index</h2>
+<h2>Rules</h2>
 
 <p>
     <a asp-action="Create" class="btn btn-default" >Create New</a>
@@ -21,16 +21,20 @@
 
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.WeeklyHours)
+                Weekly Hours
+                @*@Html.DisplayNameFor(model => model.WeeklyHours)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NurseAge)
+                Nurse's Age
+                @*@Html.DisplayNameFor(model => model.NurseAge)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ChildAge)
+                Nurse's Child's Age
+                @*@Html.DisplayNameFor(model => model.ChildAge)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InBetweenShiftTime)
+                Time Between Shifts
+                @*@Html.DisplayNameFor(model => model.InBetweenShiftTime)*@
             </th>
             <th></th>
         </tr>
