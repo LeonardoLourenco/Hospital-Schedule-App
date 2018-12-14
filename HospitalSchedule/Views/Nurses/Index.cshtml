@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-default" >Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -19,6 +19,14 @@
                     <input type="submit" value="Search" />
                 </p>
             }
+
+            @if (TempData["Success"]!= null) 
+            {
+                <script type="text/javascript">
+                alert('@TempData["Success"]');
+                </script>
+            }
+
             <th>
                 Name
                 @*@Html.DisplayNameFor(model => model.Name)*@
@@ -58,9 +66,9 @@
                     @Html.DisplayFor(modelItem => item.Specialty.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.NurseId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.NurseId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.NurseId">Delete</a>
+                    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.NurseId">Edit</a>
+                    <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.NurseId">Details</a>
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.NurseId">Delete</a>
                 </td>
             </tr>
         }

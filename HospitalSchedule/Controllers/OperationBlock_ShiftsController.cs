@@ -64,6 +64,8 @@ namespace HospitalSchedule.Controllers
             {
                 _context.Add(operationBlock_Shifts);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "The connection between the Operation Block " + operationBlock_Shifts.OperationBlockId /* Descobrir como arranjar o nome dos bloco e do turno utilizado*/ + " and the Shift " +
+                    operationBlock_Shifts.ShiftId + " has been created successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OperationBlockId"] = new SelectList(_context.OperationBlock, "OperationBlockId", "BlockName", operationBlock_Shifts.OperationBlockId);

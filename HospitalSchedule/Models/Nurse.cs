@@ -45,7 +45,6 @@ namespace HospitalSchedule.Models
 
         public Specialty Specialty { get; set; }
 
-        
         public int SpecialtyId { get; set; }
     }
 }
