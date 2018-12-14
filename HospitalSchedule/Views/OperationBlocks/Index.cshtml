@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<HospitalSchedule.Models.OperationBlock>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Operation Block";
 }
 
-<h2>Index</h2>
+<h2>Operation Block</h2>
 
 <p>
     <a asp-action="Create" class="btn btn-default" >Create New</a>
@@ -21,7 +21,8 @@
 
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BlockName)
+                Block Name
+                @*@Html.DisplayNameFor(model => model.BlockName)*@
             </th>
             <th></th>
         </tr>

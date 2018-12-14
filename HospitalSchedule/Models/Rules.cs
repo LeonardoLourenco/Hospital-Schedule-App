@@ -11,10 +11,10 @@ namespace HospitalSchedule.Models
         [Required]
         public int RulesId { get; set; }
 
-        [Required(ErrorMessage = "Please insert number of Weekly Hours")]
+        [Required(ErrorMessage = "Please insert number of weekly hours")]
         public int WeeklyHours { get; set; } //Numero de Horas Semanais
 
-        [Required(ErrorMessage = "Please insert the Age in which a nurse won't have to do night shifts")]
+        [Required(ErrorMessage = "Please insert the age in which a nurse won't have to do night shifts")]
         public int NurseAge { get; set; } //Qual a Idade do enfermeiro para fazer n turnos noturnos
 
         [Required(ErrorMessage = "Please insert the nurse's child's age in which a nurse won't have to do night shifts")]

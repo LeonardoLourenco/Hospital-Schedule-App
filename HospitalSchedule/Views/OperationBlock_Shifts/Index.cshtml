@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<HospitalSchedule.Models.OperationBlock_Shifts>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Operation Block - Shift";
 }
 
-<h2>Index</h2>
+<h2>Operation Block - Shift</h2>
 
 <p>
     <a asp-action="Create" class="btn btn-default" >Create New</a>
@@ -19,24 +19,26 @@
             </script>
         }
 
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Shift)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OperationBlock)
-            </th>
-            <th></th>
-        </tr>
+            <tr>
+                <th>
+                    Operation Block
+                    @*@Html.DisplayNameFor(model => model.OperationBlock)*@
+                </th>
+                <th>
+                    Shift
+                    @*@Html.DisplayNameFor(model => model.Shift)*@
+                </th>
+                <th></th>
+            </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Shift.ShiftName)
+                @Html.DisplayFor(modelItem => item.OperationBlock.BlockName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OperationBlock.BlockName)
+                @Html.DisplayFor(modelItem => item.Shift.ShiftName)
             </td>
             <td>
                 <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.OperationBlock_ShiftsId">Edit</a>

@@ -1,12 +1,11 @@
 ﻿@model HospitalSchedule.Models.Nurse
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Nurse";
 }
 
-<h2>Create</h2>
+<h2>Create Nurse</h2>
 
-<h4>Nurse</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -28,27 +27,27 @@
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CellPhoneNumber" class="control-label"></label>
+                <label asp-for="CellPhoneNumber" class="control-label">Cell Phone Number</label>
                 <input asp-for="CellPhoneNumber" class="form-control" />
                 <span asp-validation-for="CellPhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IDCard" class="control-label"></label>
+                <label asp-for="IDCard" class="control-label">ID Card</label>
                 <input asp-for="IDCard" class="form-control" />
                 <span asp-validation-for="IDCard" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
+                <label asp-for="BirthDate" class="control-label">Birth Date</label>
                 <input asp-for="BirthDate" class="form-control" />
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="YoungestChildBirthDate" class="control-label"></label>
+                <label asp-for="YoungestChildBirthDate" class="control-label">Youngest Child Birth Date</label>
                 <input asp-for="YoungestChildBirthDate" class="form-control" />
                 <span asp-validation-for="YoungestChildBirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SpecialtyId" class="control-label"></label>
+                <label asp-for="SpecialtyId" class="control-label">Specialty</label>
                 <select asp-for="SpecialtyId" class ="form-control" asp-items="ViewBag.SpecialtyId"></select>
             </div>
             <div class="form-group">

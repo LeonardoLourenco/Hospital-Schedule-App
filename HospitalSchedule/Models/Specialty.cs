@@ -11,7 +11,7 @@ namespace HospitalSchedule.Models
         [Required]
         public int SpecialtyId { get; set; }
 
-        [Required(ErrorMessage = "Please insert the name of the specialty")]
+        [Required(ErrorMessage = "Please insert the specialty's name")]
         public string Name { get; set; }
 
         public ICollection<Nurse> Nurses { get; set; }

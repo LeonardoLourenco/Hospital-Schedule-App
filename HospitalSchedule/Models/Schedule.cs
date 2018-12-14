@@ -13,7 +13,7 @@ namespace HospitalSchedule.Models
         [Required]
         public int ScheduleId { get; set; }//Id do horário
         
-        [Required(ErrorMessage ="Please insert a date")]
+        [Required(ErrorMessage ="Please insert the schedule's date")]
         public DateTime Date { get; set; }//Dia desse horário
 
         //Nome do enfermerio,Nome do Bloco operatin Ex: Maternidade Prevençao e Tipo de turno, M,T ou N
