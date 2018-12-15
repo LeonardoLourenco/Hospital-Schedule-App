@@ -23,12 +23,12 @@ namespace HospitalSchedule.Controllers
         // GET: Shifts
         public async Task<IActionResult> Index(int page = 1)
         {
-            int numShifts = await _context.Shift.CountAsync();
+            int numSfits = await _context.Shift.CountAsync();
 
 
-            var Shifts = await
+            var Shift = await
                 _context.Shift
-                    .Include(a => a.OperationBlock_Shifts)
+                    //.Include(e => e.OperationBlock_Shifts)
                     .OrderBy(p => p.ShiftName)
 
                     .Skip(PageSize * (page - 1))
@@ -36,29 +36,28 @@ namespace HospitalSchedule.Controllers
                     .ToListAsync();
 
             return View(
-                new ShiftView
+                new ShiftsView
                 {
-                    Shifts = Shifts,
+                    Shifts = Shift, 
                     PagingInfo = new PagingInfo
                     {
                         CurrentPage = page,
                         ItemsPerPage = PageSize,
-                        TotalItems = numShifts
+                        TotalItems = numSfits
                     }
                 }
             );
         }
-
         [HttpPost]
         public async Task<IActionResult> Index(string search, int page = 1)
         {
-            int numShifts = await _context.Shift.CountAsync();
+            int numShifts= await _context.Shift.CountAsync();
 
             //se nao tiver nada na pesquisa retorna a view anterior
             if (String.IsNullOrEmpty(search))
             {
                 ViewData["Searched"] = false;
-                return View(new ShiftView()
+                return View(new ShiftsView()
                 {
                     Shifts = await _context.Shift.ToListAsync(),
                     PagingInfo = new PagingInfo()
@@ -71,18 +70,17 @@ namespace HospitalSchedule.Controllers
             }
             //se nao devolve a pesquisa
             ViewData["Searched"] = true;
-            return View(new ShiftView()
+            return View(new ShiftsView()
             {
-                Shifts = await _context.Shift.Where(Shift => Shift.ShiftName.ToLower().Contains(search.ToLower())).ToListAsync(),
-                PagingInfo = new PagingInfo() {
-                
+                Shifts = await _context.Shift.Where(shifts => shifts.ShiftName.ToLower().Contains(search.ToLower())).ToListAsync(),
+                PagingInfo = new PagingInfo()
+                {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
                     TotalItems = numShifts
                 }
             });
         }
-
         // GET: Shifts/Details/5
         public async Task<IActionResult> Details(int? id)
         {

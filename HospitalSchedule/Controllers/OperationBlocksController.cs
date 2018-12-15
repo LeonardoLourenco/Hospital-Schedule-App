@@ -34,9 +34,6 @@ namespace HospitalSchedule.Controllers
                 .Take(PageSize)
                 .ToListAsync();
 
-
-
-
             return View(
                 new OperationBlockView
                 {
@@ -50,7 +47,6 @@ namespace HospitalSchedule.Controllers
                 }
             );
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Index(string search, int page = 1)
@@ -84,7 +80,7 @@ namespace HospitalSchedule.Controllers
                     TotalItems = numOperationBlocks
                 }
             });
-        }
+    }
         // GET: OperationBlocks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
