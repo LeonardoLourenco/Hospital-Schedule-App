@@ -1,12 +1,11 @@
 ﻿@model HospitalSchedule.Models.OperationBlock
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Operation Block";
 }
 
-<h2>Edit</h2>
+<h2>Edit Operation Block</h2>
 
-<h4>OperationBlock</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="OperationBlockId" />
             <div class="form-group">
-                <label asp-for="BlockName" class="control-label"></label>
+                <label asp-for="BlockName" class="control-label">Block Name</label>
                 <input asp-for="BlockName" class="form-control" />
                 <span asp-validation-for="BlockName" class="text-danger"></span>
             </div>

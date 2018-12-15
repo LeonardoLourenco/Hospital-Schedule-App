@@ -17,12 +17,12 @@ namespace HospitalSchedule.Models
 
         //chave estrangueira do turno
         public Shift Shift { get; set; }
-        [Required(ErrorMessage = "Please select a shift that you want the Block to have")]
+        [Required(ErrorMessage = "Please select a shift that you want the block to have")]
         public int ShiftId { get; set; }
 
         //chave estrangueira do bloco
         public OperationBlock OperationBlock { get; set; }
-        [Required(ErrorMessage = "Please select an Operation Block")]
+        [Required(ErrorMessage = "Please select an operation block")]
         public int OperationBlockId { get; set; }
     }
 }

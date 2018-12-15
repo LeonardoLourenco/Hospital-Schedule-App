@@ -12,7 +12,7 @@ namespace HospitalSchedule.Models
         [Required]
         public int ShiftId { get; set; }
 
-        [Required(ErrorMessage = "Please insert the name of the shift")]
+        [Required(ErrorMessage = "Please insert the shift's name")]
         public string ShiftName { get; set; } //Manhã,Tarde,Noite
 
 
