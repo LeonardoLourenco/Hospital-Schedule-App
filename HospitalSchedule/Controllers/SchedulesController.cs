@@ -12,6 +12,7 @@ namespace HospitalSchedule.Controllers
     public class SchedulesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
+        private int PageSize = 3;
 
         public SchedulesController(HospitalScheduleDbContext context)
         {
@@ -19,13 +20,67 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: Schedules
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var hospitalScheduleDbContext = _context.Schedule.Include(s => s.Nurse)
-                .Include(s => s.OperationBlock_Shifts)
-                .Include(s => s.OperationBlock_Shifts.Shift)
-                .Include(s => s.OperationBlock_Shifts.OperationBlock);
-            return View(await hospitalScheduleDbContext.ToListAsync());
+            int numSchedules = await _context.Schedule.CountAsync();
+
+
+            var Schedules = await _context.Schedule
+                    .Include(a => a.Nurse)
+                    .Include(a => a.OperationBlock_Shifts)
+                    .OrderBy(p => p.Nurse.Name)
+
+                    .Skip(PageSize * (page - 1))
+                    .Take(PageSize)
+                    .ToListAsync();
+
+            return View(
+                new SchedulesView
+                {
+                    Schedules = Schedules,
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numSchedules
+                    }
+                }
+            );
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string search, int page = 1)
+        {
+            int numSchedules = await _context.Schedule.CountAsync();
+
+            //se nao tiver nada na pesquisa retorna a view anterior
+            if (String.IsNullOrEmpty(search))
+            {
+                ViewData["Searched"] = false;
+                return View(new  SchedulesView()
+                {
+                    Schedules = await _context.Schedule.ToListAsync(),
+                    PagingInfo = new PagingInfo()
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numSchedules
+                    }
+                });
+            }
+            //se nao devolve a pesquisa
+            ViewData["Searched"] = true;
+            return View(new SchedulesView()
+            {
+                Schedules = await _context.Schedule.Where(Schedule => Schedule.Nurse.Name.ToLower().Contains(search.ToLower())).ToListAsync(),
+                PagingInfo = new PagingInfo()
+                {
+
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = numSchedules
+                }
+            });
         }
 
         // GET: Schedules/Details/5

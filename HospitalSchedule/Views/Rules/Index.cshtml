@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Rules>
+﻿@model RulesView
 
 @{
     ViewData["Title"] = "Index";
@@ -12,42 +12,64 @@
 <table class="table">
     <thead>
         <tr>
+        <tr>
+            @using (Html.BeginForm())
+            {
+                <p>
+                    Find by name: <input type="text" name="Search" placeholder="Insert the in between hours shifts" />
+                    <input type="submit" value="Search" />
+                </p>
+            }
+
+            @if (TempData["Success"] != null)
+            {
+                <p>Created successfully</p>
+            }
+
             <th>
-                @Html.DisplayNameFor(model => model.WeeklyHours)
+                WeeklyHours
+            </th>
+
+            <th>
+                NurseAge
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NurseAge)
+                ChildAge
             </th>
+            
             <th>
-                @Html.DisplayNameFor(model => model.ChildAge)
+                InBetweenShiftTime
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InBetweenShiftTime)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.WeeklyHours)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NurseAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChildAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InBetweenShiftTime)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RulesId" class="btn btn-primary">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RulesId" class="btn btn-secondary" > Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RulesId" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Rules)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeeklyHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NurseAge)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChildAge)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InBetweenShiftTime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.RulesId" class="btn btn-primary">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.RulesId" class="btn btn-secondary"> Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.RulesId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
+
+</div>

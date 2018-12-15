@@ -20,6 +20,6 @@ namespace HospitalSchedule.Models
         /*Exemplo:Gerar uma data de criação
         */
 
-        public Schedules Schedule { get; set; }
+        public Schedule Schedule { get; set; }
     }
 }
