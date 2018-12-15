@@ -118,6 +118,15 @@ namespace HospitalSchedule.Controllers
         {
 
             var nCC = nurse.IDCard;
+            var n_email = nurse.Email;
+
+
+
+            //if (emailIsInvalid(n_email))
+            //{
+            //    ModelState.AddModelError("Email", "email already exist");
+            //}
+
 
             if (!ValidateDocumentNumber(nCC))
             {
@@ -127,7 +136,7 @@ namespace HospitalSchedule.Controllers
 
             if(IDCardIsInvalid(nCC))
                 {
-                ModelState.AddModelError("IDCard", "Number IDCard ja existe");
+                ModelState.AddModelError("IDCard", "Number IDCard already exist");
             }
 
             if (ModelState.IsValid)
@@ -242,9 +251,21 @@ namespace HospitalSchedule.Controllers
 
 
 
+        private bool emailIsInvalid(string n_email, int NurseId)
+        {
+            bool IsInvalid = false;
+            //Procura na BD se existem enfermeiros com o mesmo email
+            var enfermeiros = from e in _context.Nurse
+                              where e.Email.Contains(n_email) && e.NurseId != NurseId
+                              select e;
+            if (!enfermeiros.Count().Equals(0))
+            {
+                IsInvalid = true;
+            }
+            return IsInvalid;
+        }
 
 
-        
 
 
 
