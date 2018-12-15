@@ -12,6 +12,7 @@ namespace HospitalSchedule.Controllers
     public class OperationBlock_ShiftsController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
+        private int PageSize = 3;
 
         public OperationBlock_ShiftsController(HospitalScheduleDbContext context)
         {
@@ -19,10 +20,67 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: OperationBlock_Shifts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var hospitalScheduleDbContext = _context.OperationBlock_Shifts.Include(o => o.OperationBlock).Include(o => o.Shift);
-            return View(await hospitalScheduleDbContext.ToListAsync());
+            int numOperationBlock_Shifts = await _context.OperationBlock_Shifts.CountAsync();
+
+
+            var OperationBlock_Shifts = await _context.OperationBlock_Shifts
+                    .Include(a => a.OperationBlock)
+                    .Include(a => a.Shift )
+                    .OrderBy(p => p.OperationBlock.BlockName)
+
+                    .Skip(PageSize * (page - 1))
+                    .Take(PageSize)
+                    .ToListAsync();
+
+            return View(
+                new OperationBlock_ShiftView
+                {
+                    OperationBlock_Shifts = OperationBlock_Shifts,
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numOperationBlock_Shifts
+                    }
+                }
+            );
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string search, int page = 1)
+        {
+            int numOperationBlock_Shifts = await _context.OperationBlock_Shifts.CountAsync();
+
+            //se nao tiver nada na pesquisa retorna a view anterior
+            if (String.IsNullOrEmpty(search))
+            {
+                ViewData["Searched"] = false;
+                return View(new OperationBlock_ShiftView()
+                {
+                    OperationBlock_Shifts = await _context.OperationBlock_Shifts.ToListAsync(),
+                    PagingInfo = new PagingInfo()
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numOperationBlock_Shifts
+                    }
+                });
+            }
+            //se nao devolve a pesquisa
+            ViewData["Searched"] = true;
+            return View(new OperationBlock_ShiftView()
+            {
+                OperationBlock_Shifts = await _context.OperationBlock_Shifts.Where(OperationBlock_Shifts => OperationBlock_Shifts.OperationBlock.BlockName.ToLower().Contains(search.ToLower())).ToListAsync(),
+                PagingInfo = new PagingInfo()
+                {
+
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = numOperationBlock_Shifts
+                }
+            });
         }
 
         // GET: OperationBlock_Shifts/Details/5

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HospitalSchedule.Models.OperationBlock_Shifts>
+﻿@model OperationBlock_ShiftView
 
 @{
     ViewData["Title"] = "Operation Block - Shift";
@@ -11,28 +11,33 @@
 </p>
 <table class="table">
     <thead>
+        <tr>
+            @using (Html.BeginForm())
+            {
+                <p>
+                    Find by name: <input type="text" name="Search" placeholder="Insert shift name" />
+                    <input type="submit" value="Search" />
+                </p>
+            }
 
-        @if (TempData["Success"] != null)
+          @if (TempData["Success"] != null)
         {
             <script type="text/javascript">
                 alert('@TempData["Success"]');
             </script>
         }
+            <th>
+                BlockName
+            </th>
 
-            <tr>
-                <th>
-                    Operation Block
-                    @*@Html.DisplayNameFor(model => model.OperationBlock)*@
-                </th>
-                <th>
-                    Shift
-                    @*@Html.DisplayNameFor(model => model.Shift)*@
-                </th>
-                <th></th>
-            </tr>
+            <th>
+                Shift
+            </th>
+           <th></th>
+        </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.OperationBlock_Shifts) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.OperationBlock.BlockName)
@@ -49,3 +54,7 @@
 }
     </tbody>
 </table>
+
+<div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
+
+</div>

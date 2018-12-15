@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Shift>
+﻿@model ShiftView
 
 @{
     ViewData["Title"] = "Shift";
@@ -20,22 +20,37 @@
         }
 
         <tr>
+            @using (Html.BeginForm())
+            {
+                <p>
+                    Find by name: <input type="text" name="Search" placeholder="Insert shift name" />
+                    <input type="submit" value="Search" />
+                </p>
+            }
+
+            @if (TempData["Success"] != null)
+            {
+                <p>Created successfully</p>
+            }
+
+            <th>
+                ShiftName
+            </th>
+
             <th>
                 Shift Name
-                @*@Html.DisplayNameFor(model => model.ShiftName)*@
             </th>
             <th>
                 Starting Hour
-                @*@Html.DisplayNameFor(model => model.StartingHour)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Duration)
+                Duration
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model.Shifts) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ShiftName)
@@ -52,6 +67,9 @@
                 <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.ShiftId">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+<div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
+
+</div>
