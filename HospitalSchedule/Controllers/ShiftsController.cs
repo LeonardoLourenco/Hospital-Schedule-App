@@ -23,13 +23,11 @@ namespace HospitalSchedule.Controllers
         // GET: Shifts
         public async Task<IActionResult> Index(int page = 1)
         {
-            int numSfits = await _context.Shift.CountAsync();
+            int numShifts = await _context.Shift.CountAsync();
 
 
-            var Shift = await
-                _context.Shift
-                    //.Include(e => e.OperationBlock_Shifts)
-                    .OrderBy(p => p.ShiftName)
+            var Shift = await _context.Shift
+                .OrderBy(p => p.ShiftName)
 
                     .Skip(PageSize * (page - 1))
                     .Take(PageSize)
@@ -43,15 +41,16 @@ namespace HospitalSchedule.Controllers
                     {
                         CurrentPage = page,
                         ItemsPerPage = PageSize,
-                        TotalItems = numSfits
+                        TotalItems = numShifts
                     }
                 }
             );
         }
+
         [HttpPost]
         public async Task<IActionResult> Index(string search, int page = 1)
         {
-            int numShifts= await _context.Shift.CountAsync();
+            int numShifts = await _context.Shift.CountAsync();
 
             //se nao tiver nada na pesquisa retorna a view anterior
             if (String.IsNullOrEmpty(search))
