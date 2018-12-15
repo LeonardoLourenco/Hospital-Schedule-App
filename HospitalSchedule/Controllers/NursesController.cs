@@ -29,9 +29,9 @@ namespace HospitalSchedule.Controllers
 
             var Nurse = await 
                 _context.Nurse
-                    .Include(e => e.Specialty)
+                    
                     .OrderBy(p => p.Name)
-                  
+                    .Include(e => e.Specialty)
                     .Skip(PageSize * (page - 1))
                     .Take(PageSize)
                     .ToListAsync();
@@ -117,15 +117,23 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> Create([Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
 
+            var nCC = nurse.IDCard;
 
-            if (ValidateNumeroDocumentoCC(nurse.IDCard))
+            if (!ValidateDocumentNumber(nCC))
             {
-                return View(nurse);
+                ModelState.AddModelError("IDCard", "Number IDCard is invalid");
+
+            }
+
+            if(IDCardIsInvalid(nCC))
+                {
+                ModelState.AddModelError("IDCard", "Number IDCard ja existe");
             }
 
             if (ModelState.IsValid)
             {
-              
+
+               if( ValidateDocumentNumber(nCC))
                 _context.Add(nurse);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "The Nurse "+ nurse.Name+" has been created successfully";
@@ -160,6 +168,11 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
+
+       
+
+
+
             if (id != nurse.NurseId)
             {
                 return NotFound();
@@ -168,7 +181,7 @@ namespace HospitalSchedule.Controllers
             if (ModelState.IsValid)
             {
 
-                ValidateNumeroDocumentoCC(nurse.IDCard);
+                ValidateDocumentNumber(nurse.IDCard);
 
                 try
                 {
@@ -229,16 +242,41 @@ namespace HospitalSchedule.Controllers
 
 
 
-        public bool ValidateNumeroDocumentoCC(string numeroDocumento)
+
+
+        
+
+
+
+        private bool IDCardIsInvalid(String cc)
+        {
+            bool IsInvalid = false;
+
+
+            //Procura na BD se existem enfermeiros com o mesmo numero mecanografico
+            var nurses = from e in _context.Nurse
+                            where e.IDCard.Contains(cc)
+                            select e;
+
+            if (!nurses.Count().Equals(0))
+            {
+                IsInvalid = true;
+            }
+
+            return IsInvalid;
+        }
+    
+
+        public bool ValidateDocumentNumber(string DocumentNumber)
         {
             int sum = 0;
             bool secondDigit = false;
-            if (numeroDocumento.Length != 12)
+            if (DocumentNumber.Length != 12)
                 throw new ArgumentException("Tamanho inválido para número de documento.");
-        for (int i = numeroDocumento.Length - 1; i >= 0; --i)
+        for (int i = DocumentNumber.Length - 1; i >= 0; --i)
             {
-                string upper = numeroDocumento.ToUpper();
-                int valor = GetNumberFromChar(upper[i]);
+                //string upper = numeroDocumento.ToUpper();
+                int valor = GetNumberFromChar(DocumentNumber[i]);
                 if (secondDigit)
                 {
                     valor *= 2;

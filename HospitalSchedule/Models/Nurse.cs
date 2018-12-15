@@ -28,8 +28,9 @@ namespace HospitalSchedule.Models
         [Required(ErrorMessage = "Please enter the telephone number")]
         public string CellPhoneNumber { get; set; } //Número de telemovel
 
-        [RegularExpression(@"(([0-9]{8}[A-Z0-9]{4}))", ErrorMessage = "Insert the identification")] //Mudaar
+        [RegularExpression(@"([0-9]{8}[A-Z0-9]{4})", ErrorMessage = "Insert the identification")] //Mudaar
         [Required]
+        
         public string IDCard { get; set; } //Cartão de Cidadão/Bilhete de Identidade (CC/BI)
 
         [Required]
