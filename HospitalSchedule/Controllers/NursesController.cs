@@ -137,7 +137,7 @@ namespace HospitalSchedule.Controllers
 
    
 
-            //validaçao do ID na BD
+            //validaçao do ID na BD create
             if (!ValidateDocumentNumber(nCC))
             {
                 ModelState.AddModelError("IDCard", "Number IDCard is invalid");
@@ -192,7 +192,36 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
+            var nCC = nurse.IDCard;
+            var n_email = nurse.Email;
 
+
+
+
+            //validaçoes de email na DataBase
+            if (!emailIsValid(n_email))
+            {
+                ModelState.AddModelError("Email", "Email is invalid");
+            }
+
+            if (emailIsInvalid(n_email) == true)
+            {
+                ModelState.AddModelError("Email", "email already exist");
+            }
+
+
+
+            //validaçao do ID na BD create
+            if (!ValidateDocumentNumber(nCC))
+            {
+                ModelState.AddModelError("IDCard", "Number IDCard is invalid");
+
+            }
+
+            if (IDCardIsInvalid(nCC))
+            {
+                ModelState.AddModelError("IDCard", "Number IDCard already exist");
+            }
 
             if (id != nurse.NurseId)
             {
