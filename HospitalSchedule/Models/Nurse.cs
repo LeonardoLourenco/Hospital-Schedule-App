@@ -17,7 +17,11 @@ namespace HospitalSchedule.Models
         public string Name { get; set; } //Nome
 
         [Required(ErrorMessage = "Please enter your email address correctly")]
-        [RegularExpression(@"(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})", ErrorMessage = "Invalid email")]
+        //([\w\.\-]+) - this is for the first-level domain (many letters and numbers, also point and hyphen)
+        //([\w\-]+) - this is for second-level domain
+        //((\.(\w){2,3})+) - and this is for other level domains(from 3 to infinity) which includes a point and 2 or 3 literals
+
+        [RegularExpression(@"(^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$)", ErrorMessage = "Invalid email")]
         public string Email { get; set; } //Email
 
 
