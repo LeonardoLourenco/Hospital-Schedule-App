@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
+using System.Text.RegularExpressions;
 
 namespace HospitalSchedule.Controllers
 {
@@ -122,12 +123,21 @@ namespace HospitalSchedule.Controllers
 
 
 
-            //if (emailIsInvalid(n_email))
-            //{
-            //    ModelState.AddModelError("Email", "email already exist");
-            //}
 
+            //validaçoes de email na DataBase
+            if (!emailIsValid(n_email))
+            {
+                ModelState.AddModelError("Email", "Email is invalid");
+            }
+            
+            if (emailIsInvalid(n_email) ==true)
+            {
+                ModelState.AddModelError("Email", "email already exist");
+            }
 
+   
+
+            //validaçao do ID na BD
             if (!ValidateDocumentNumber(nCC))
             {
                 ModelState.AddModelError("IDCard", "Number IDCard is invalid");
@@ -138,6 +148,7 @@ namespace HospitalSchedule.Controllers
                 {
                 ModelState.AddModelError("IDCard", "Number IDCard already exist");
             }
+
 
             if (ModelState.IsValid)
             {
@@ -152,6 +163,8 @@ namespace HospitalSchedule.Controllers
           
             return View(nurse);
         }
+
+
 
         // GET: Nurses/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -170,6 +183,8 @@ namespace HospitalSchedule.Controllers
             return View(nurse);
         }
 
+
+
         // POST: Nurses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -177,9 +192,6 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
-
-       
-
 
 
             if (id != nurse.NurseId)
@@ -213,6 +225,7 @@ namespace HospitalSchedule.Controllers
             ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);
             return View(nurse);
         }
+
 
         // GET: Nurses/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -251,14 +264,15 @@ namespace HospitalSchedule.Controllers
 
 
 
-        private bool emailIsInvalid(string n_email, int NurseId)
+        private bool emailIsInvalid(string n_email)
         {
             bool IsInvalid = false;
             //Procura na BD se existem enfermeiros com o mesmo email
-            var enfermeiros = from e in _context.Nurse
-                              where e.Email.Contains(n_email) && e.NurseId != NurseId
+            var nurses = from e in _context.Nurse
+                              where e.Email.Contains(n_email)
                               select e;
-            if (!enfermeiros.Count().Equals(0))
+
+            if (!nurses.Count().Equals(0))
             {
                 IsInvalid = true;
             }
@@ -286,7 +300,33 @@ namespace HospitalSchedule.Controllers
 
             return IsInvalid;
         }
-    
+
+
+        public static bool emailIsValid(string email)
+        {
+            string expression;
+
+            expression = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            if (Regex.IsMatch(email, expression))
+            {
+                if (Regex.Replace(email, expression, string.Empty).Length == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+
 
         public bool ValidateDocumentNumber(string DocumentNumber)
         {
