@@ -172,6 +172,7 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Operation Block " + operationBlock.BlockName + " has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(operationBlock);

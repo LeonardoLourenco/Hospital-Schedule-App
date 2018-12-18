@@ -195,6 +195,7 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Schedule has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["NurseId"] = new SelectList(_context.Nurse, "NurseId", "Name", schedule.NurseId);

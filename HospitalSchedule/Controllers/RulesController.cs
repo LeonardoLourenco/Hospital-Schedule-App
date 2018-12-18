@@ -235,6 +235,7 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Rules have been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(rules);

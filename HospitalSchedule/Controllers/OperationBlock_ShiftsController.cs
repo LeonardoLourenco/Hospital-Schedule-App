@@ -190,6 +190,10 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                var block = await _context.OperationBlock.FindAsync(operationBlock_Shifts.OperationBlockId); 
+                var shift = await _context.Shift.FindAsync(operationBlock_Shifts.OperationBlockId);                   
+                TempData["Success"] = "The connection between the Operation Block " + block.BlockName + " and the Shift " +
+                    shift.ShiftName + " has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OperationBlockId"] = new SelectList(_context.OperationBlock, "OperationBlockId", "BlockName", operationBlock_Shifts.OperationBlockId);
