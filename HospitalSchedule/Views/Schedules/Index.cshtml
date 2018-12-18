@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HospitalSchedule.Models.Schedule>
+﻿@model SchedulesView
 
 @{
     ViewData["Title"] = "Schedule";
@@ -20,23 +20,37 @@
         }
 
         <tr>
+            @using (Html.BeginForm())
+            {
+            <p>
+                Find by nurse's name: <input type="text" name="Search" placeholder="" />
+                <input type="submit" value="Search" />
+            </p>
+            }
+
+            @if (TempData["Success"] != null)
+            {
+                <p>Created successfully</p>
+            }
+
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nurse)
+                Nurses
             </th>
             <th>
-                Operation Block
+                Block Name
             </th>
             <th>
-                Shift
+                Shift Name
             </th>
             <th></th>
         </tr>
+        
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Schedules)
         {
             <tr>
                 <td>
@@ -46,7 +60,7 @@
                     @Html.DisplayFor(modelItem => item.Nurse.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OperationBlock_Shifts.OperationBlock.BlockName) 
+                    @Html.DisplayFor(modelItem => item.OperationBlock_Shifts.OperationBlock.BlockName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OperationBlock_Shifts.Shift.ShiftName)
@@ -60,3 +74,6 @@
         }
     </tbody>
 </table>
+<div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
+
+</div>

@@ -49,7 +49,7 @@ namespace HospitalSchedule.Models
                 .WithMany(c => c.Nurses)
                 .HasForeignKey(bc => bc.SpecialtyId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-                
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -67,4 +67,4 @@ namespace HospitalSchedule.Models
 
         public DbSet<HospitalSchedule.Models.Schedule> Schedule { get; set; }
     }
-}
+    }

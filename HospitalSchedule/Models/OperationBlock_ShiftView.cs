@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace HospitalSchedule.Models
 {
-    public class NursesView
+    public class OperationBlock_ShiftView
     {
-        public IEnumerable<Nurse> Nurses { get; set; }
+        public IEnumerable<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }
 
         public PagingInfo PagingInfo { get; set; }
-        
     }
 }

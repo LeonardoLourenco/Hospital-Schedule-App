@@ -13,6 +13,7 @@ namespace HospitalSchedule.Controllers
     public class ShiftsController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
+        private int PageSize = 3;
 
         public ShiftsController(HospitalScheduleDbContext context)
         {
@@ -20,11 +21,70 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: Shifts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Shift.ToListAsync());
+            int numShifts = await _context.Shift.CountAsync();
+
+
+            var Shift = await _context.Shift
+                    .OrderBy(p => p.ShiftName)
+
+                    .Skip(PageSize * (page - 1))
+                    .Take(PageSize)
+                    .ToListAsync();
+
+            return View(
+                new ShiftsView
+                {
+                    Shifts = Shift, 
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numShifts
+                    }
+                }
+            );
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Index(string search, int page = 1)
+        {
+            int numShifts = await _context.Shift.CountAsync();
+
+            //se nao tiver nada na pesquisa retorna a view anterior
+            if (String.IsNullOrEmpty(search))
+            {
+                ViewData["Searched"] = false;
+                return View(new ShiftsView()
+                {
+                    Shifts = await _context.Shift
+                    .OrderBy(p => p.ShiftName)
+                    .ToListAsync(),
+                    PagingInfo = new PagingInfo()
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = PageSize,
+                        TotalItems = numShifts
+                    }
+                });
+            }
+            //se nao devolve a pesquisa
+            ViewData["Searched"] = true;
+            return View(new ShiftsView()
+            {
+                Shifts = await _context.Shift
+                .Where(shifts => shifts.ShiftName.ToLower().Contains(search.ToLower()))
+                .OrderBy(p => p.ShiftName)
+                .ToListAsync(),
+                PagingInfo = new PagingInfo()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = numShifts
+                }
+            });
+        }
         // GET: Shifts/Details/5
         public async Task<IActionResult> Details(int? id)
         {

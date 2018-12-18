@@ -15,7 +15,7 @@
             @using (Html.BeginForm())
             {
                 <p>
-                    Find by name: <input type="text" name="Search"  placeholder="Insert nurse name" />
+                    Find by nurse's name: <input type="text" name="Search"  placeholder="" />
                     <input type="submit" value="Search" />
                 </p>
             }
@@ -29,21 +29,16 @@
 
             <th>
                 Name
-                @*@Html.DisplayNameFor(model => model.Name)*@
             </th>
            
             <th>
                 Type
-                @*@Html.DisplayNameFor(model => model.Type)*@
             </th>
             <th>
                 Cell Phone Number
-                @*@Html.DisplayNameFor(model => model.CellPhoneNumber)*@
             </th>
-       
             <th>
                 Speciality
-                @*@Html.DisplayNameFor(model => model.Specialty)*@
             </th>
             <th></th>
         </tr>
@@ -76,10 +71,6 @@
 
 </table>
 
-
-
 <div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
 
 </div>
-
-
