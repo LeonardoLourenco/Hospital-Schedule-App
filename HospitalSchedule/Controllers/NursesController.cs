@@ -121,7 +121,17 @@ namespace HospitalSchedule.Controllers
 
             var nCC = nurse.IDCard;
             var n_email = nurse.Email;
-           
+            DateTime Age = nurse.BirthDate;
+
+
+            //validaçoes de data de nascimento 
+            if (BirthDateIsInvalid(Age))
+            {
+                ModelState.AddModelError("BirthDate", "BirthDate is invalid");
+            }
+
+
+
 
             //validaçoes de email na DataBase
             if (!emailIsValid(n_email))
@@ -308,6 +318,19 @@ namespace HospitalSchedule.Controllers
         }
 
 
+        //Função Data de nascimento 
+        private bool BirthDateIsInvalid(DateTime BirthDate)
+        {
+            bool IsInvalid = false;
+            DateTime dateNow = DateTime.Now;
+
+            if (dateNow.Year - BirthDate.Year <= 18 || dateNow.Year - BirthDate.Year >80)
+            {
+                IsInvalid = true;
+            }
+
+            return IsInvalid;
+        }
 
 
 
@@ -421,7 +444,7 @@ namespace HospitalSchedule.Controllers
             throw new ArgumentException("Valor inválido no número de documento.");
         }
 
-
+      
+        }
 
     }
-}
