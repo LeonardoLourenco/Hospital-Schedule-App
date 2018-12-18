@@ -14,10 +14,10 @@
         <tr>
             @using (Html.BeginForm())
             {
-                <p>
-                    Find by name: <input type="text" name="Search" placeholder="Insert operation block name" />
-                    <input type="submit" value="Search" />
-                </p>
+            <p>
+                Find by operation block's name: <input type="text" name="Search" placeholder="" />
+                <input type="submit" value="Search" />
+            </p>
             }
 
             @if (TempData["Success"] != null)

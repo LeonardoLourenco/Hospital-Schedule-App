@@ -60,7 +60,10 @@ namespace HospitalSchedule.Controllers
                 ViewData["Searched"] = false;
                 return View(new NursesView()
                 {
-                    Nurses = await _context.Nurse.ToListAsync(),
+                    Nurses = await _context.Nurse
+                    .Include(n => n.Specialty)
+                    .OrderBy(nurse => nurse.Name)
+                    .ToListAsync(),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -73,7 +76,11 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new NursesView()
             {
-                Nurses = await _context.Nurse.Where(nurse => nurse.Name.ToLower().Contains(search.ToLower())).ToListAsync(),
+                Nurses = await _context.Nurse
+                .Include(n => n.Specialty)
+                .Where(nurse => nurse.Name.ToLower().Contains(search.ToLower()))
+                .OrderBy(nurse => nurse.Name)
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,

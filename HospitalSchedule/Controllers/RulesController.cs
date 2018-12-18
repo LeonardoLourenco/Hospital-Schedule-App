@@ -56,7 +56,9 @@ namespace HospitalSchedule.Controllers
                 ViewData["Searched"] = false;
                 return View(new RulesView()
                 {
-                    Rules = await _context.Rules.ToListAsync(),
+                    Rules = await _context.Rules
+                    .OrderBy(p => p.NurseAge)
+                    .ToListAsync(),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -69,7 +71,10 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new RulesView()
             {
-                Rules = await _context.Rules.Where(rules => rules.InBetweenShiftTime.ToLower().Contains(search.ToLower())).ToListAsync(),
+                Rules = await _context.Rules
+                .Where(rules => rules.WeeklyHours.ToString().Contains(search.ToLower()))
+                .OrderBy(p => p.NurseAge)
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,

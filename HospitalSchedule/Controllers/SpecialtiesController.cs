@@ -26,8 +26,7 @@ namespace HospitalSchedule.Controllers
             int numSpecialty = await _context.Specialty.CountAsync();
 
 
-            var Specialty = await
-                _context.Specialty
+            var Specialty = await _context.Specialty
                     .OrderBy(p => p.Name)
                    
                     .Skip(PageSize * (page - 1))
@@ -59,7 +58,9 @@ namespace HospitalSchedule.Controllers
                 ViewData["Searched"] = false;
                 return View(new SpecialitiesView()
                 {
-                    Specialties = await _context.Specialty.ToListAsync(),
+                    Specialties = await _context.Specialty
+                    .OrderBy(p => p.Name)
+                    .ToListAsync(),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -72,7 +73,10 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new SpecialitiesView()
             {
-                Specialties = await _context.Specialty.Where(Specialty => Specialty.Name.ToLower().Contains(search.ToLower())).ToListAsync(),
+                Specialties = await _context.Specialty
+                .Where(Specialty => Specialty.Name.ToLower().Contains(search.ToLower()))
+                .OrderBy(p => p.Name)
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,

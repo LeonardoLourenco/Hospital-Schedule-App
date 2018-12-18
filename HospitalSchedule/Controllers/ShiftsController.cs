@@ -27,7 +27,7 @@ namespace HospitalSchedule.Controllers
 
 
             var Shift = await _context.Shift
-                .OrderBy(p => p.ShiftName)
+                    .OrderBy(p => p.ShiftName)
 
                     .Skip(PageSize * (page - 1))
                     .Take(PageSize)
@@ -58,7 +58,9 @@ namespace HospitalSchedule.Controllers
                 ViewData["Searched"] = false;
                 return View(new ShiftsView()
                 {
-                    Shifts = await _context.Shift.ToListAsync(),
+                    Shifts = await _context.Shift
+                    .OrderBy(p => p.ShiftName)
+                    .ToListAsync(),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -71,7 +73,10 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new ShiftsView()
             {
-                Shifts = await _context.Shift.Where(shifts => shifts.ShiftName.ToLower().Contains(search.ToLower())).ToListAsync(),
+                Shifts = await _context.Shift
+                .Where(shifts => shifts.ShiftName.ToLower().Contains(search.ToLower()))
+                .OrderBy(p => p.ShiftName)
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,

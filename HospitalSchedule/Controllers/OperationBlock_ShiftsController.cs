@@ -59,7 +59,11 @@ namespace HospitalSchedule.Controllers
                 ViewData["Searched"] = false;
                 return View(new OperationBlock_ShiftView()
                 {
-                    OperationBlock_Shifts = await _context.OperationBlock_Shifts.ToListAsync(),
+                    OperationBlock_Shifts = await _context.OperationBlock_Shifts
+                    .Include(a => a.OperationBlock)
+                    .Include(a => a.Shift)
+                    .OrderBy(p => p.OperationBlock.BlockName)
+                    .ToListAsync(),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -72,7 +76,12 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new OperationBlock_ShiftView()
             {
-                OperationBlock_Shifts = await _context.OperationBlock_Shifts.Where(OperationBlock_Shifts => OperationBlock_Shifts.OperationBlock.BlockName.ToLower().Contains(search.ToLower())).ToListAsync(),
+                OperationBlock_Shifts = await _context.OperationBlock_Shifts
+                .Include(a => a.OperationBlock)
+                .Include(a => a.Shift)
+                .Where(OperationBlock_Shifts => OperationBlock_Shifts.OperationBlock.BlockName.ToLower().Contains(search.ToLower()))
+                .OrderBy(p => p.OperationBlock.BlockName)
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
 
