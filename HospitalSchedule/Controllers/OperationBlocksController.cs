@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
+using System.Text.RegularExpressions;
 
 namespace HospitalSchedule.Controllers
 {
@@ -56,6 +57,22 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OperationBlockId,BlockName")] OperationBlock operationBlock)
         {
+
+            var name = operationBlock.BlockName;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("BlockName", "Shift is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("BlockName", "Shift already exist");
+            }
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(operationBlock);
@@ -89,6 +106,24 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OperationBlockId,BlockName")] OperationBlock operationBlock)
         {
+
+
+            var name = operationBlock.BlockName;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("BlockName", "Shift is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("BlockName", "Shift already exist");
+            }
+
+
+
             if (id != operationBlock.OperationBlockId)
             {
                 return NotFound();
@@ -150,5 +185,46 @@ namespace HospitalSchedule.Controllers
         {
             return _context.OperationBlock.Any(e => e.OperationBlockId == id);
         }
+
+
+
+        private bool nameIsInvalid(string name)
+        {
+            bool IsInvalid = false;
+            //Procura na BD se existem turnos iguais
+            var OperationBloks = from e in _context.OperationBlock
+                         where e.BlockName.Contains(name)
+                         select e;
+
+            if (!OperationBloks.Count().Equals(0))
+            {
+                IsInvalid = true;
+            }
+            return IsInvalid;
+        }
+
+
+
+        public static bool nameIsValid(string name)
+        {
+            string expression;
+            expression = "[a-zA-Z0-9][a-zA-Z 0-9]*";
+            if (Regex.IsMatch(name, expression))
+            {
+                if (Regex.Replace(name, expression, string.Empty).Length == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

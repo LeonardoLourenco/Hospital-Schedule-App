@@ -148,6 +148,9 @@ namespace HospitalSchedule.Controllers
         // GET: Specialties/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+
+
+
             if (id == null)
             {
                 return NotFound();
@@ -168,6 +171,23 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("SpecialtyId,Name")] Specialty specialty)
         {
+
+
+            var name = specialty.Name;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("Name", "Speciality is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("Name", "Specality already exist");
+            }
+
+
             if (id != specialty.SpecialtyId)
             {
                 return NotFound();
@@ -199,6 +219,8 @@ namespace HospitalSchedule.Controllers
         // GET: Specialties/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+           
+
             if (id == null)
             {
                 return NotFound();
@@ -219,6 +241,10 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
+           
+
+
             var specialty = await _context.Specialty.FindAsync(id);
             _context.Specialty.Remove(specialty);
             await _context.SaveChangesAsync();

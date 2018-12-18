@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
 using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
 
 namespace HospitalSchedule.Controllers
 {
@@ -120,9 +121,7 @@ namespace HospitalSchedule.Controllers
 
             var nCC = nurse.IDCard;
             var n_email = nurse.Email;
-
-
-
+           
 
             //validaçoes de email na DataBase
             if (!emailIsValid(n_email))
@@ -421,6 +420,8 @@ namespace HospitalSchedule.Controllers
             }
             throw new ArgumentException("Valor inválido no número de documento.");
         }
+
+
 
     }
 }
