@@ -193,6 +193,7 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Nurse " + nurse.Name + " has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);

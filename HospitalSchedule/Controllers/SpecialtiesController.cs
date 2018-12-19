@@ -175,6 +175,7 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Speciality " + specialty.Name + " has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(specialty);

@@ -174,6 +174,7 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Shift " + shift.ShiftName + " has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(shift);
