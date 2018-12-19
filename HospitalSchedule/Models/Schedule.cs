@@ -27,5 +27,9 @@ namespace HospitalSchedule.Models
         public OperationBlock_Shifts OperationBlock_Shifts { get; set; }
         [Required]
         public int OperationBlock_ShiftsId { get; set; }
+
+        public ICollection<Schedule_Exchange1> Schedule_Exchange1s { get; set; }
+
+        public ICollection<Schedule_Exchange2> Schedule_Exchange2s { get; set; }
     }
 }
