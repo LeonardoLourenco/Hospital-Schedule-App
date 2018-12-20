@@ -36,6 +36,21 @@ namespace HospitalSchedule.Controllers
                     .Take(PageSize)
                     .ToListAsync();
 
+            if (Convert.ToInt32(TempData["Schedule2"]) > 0)
+            {
+                var schedule1 = await _context.Schedule.FindAsync(Convert.ToInt32(TempData["Schedule2"]));
+                var schedule2 = await _context.Schedule.FindAsync(Convert.ToInt32(TempData["Schedule1"]));
+
+                var aux = schedule1.Nurse.Name;
+                schedule1.Nurse.Name = schedule2.Nurse.Name;
+                schedule2.Nurse.Name = aux;
+
+                _context.Update(schedule1);
+                await _context.SaveChangesAsync();
+                _context.Update(schedule2);
+                await _context.SaveChangesAsync();
+            }
+
             return View(
                 new SchedulesView
                 {

@@ -18,26 +18,25 @@
             <input type="hidden" asp-for="Date_Exchange_Request" />
             <div class="form-group">
                 <label class="control-label">Schedule 1 Date</label>
-                <p> @TempData["Nurse1"] </p>  @*Data do primeiro horário*@
+                <p>@Html.DisplayFor(model => model.Schedule_Exchange1.Schedule.Date)</p>
 
             </div>
             <div class="form-group">
                 <label class="control-label">Nurse 1</label>
-                <p> </p>  @*Enfermeiro do primeiro horário*@
+                <p>@Html.DisplayFor(model => model.Schedule_Exchange1.Schedule.Nurse.Name)</p>
 
             </div>
             <div class="form-group">
                 <label class="control-label">Schedule 2 Date</label>
-                <p> </p>  @*Data do segundo horário*@
-
+                <p>@Html.DisplayFor(model => model.Schedule_Exchange2.Schedule.Date)</p>
+                
             </div>
             <div class="form-group">
                 <label class="control-label">Nurse 2</label>
-                <p> </p>  @*Enfermeiro do segundo horário*@
+                <p>@Html.DisplayFor(model => model.Schedule_Exchange2.Schedule.Nurse.Name)</p>
 
             </div>
             <div class="form-group">
-                @*alteravel*@
                 <label asp-for="RequestState" class="control-label"></label>
                 <select asp-for="RequestState" class="form-control">
                     <option value="Approved">Approved</option>
@@ -46,21 +45,11 @@
             </div>
 
             <div class="form-group">
-                @*alteravel*@
-                <label asp-for="Date_RequestState" class="control-label"></label>
-                @*<input asp-for="Date_RequestState" class="form-control" />*@
-                <span asp-validation-for="Date_RequestState" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-warning" />
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

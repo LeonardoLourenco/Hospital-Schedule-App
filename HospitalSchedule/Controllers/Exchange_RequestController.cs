@@ -85,6 +85,7 @@ namespace HospitalSchedule.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Preecnhe automaticamente ao criar
                 exchange_Request.RequestState = "Pending";
                 exchange_Request.Date_Exchange_Request = DateTime.Now;
                 exchange_Request.Date_RequestState = DateTime.Now;
@@ -107,13 +108,27 @@ namespace HospitalSchedule.Controllers
             }
 
             var exchange_Request = await _context.Exchange_Request
-                .FindAsync(id);
+                .Include(e => e.Schedule_Exchange1)
+                .Include(e => e.Schedule_Exchange2)
+                .Include(a => a.Schedule_Exchange1.Schedule)
+                .Include(a => a.Schedule_Exchange2.Schedule)
+                .Include(a => a.Schedule_Exchange1.Schedule.Nurse)
+                .Include(a => a.Schedule_Exchange2.Schedule.Nurse)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.Shift)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.Shift)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.OperationBlock)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.OperationBlock)
+                .FirstOrDefaultAsync(m => m.Exchange_RequestId == id);
+                //.FindAsync(id);
             if (exchange_Request == null)
             {
                 return NotFound();
             }
             ViewData["Schedule_Exchange1Id"] = new SelectList(_context.Schedule_Exchange1, "Schedule_Exchange1Id", "Schedule_Exchange1Id", exchange_Request.Schedule_Exchange1Id);
             ViewData["Schedule_Exchange2Id"] = new SelectList(_context.Schedule_Exchange2, "Schedule_Exchange2Id", "Schedule_Exchange2Id", exchange_Request.Schedule_Exchange2Id);
+
             //var nurse1 = await _context.Nurse.FindAsync(exchange_Request.Schedule_Exchange2.Schedule.NurseId);
             //var nurse2 = await _context.Nurse.FindAsync(exchange_Request.Schedule_Exchange1.ScheduleId);
             //var date1 = await _context.Nurse.FindAsync(exchange_Request.Schedule_Exchange1.Schedule.Date);
@@ -122,7 +137,6 @@ namespace HospitalSchedule.Controllers
             //TempData["Nurse1"] = "" + nurse1.Name;
             //TempData["Date2"]= "" + date2.Name;
             //TempData["Nurse2"]= "" + nurse2.Name;
-            // Arranjar forma de colocar o enfermeiro 1 e 2 e a data 1 e 2 no edit.
             return View(exchange_Request);
         }
 
@@ -158,6 +172,18 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Exchange Request has been edited successfully";
+                // Arranjar forma de colocar o enfermeiro 1 e 2 e a data 1 e 2 no edit.
+                if (exchange_Request.RequestState == "Approved")
+                {
+                    //Mandar para a view index do horário
+                    //Alterar lá o horário 1 com 2
+                    var schedule1id = await _context.Schedule_Exchange1.FindAsync(exchange_Request.Schedule_Exchange1Id);
+                    var schedule2id = await _context.Schedule_Exchange2.FindAsync(exchange_Request.Schedule_Exchange2Id);
+                    TempData["Schedule1"] = "" + schedule1id.ScheduleId;
+                    TempData["Schedule2"] = "" + schedule2id.ScheduleId;
+                    return RedirectToAction("Index", "Schedules");
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Schedule_Exchange1Id"] = new SelectList(_context.Schedule_Exchange1, "Schedule_Exchange1Id", "Schedule_Exchange1Id", exchange_Request.Schedule_Exchange1Id);
@@ -166,45 +192,45 @@ namespace HospitalSchedule.Controllers
         }
 
         // GET: Exchange_Request/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var exchange_Request = await _context.Exchange_Request
-                .Include(e => e.Schedule_Exchange1)
-                .Include(e => e.Schedule_Exchange2)
-                .Include(a => a.Schedule_Exchange1.Schedule)
-                .Include(a => a.Schedule_Exchange2.Schedule)
-                .Include(a => a.Schedule_Exchange1.Schedule.Nurse)
-                .Include(a => a.Schedule_Exchange2.Schedule.Nurse)
-                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts)
-                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts)
-                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.Shift)
-                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.Shift)
-                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.OperationBlock)
-                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.OperationBlock)
-                .FirstOrDefaultAsync(m => m.Exchange_RequestId == id);
-            if (exchange_Request == null)
-            {
-                return NotFound();
-            }
+        //    var exchange_Request = await _context.Exchange_Request
+        //        .Include(e => e.Schedule_Exchange1)
+        //        .Include(e => e.Schedule_Exchange2)
+        //        .Include(a => a.Schedule_Exchange1.Schedule)
+        //        .Include(a => a.Schedule_Exchange2.Schedule)
+        //        .Include(a => a.Schedule_Exchange1.Schedule.Nurse)
+        //        .Include(a => a.Schedule_Exchange2.Schedule.Nurse)
+        //        .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts)
+        //        .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts)
+        //        .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.Shift)
+        //        .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.Shift)
+        //        .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.OperationBlock)
+        //        .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.OperationBlock)
+        //        .FirstOrDefaultAsync(m => m.Exchange_RequestId == id);
+        //    if (exchange_Request == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(exchange_Request);
-        }
+        //    return View(exchange_Request);
+        //}
 
-        // POST: Exchange_Request/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var exchange_Request = await _context.Exchange_Request.FindAsync(id);
-            _context.Exchange_Request.Remove(exchange_Request);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: Exchange_Request/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var exchange_Request = await _context.Exchange_Request.FindAsync(id);
+        //    _context.Exchange_Request.Remove(exchange_Request);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool Exchange_RequestExists(int id)
         {
