@@ -35,7 +35,6 @@ namespace HospitalSchedule.Models
 
         [Required(ErrorMessage = "Please insert the nurse's birth date")]
         [RegularExpression(@"([0-9]{8}[A-Z0-9]{4})", ErrorMessage = "Insert the identification")] //Mudaar
-        [Required]
         public string IDCard { get; set; } //Cartão de Cidadão/Bilhete de Identidade (CC/BI)
 
         [Required]
@@ -46,7 +45,7 @@ namespace HospitalSchedule.Models
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
-        public DateTime? YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
+        public DateTime YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
 
         public ICollection<Schedule> Schedules { get; set; }
 
