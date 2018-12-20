@@ -35,7 +35,7 @@ namespace HospitalSchedule.Models
         [Required]
         public DateTime BirthDate { get; set; } //Data de Nascimento
 
-        public DateTime? YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
+        public DateTime YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
 
         public ICollection<Schedule> Schedules { get; set; }
 

@@ -34,7 +34,7 @@ namespace HospitalSchedule.Data
             db.Rules.AddRange(
                   new Rules
                   {
-
+                      RulesName = "NUMERO UM",
                       WeeklyHours = 1,
                       NurseAge = 60,
                       ChildAge=5,
@@ -42,6 +42,7 @@ namespace HospitalSchedule.Data
                   },
                   new Rules
                   {
+                      RulesName = "NUMERO DOIS",
                       WeeklyHours = 1,
                       NurseAge = 65,
                       ChildAge = 20,
@@ -50,6 +51,7 @@ namespace HospitalSchedule.Data
                   },
                    new Rules
                    {
+                       RulesName = "NUMERO TRÊS",
                        WeeklyHours = 1,
                        NurseAge = 50,
                        ChildAge = 14,
@@ -58,6 +60,7 @@ namespace HospitalSchedule.Data
                    },
                   new Rules
                   {
+                      RulesName = "NUMERO QUATRO",
                       WeeklyHours = 1,
                       NurseAge = 45,
                       ChildAge = 2,
@@ -66,6 +69,7 @@ namespace HospitalSchedule.Data
                   },
                       new Rules
                       {
+                          RulesName = "NUMERO CINCO",
                           WeeklyHours = 1,
                           NurseAge = 29,
                           ChildAge = 1,

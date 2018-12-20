@@ -1,7 +1,7 @@
 ﻿@model NursesView
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List of Nurses";
 }
 
 <h2>Index</h2>
@@ -9,26 +9,27 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+@if (TempData["Success"] != null)
+{
+    <p>Created successfully</p>
+}
+
 <table class="table">
     <thead>
         <tr>
-            @using (Html.BeginForm())
-            {
-                <p>
-                    Find by name: <input type="text" name="Search"  placeholder="Insert nurse name" />
-                    <input type="submit" value="Search" />
-                </p>
-            }
-
-            @if (TempData["Success"]!= null) 
-            {
-                <p>Created successfully</p>
-            }
-
             <th>
                 Name
             </th>
-           
+
             <th>
                 Type
             </th>
@@ -48,13 +49,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-               
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CellPhoneNumber)
-                </td>                   
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Specialty.Name)
                 </td>

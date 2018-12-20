@@ -16,7 +16,7 @@
             @using (Html.BeginForm())
             {
                 <p>
-                    Find by name: <input type="text" name="Search" placeholder="Insert the in between hours shifts" />
+                    Find by name: <input type="text" name="Search" placeholder="Insert the rule name" />
                     <input type="submit" value="Search" />
                 </p>
             }
@@ -25,6 +25,9 @@
             {
                 <p>Created successfully</p>
             }
+            <th>
+                RulesName
+            </th>
 
             <th>
                 WeeklyHours
@@ -33,10 +36,11 @@
             <th>
                 NurseAge
             </th>
+
             <th>
                 ChildAge
             </th>
-            
+
             <th>
                 InBetweenShiftTime
             </th>

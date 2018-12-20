@@ -28,6 +28,8 @@ namespace HospitalSchedule.Controllers
             var Schedules = await _context.Schedule
                     .Include(a => a.Nurse)
                     .Include(a => a.OperationBlock_Shifts)
+                    .Include(a => a.OperationBlock_Shifts.Shift)
+                    .Include(a => a.OperationBlock_Shifts.OperationBlock)
                     .OrderBy(p => p.Nurse.Name)
 
                     .Skip(PageSize * (page - 1))
@@ -57,9 +59,16 @@ namespace HospitalSchedule.Controllers
             if (String.IsNullOrEmpty(search))
             {
                 ViewData["Searched"] = false;
-                return View(new  SchedulesView()
+                return View(new SchedulesView()
                 {
-                    Schedules = await _context.Schedule.ToListAsync(),
+                    Schedules = await _context.Schedule
+                    .Include(a => a.Nurse)
+                    .Include(a => a.OperationBlock_Shifts)
+                    .Include(a => a.OperationBlock_Shifts.Shift)
+                    .Include(a => a.OperationBlock_Shifts.OperationBlock)
+                    .OrderBy(p => p.Nurse.Name)
+                    .ToListAsync(),
+                    
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -72,7 +81,15 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new SchedulesView()
             {
-                Schedules = await _context.Schedule.Where(Schedule => Schedule.Nurse.Name.ToLower().Contains(search.ToLower())).ToListAsync(),
+                Schedules = await _context.Schedule
+                .Include(a => a.Nurse)
+                .Include(a => a.OperationBlock_Shifts)
+                .Include(a => a.OperationBlock_Shifts.Shift)
+                .Include(a => a.OperationBlock_Shifts.OperationBlock)
+                .OrderBy(p => p.Nurse.Name)
+                .Where(Schedule => Schedule.Nurse.Name.ToLower()
+                .Contains(search.ToLower()))
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
 

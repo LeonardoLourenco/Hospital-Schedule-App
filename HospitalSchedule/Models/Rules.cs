@@ -11,6 +11,9 @@ namespace HospitalSchedule.Models
         [Required]
         public int RulesId { get; set; }
 
+        [Required]
+        public string RulesName { get; set; }
+
         [Required(ErrorMessage = "Please insert number of Weekly Hours")]
         public int WeeklyHours { get; set; } //Numero de Horas Semanais
 

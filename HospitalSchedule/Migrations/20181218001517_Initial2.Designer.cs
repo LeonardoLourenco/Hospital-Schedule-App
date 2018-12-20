@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181213183044_Initial")]
-    partial class Initial
+    [Migration("20181218001517_Initial2")]
+    partial class Initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -99,6 +99,9 @@ namespace HospitalSchedule.Migrations
                         .IsRequired();
 
                     b.Property<int>("NurseAge");
+
+                    b.Property<string>("RulesName")
+                        .IsRequired();
 
                     b.Property<int>("WeeklyHours");
 
