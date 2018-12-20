@@ -44,7 +44,7 @@ namespace HospitalSchedule.Models
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
-        public DateTime? YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
+        public DateTime YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
 
         public ICollection<Schedule> Schedules { get; set; }
 

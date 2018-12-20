@@ -122,6 +122,18 @@ namespace HospitalSchedule.Controllers
             var nCC = nurse.IDCard;
             var n_email = nurse.Email;
             DateTime Age = nurse.BirthDate;
+            DateTime Child = nurse.YoungestChildBirthDate;
+
+
+
+            //validaçoes de data de nascimento 
+            if (YoungestChildBirthDateIsInvalid(Child))
+            {
+                ModelState.AddModelError("YoungestChildBirthDate", "YoungestChildBirthDate is invalid");
+            }
+
+
+
 
 
             //validaçoes de data de nascimento 
@@ -129,8 +141,6 @@ namespace HospitalSchedule.Controllers
             {
                 ModelState.AddModelError("BirthDate", "BirthDate is invalid");
             }
-
-
 
 
             //validaçoes de email na DataBase
@@ -314,6 +324,23 @@ namespace HospitalSchedule.Controllers
             {
                 IsInvalid = true;
             }
+            return IsInvalid;
+        }
+
+
+
+
+        //Função Data de nascimento do filho mais novo 
+        private bool YoungestChildBirthDateIsInvalid(DateTime BirthDate)
+        {
+            bool IsInvalid = false;
+            DateTime dateNow = DateTime.Now;
+
+            if (dateNow.Year - BirthDate.Year < 0 || dateNow.Year - BirthDate.Year > 25)
+            {
+                IsInvalid = true;
+            }
+
             return IsInvalid;
         }
 
