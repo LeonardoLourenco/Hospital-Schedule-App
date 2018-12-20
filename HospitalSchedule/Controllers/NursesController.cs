@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
+using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
 
 namespace HospitalSchedule.Controllers
 {
@@ -29,9 +31,9 @@ namespace HospitalSchedule.Controllers
 
             var Nurse = await 
                 _context.Nurse
-                    .Include(e => e.Specialty)
+                    
                     .OrderBy(p => p.Name)
-                  
+                    .Include(e => e.Specialty)
                     .Skip(PageSize * (page - 1))
                     .Take(PageSize)
                     .ToListAsync();
@@ -124,15 +126,60 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> Create([Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
 
+            var nCC = nurse.IDCard;
+            var n_email = nurse.Email;
+            DateTime Age = nurse.BirthDate;
+            DateTime Child = nurse.YoungestChildBirthDate;
 
-            if (ValidateNumeroDocumentoCC(nurse.IDCard))
+
+
+            //validaçoes de data de nascimento 
+            if (YoungestChildBirthDateIsInvalid(Child))
             {
-                return View(nurse);
+                ModelState.AddModelError("YoungestChildBirthDate", "YoungestChildBirthDate is invalid");
             }
+
+
+
+
+
+            //validaçoes de data de nascimento 
+            if (BirthDateIsInvalid(Age))
+            {
+                ModelState.AddModelError("BirthDate", "BirthDate is invalid");
+            }
+
+
+            //validaçoes de email na DataBase
+            if (!emailIsValid(n_email))
+            {
+                ModelState.AddModelError("Email", "Email is invalid");
+            }
+            
+            if (emailIsInvalid(n_email) ==true)
+            {
+                ModelState.AddModelError("Email", "email already exist");
+            }
+
+   
+
+            //validaçao do ID na BD create
+            if (!ValidateDocumentNumber(nCC))
+            {
+                ModelState.AddModelError("IDCard", "Number IDCard is invalid");
+
+            }
+
+            if(IDCardIsInvalid(nCC))
+                {
+                ModelState.AddModelError("IDCard", "Number IDCard already exist");
+            }
+
 
             if (ModelState.IsValid)
             {
-              
+
+               if( ValidateDocumentNumber(nCC))
                 _context.Add(nurse);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "The Nurse "+ nurse.Name+" has been created successfully";
@@ -142,6 +189,8 @@ namespace HospitalSchedule.Controllers
           
             return View(nurse);
         }
+
+
 
         // GET: Nurses/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -160,6 +209,8 @@ namespace HospitalSchedule.Controllers
             return View(nurse);
         }
 
+
+
         // POST: Nurses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -167,6 +218,37 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("NurseId,Name,Email,Type,CellPhoneNumber,IDCard,BirthDate,YoungestChildBirthDate,SpecialtyId")] Nurse nurse)
         {
+            var nCC = nurse.IDCard;
+            var n_email = nurse.Email;
+
+
+
+
+            //validaçoes de email na DataBase
+            if (!emailIsValid(n_email))
+            {
+                ModelState.AddModelError("Email", "Email is invalid");
+            }
+
+            if (emailIsInvalid(n_email) == true)
+            {
+                ModelState.AddModelError("Email", "email already exist");
+            }
+
+
+
+            //validaçao do ID na BD create
+            if (!ValidateDocumentNumber(nCC))
+            {
+                ModelState.AddModelError("IDCard", "Number IDCard is invalid");
+
+            }
+
+            if (IDCardIsInvalid(nCC))
+            {
+                ModelState.AddModelError("IDCard", "Number IDCard already exist");
+            }
+
             if (id != nurse.NurseId)
             {
                 return NotFound();
@@ -175,7 +257,7 @@ namespace HospitalSchedule.Controllers
             if (ModelState.IsValid)
             {
 
-                ValidateNumeroDocumentoCC(nurse.IDCard);
+                ValidateDocumentNumber(nurse.IDCard);
 
                 try
                 {
@@ -199,6 +281,7 @@ namespace HospitalSchedule.Controllers
             ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name", nurse.SpecialtyId);
             return View(nurse);
         }
+
 
         // GET: Nurses/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -237,16 +320,110 @@ namespace HospitalSchedule.Controllers
 
 
 
-        public bool ValidateNumeroDocumentoCC(string numeroDocumento)
+        private bool emailIsInvalid(string n_email)
+        {
+            bool IsInvalid = false;
+            //Procura na BD se existem enfermeiros com o mesmo email
+            var nurses = from e in _context.Nurse
+                              where e.Email.Contains(n_email)
+                              select e;
+
+            if (!nurses.Count().Equals(0))
+            {
+                IsInvalid = true;
+            }
+            return IsInvalid;
+        }
+
+
+
+
+        //Função Data de nascimento do filho mais novo 
+        private bool YoungestChildBirthDateIsInvalid(DateTime BirthDate)
+        {
+            bool IsInvalid = false;
+            DateTime dateNow = DateTime.Now;
+
+            if (dateNow.Year - BirthDate.Year < 0 || dateNow.Year - BirthDate.Year > 25)
+            {
+                IsInvalid = true;
+            }
+
+            return IsInvalid;
+        }
+
+
+        //Função Data de nascimento 
+        private bool BirthDateIsInvalid(DateTime BirthDate)
+        {
+            bool IsInvalid = false;
+            DateTime dateNow = DateTime.Now;
+
+            if (dateNow.Year - BirthDate.Year <= 18 || dateNow.Year - BirthDate.Year >80)
+            {
+                IsInvalid = true;
+            }
+
+            return IsInvalid;
+        }
+
+
+
+        private bool IDCardIsInvalid(String cc)
+        {
+            bool IsInvalid = false;
+
+
+            //Procura na BD se existem enfermeiros com o mesmo numero mecanografico
+            var nurses = from e in _context.Nurse
+                            where e.IDCard.Contains(cc)
+                            select e;
+
+            if (!nurses.Count().Equals(0))
+            {
+                IsInvalid = true;
+            }
+
+            return IsInvalid;
+        }
+
+
+        public static bool emailIsValid(string email)
+        {
+            string expression;
+
+            expression = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+            if (Regex.IsMatch(email, expression))
+            {
+                if (Regex.Replace(email, expression, string.Empty).Length == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+
+
+        public bool ValidateDocumentNumber(string DocumentNumber)
         {
             int sum = 0;
             bool secondDigit = false;
-            if (numeroDocumento.Length != 12)
+            if (DocumentNumber.Length != 12)
                 throw new ArgumentException("Tamanho inválido para número de documento.");
-        for (int i = numeroDocumento.Length - 1; i >= 0; --i)
+        for (int i = DocumentNumber.Length - 1; i >= 0; --i)
             {
-                string upper = numeroDocumento.ToUpper();
-                int valor = GetNumberFromChar(upper[i]);
+                //string upper = numeroDocumento.ToUpper();
+                int valor = GetNumberFromChar(DocumentNumber[i]);
                 if (secondDigit)
                 {
                     valor *= 2;
@@ -302,5 +479,7 @@ namespace HospitalSchedule.Controllers
             throw new ArgumentException("Valor inválido no número de documento.");
         }
 
+      
+        }
+
     }
-}

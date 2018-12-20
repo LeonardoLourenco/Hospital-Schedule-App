@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HospitalSchedule.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -103,7 +103,7 @@ namespace HospitalSchedule.Migrations
                     CellPhoneNumber = table.Column<string>(nullable: false),
                     IDCard = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
-                    YoungestChildBirthDate = table.Column<DateTime>(nullable: true),
+                    YoungestChildBirthDate = table.Column<DateTime>(nullable: false),
                     SpecialtyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

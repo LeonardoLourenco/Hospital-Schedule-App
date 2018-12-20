@@ -43,7 +43,7 @@ namespace HospitalSchedule.Migrations
 
                     b.Property<int>("Type");
 
-                    b.Property<DateTime?>("YoungestChildBirthDate");
+                    b.Property<DateTime>("YoungestChildBirthDate");
 
                     b.HasKey("NurseId");
 
