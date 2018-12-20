@@ -391,6 +391,10 @@ namespace HospitalSchedule.Controllers
         public static bool emailIsValid(string email)
         {
             string expression;
+            if(email == null)
+            {
+                return false;
+            }
 
             expression = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
             if (Regex.IsMatch(email, expression))
@@ -416,6 +420,10 @@ namespace HospitalSchedule.Controllers
 
         public bool ValidateDocumentNumber(string DocumentNumber)
         {
+            if (DocumentNumber == null)
+            {
+                return false;
+            }
             int sum = 0;
             bool secondDigit = false;
             if (DocumentNumber.Length != 12)
