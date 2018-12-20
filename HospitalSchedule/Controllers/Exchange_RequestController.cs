@@ -174,10 +174,9 @@ namespace HospitalSchedule.Controllers
                 }
                 TempData["Success"] = "The Exchange Request has been edited successfully";
                 // Arranjar forma de colocar o enfermeiro 1 e 2 e a data 1 e 2 no edit.
-                if (exchange_Request.RequestState == "Approved")
+                if (exchange_Request.RequestState == "Approved") //Se o pedido for aprovado, envia para o Schedule o id do 1º Horário e o id do 2º.
                 {
-                    //Mandar para a view index do horário
-                    //Alterar lá o horário 1 com 2
+                    
                     var schedule1id = await _context.Schedule_Exchange1.FindAsync(exchange_Request.Schedule_Exchange1Id);
                     var schedule2id = await _context.Schedule_Exchange2.FindAsync(exchange_Request.Schedule_Exchange2Id);
                     TempData["Schedule1"] = "" + schedule1id.ScheduleId;

@@ -36,12 +36,12 @@ namespace HospitalSchedule.Controllers
                     .Take(PageSize)
                     .ToListAsync();
 
-            if (Convert.ToInt32(TempData["Schedule2"]) > 0)
+            if (Convert.ToInt32(TempData["Schedule2"]) > 0) // Verifica se o que está dentro da TempData Schedule - o id do 2º Horário é maior que 0
             {
-                var schedule1 = await _context.Schedule.FindAsync(Convert.ToInt32(TempData["Schedule2"]));
-                var schedule2 = await _context.Schedule.FindAsync(Convert.ToInt32(TempData["Schedule1"]));
-
-                var aux = schedule1.Nurse.Name;
+                var schedule1 = await _context.Schedule.FindAsync(Convert.ToInt32(TempData["Schedule2"])); // O tempdata apenas aceita string,
+                var schedule2 = await _context.Schedule.FindAsync(Convert.ToInt32(TempData["Schedule1"])); // e falha a converter fazendo cast para int - (int)
+                                                                                                           // portanto usamos Convert.ToInt32(), desta forma conseguimos 
+                var aux = schedule1.Nurse.Name;                                                            // mudar dinamicamente os enfermeiros à qual a troca foi aprovada
                 schedule1.Nurse.Name = schedule2.Nurse.Name;
                 schedule2.Nurse.Name = aux;
 
