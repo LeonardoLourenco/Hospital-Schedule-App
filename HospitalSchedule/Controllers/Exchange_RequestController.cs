@@ -21,7 +21,20 @@ namespace HospitalSchedule.Controllers
         // GET: Exchange_Request
         public async Task<IActionResult> Index()
         {
-            var hospitalScheduleDbContext = _context.Exchange_Request.Include(e => e.Schedule_Exchange1).Include(e => e.Schedule_Exchange2);
+            var hospitalScheduleDbContext = _context.Exchange_Request //Muito provavelmente adicionar mais includes para poder ver todo o horário
+                .Include(e => e.Schedule_Exchange1)
+                .Include(e => e.Schedule_Exchange2)
+                .Include(a => a.Schedule_Exchange1.Schedule)
+                .Include(a => a.Schedule_Exchange2.Schedule)
+                .Include(a => a.Schedule_Exchange1.Schedule.Nurse)
+                .Include(a => a.Schedule_Exchange2.Schedule.Nurse)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.Shift)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.Shift)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.OperationBlock)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.OperationBlock);
+                
             return View(await hospitalScheduleDbContext.ToListAsync());
         }
 
@@ -36,6 +49,16 @@ namespace HospitalSchedule.Controllers
             var exchange_Request = await _context.Exchange_Request
                 .Include(e => e.Schedule_Exchange1)
                 .Include(e => e.Schedule_Exchange2)
+                .Include(a => a.Schedule_Exchange1.Schedule)
+                .Include(a => a.Schedule_Exchange2.Schedule)
+                .Include(a => a.Schedule_Exchange1.Schedule.Nurse)
+                .Include(a => a.Schedule_Exchange2.Schedule.Nurse)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.Shift)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.Shift)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.OperationBlock)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.OperationBlock)
                 .FirstOrDefaultAsync(m => m.Exchange_RequestId == id);
             if (exchange_Request == null)
             {
@@ -62,6 +85,10 @@ namespace HospitalSchedule.Controllers
         {
             if (ModelState.IsValid)
             {
+                exchange_Request.RequestState = "Pending";
+                exchange_Request.Date_Exchange_Request = DateTime.Now;
+                exchange_Request.Date_RequestState = DateTime.Now;
+
                 _context.Add(exchange_Request);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -79,13 +106,23 @@ namespace HospitalSchedule.Controllers
                 return NotFound();
             }
 
-            var exchange_Request = await _context.Exchange_Request.FindAsync(id);
+            var exchange_Request = await _context.Exchange_Request
+                .FindAsync(id);
             if (exchange_Request == null)
             {
                 return NotFound();
             }
             ViewData["Schedule_Exchange1Id"] = new SelectList(_context.Schedule_Exchange1, "Schedule_Exchange1Id", "Schedule_Exchange1Id", exchange_Request.Schedule_Exchange1Id);
             ViewData["Schedule_Exchange2Id"] = new SelectList(_context.Schedule_Exchange2, "Schedule_Exchange2Id", "Schedule_Exchange2Id", exchange_Request.Schedule_Exchange2Id);
+            //var nurse1 = await _context.Nurse.FindAsync(exchange_Request.Schedule_Exchange2.Schedule.NurseId);
+            //var nurse2 = await _context.Nurse.FindAsync(exchange_Request.Schedule_Exchange1.ScheduleId);
+            //var date1 = await _context.Nurse.FindAsync(exchange_Request.Schedule_Exchange1.Schedule.Date);
+            //var date2 = await _context.Nurse.FindAsync(exchange_Request.Schedule_Exchange1.Schedule.Date);
+            //TempData["Date1"] = "" + date1.Name;
+            //TempData["Nurse1"] = "" + nurse1.Name;
+            //TempData["Date2"]= "" + date2.Name;
+            //TempData["Nurse2"]= "" + nurse2.Name;
+            // Arranjar forma de colocar o enfermeiro 1 e 2 e a data 1 e 2 no edit.
             return View(exchange_Request);
         }
 
@@ -105,6 +142,8 @@ namespace HospitalSchedule.Controllers
             {
                 try
                 {
+                    exchange_Request.Date_RequestState = DateTime.Now;  //Coloca a data no momento na data em que foi alterado o estado
+
                     _context.Update(exchange_Request);
                     await _context.SaveChangesAsync();
                 }
@@ -137,6 +176,16 @@ namespace HospitalSchedule.Controllers
             var exchange_Request = await _context.Exchange_Request
                 .Include(e => e.Schedule_Exchange1)
                 .Include(e => e.Schedule_Exchange2)
+                .Include(a => a.Schedule_Exchange1.Schedule)
+                .Include(a => a.Schedule_Exchange2.Schedule)
+                .Include(a => a.Schedule_Exchange1.Schedule.Nurse)
+                .Include(a => a.Schedule_Exchange2.Schedule.Nurse)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.Shift)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.Shift)
+                .Include(a => a.Schedule_Exchange1.Schedule.OperationBlock_Shifts.OperationBlock)
+                .Include(a => a.Schedule_Exchange2.Schedule.OperationBlock_Shifts.OperationBlock)
                 .FirstOrDefaultAsync(m => m.Exchange_RequestId == id);
             if (exchange_Request == null)
             {

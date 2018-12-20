@@ -21,7 +21,8 @@ namespace HospitalSchedule.Controllers
         // GET: Schedule_Exchange1
         public async Task<IActionResult> Index()
         {
-            var hospitalScheduleDbContext = _context.Schedule_Exchange1.Include(s => s.Schedule);
+            var hospitalScheduleDbContext = _context.Schedule_Exchange1
+                .Include(s => s.Schedule);
             return View(await hospitalScheduleDbContext.ToListAsync());
         }
 

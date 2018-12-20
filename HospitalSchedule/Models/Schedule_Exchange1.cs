@@ -11,7 +11,7 @@ namespace HospitalSchedule.Models
         [Required]
         public int Schedule_Exchange1Id { get; set; }
 
-        [Required]
+        
         public Schedule Schedule { get; set; }
 
         [Required]

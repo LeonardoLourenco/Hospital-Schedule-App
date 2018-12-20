@@ -1,57 +1,71 @@
 ﻿@model IEnumerable<HospitalSchedule.Models.Exchange_Request>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Exchange Request";
 }
 
-<h2>Index</h2>
+<h2>Exchange Request</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-default">Create New</a>
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Schedule_Exchange1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Schedule_Exchange2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_RequestState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_Exchange_Request)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
+
+        @if (TempData["Success"] != null)
+        {
+            <script type="text/javascript">
+                alert('@TempData["Success"]');
+            </script>
+        }
+
+            <tr>
+                <th>
+                    Schedule 1 Date
+                    @*@Html.DisplayNameFor(model => model.Schedule_Exchange1)*@
+                </th>
+                <th>
+                    Nurse 1
+                    @*@Html.DisplayNameFor(model => model.Schedule_Exchange2)*@
+                </th>
+                <th>
+                    Schedule 2 Date
+                    @*@Html.DisplayNameFor(model => model.RequestState)*@
+                </th>
+                <th>
+                    Nurse 2
+                    @*@Html.DisplayNameFor(model => model.Date_RequestState)*@
+                </th>
+                <th>
+                    Request State
+                    @*@Html.DisplayNameFor(model => model.Date_Exchange_Request)*@
+                </th>
+                <th></th>
+            </tr>
+        </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Schedule_Exchange1.Schedule_Exchange1Id)
+                @Html.DisplayFor(modelItem => item.Schedule_Exchange1.Schedule.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Schedule_Exchange2.Schedule_Exchange2Id)
+                @Html.DisplayFor(modelItem => item.Schedule_Exchange1.Schedule.Nurse.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Schedule_Exchange2.Schedule.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Schedule_Exchange2.Schedule.Nurse.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RequestState)
             </td>
+           
             <td>
-                @Html.DisplayFor(modelItem => item.Date_RequestState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date_Exchange_Request)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Exchange_RequestId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Exchange_RequestId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Exchange_RequestId">Delete</a>
+                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Exchange_RequestId">Edit</a>
+                <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.Exchange_RequestId">Details</a>
+                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Exchange_RequestId">Delete</a>
             </td>
         </tr>
 }

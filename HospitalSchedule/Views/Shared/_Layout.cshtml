@@ -30,14 +30,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @*<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
                     <li><a asp-area="" asp-controller="Nurses" asp-action="Index">Nurses</a></li>
                     <li><a asp-area="" asp-controller="Specialties" asp-action="Index">Specialties</a></li>
                     <li><a asp-area="" asp-controller="Shifts" asp-action="Index">Shifts</a></li>
                     <li><a asp-area="" asp-controller="OperationBlocks" asp-action="Index">OperationBlocks</a></li>
                     <li><a asp-area="" asp-controller="Schedules" asp-action="Index">Schedules</a></li>
                     <li><a asp-area="" asp-controller="OperationBlock_Shifts" asp-action="Index">OperationBlock_Shifts</a></li>
+                    <li><a asp-area="" asp-controller="Exchange_Request" asp-action="Index">Exchange Request</a></li>
+                    <li><a asp-area="" asp-controller="Schedule_Exchange1" asp-action="Index">Sche1</a></li>
+                    <li><a asp-area="" asp-controller="Schedule_Exchange2" asp-action="Index">Sche2</a></li>
                     <li><a asp-area="" asp-controller="Rules" asp-action="Index">Rules</a></li>
                 </ul>
                 <partial name="_LoginPartial" />

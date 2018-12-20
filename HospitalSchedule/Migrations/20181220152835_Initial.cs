@@ -144,6 +144,83 @@ namespace HospitalSchedule.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Schedule_Exchange1",
+                columns: table => new
+                {
+                    Schedule_Exchange1Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ScheduleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedule_Exchange1", x => x.Schedule_Exchange1Id);
+                    table.ForeignKey(
+                        name: "FK_Schedule_Exchange1_Schedule_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedule",
+                        principalColumn: "ScheduleId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedule_Exchange2",
+                columns: table => new
+                {
+                    Schedule_Exchange2Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ScheduleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedule_Exchange2", x => x.Schedule_Exchange2Id);
+                    table.ForeignKey(
+                        name: "FK_Schedule_Exchange2_Schedule_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedule",
+                        principalColumn: "ScheduleId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Exchange_Request",
+                columns: table => new
+                {
+                    Exchange_RequestId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Schedule_Exchange1Id = table.Column<int>(nullable: false),
+                    Schedule_Exchange2Id = table.Column<int>(nullable: false),
+                    RequestState = table.Column<string>(nullable: false),
+                    Date_RequestState = table.Column<DateTime>(nullable: false),
+                    Date_Exchange_Request = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exchange_Request", x => x.Exchange_RequestId);
+                    table.ForeignKey(
+                        name: "FK_Exchange_Request_Schedule_Exchange1_Schedule_Exchange1Id",
+                        column: x => x.Schedule_Exchange1Id,
+                        principalTable: "Schedule_Exchange1",
+                        principalColumn: "Schedule_Exchange1Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Exchange_Request_Schedule_Exchange2_Schedule_Exchange2Id",
+                        column: x => x.Schedule_Exchange2Id,
+                        principalTable: "Schedule_Exchange2",
+                        principalColumn: "Schedule_Exchange2Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Exchange_Request_Schedule_Exchange1Id",
+                table: "Exchange_Request",
+                column: "Schedule_Exchange1Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Exchange_Request_Schedule_Exchange2Id",
+                table: "Exchange_Request",
+                column: "Schedule_Exchange2Id");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Nurse_SpecialtyId",
                 table: "Nurse",
@@ -168,12 +245,31 @@ namespace HospitalSchedule.Migrations
                 name: "IX_Schedule_OperationBlock_ShiftsId",
                 table: "Schedule",
                 column: "OperationBlock_ShiftsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Schedule_Exchange1_ScheduleId",
+                table: "Schedule_Exchange1",
+                column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Schedule_Exchange2_ScheduleId",
+                table: "Schedule_Exchange2",
+                column: "ScheduleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Exchange_Request");
+
+            migrationBuilder.DropTable(
                 name: "Rules");
+
+            migrationBuilder.DropTable(
+                name: "Schedule_Exchange1");
+
+            migrationBuilder.DropTable(
+                name: "Schedule_Exchange2");
 
             migrationBuilder.DropTable(
                 name: "Schedule");

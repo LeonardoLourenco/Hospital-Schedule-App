@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181213155258_Initial")]
+    [Migration("20181220152835_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,32 @@ namespace HospitalSchedule.Migrations
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("HospitalSchedule.Models.Exchange_Request", b =>
+                {
+                    b.Property<int>("Exchange_RequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date_Exchange_Request");
+
+                    b.Property<DateTime>("Date_RequestState");
+
+                    b.Property<string>("RequestState")
+                        .IsRequired();
+
+                    b.Property<int>("Schedule_Exchange1Id");
+
+                    b.Property<int>("Schedule_Exchange2Id");
+
+                    b.HasKey("Exchange_RequestId");
+
+                    b.HasIndex("Schedule_Exchange1Id");
+
+                    b.HasIndex("Schedule_Exchange2Id");
+
+                    b.ToTable("Exchange_Request");
+                });
 
             modelBuilder.Entity("HospitalSchedule.Models.Nurse", b =>
                 {
@@ -128,6 +154,36 @@ namespace HospitalSchedule.Migrations
                     b.ToTable("Schedule");
                 });
 
+            modelBuilder.Entity("HospitalSchedule.Models.Schedule_Exchange1", b =>
+                {
+                    b.Property<int>("Schedule_Exchange1Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ScheduleId");
+
+                    b.HasKey("Schedule_Exchange1Id");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("Schedule_Exchange1");
+                });
+
+            modelBuilder.Entity("HospitalSchedule.Models.Schedule_Exchange2", b =>
+                {
+                    b.Property<int>("Schedule_Exchange2Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ScheduleId");
+
+                    b.HasKey("Schedule_Exchange2Id");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("Schedule_Exchange2");
+                });
+
             modelBuilder.Entity("HospitalSchedule.Models.Shift", b =>
                 {
                     b.Property<int>("ShiftId")
@@ -162,6 +218,17 @@ namespace HospitalSchedule.Migrations
                     b.ToTable("Specialty");
                 });
 
+            modelBuilder.Entity("HospitalSchedule.Models.Exchange_Request", b =>
+                {
+                    b.HasOne("HospitalSchedule.Models.Schedule_Exchange1", "Schedule_Exchange1")
+                        .WithMany("Exchange_Requests")
+                        .HasForeignKey("Schedule_Exchange1Id");
+
+                    b.HasOne("HospitalSchedule.Models.Schedule_Exchange2", "Schedule_Exchange2")
+                        .WithMany("Exchange_Requests")
+                        .HasForeignKey("Schedule_Exchange2Id");
+                });
+
             modelBuilder.Entity("HospitalSchedule.Models.Nurse", b =>
                 {
                     b.HasOne("HospitalSchedule.Models.Specialty", "Specialty")
@@ -189,6 +256,20 @@ namespace HospitalSchedule.Migrations
                     b.HasOne("HospitalSchedule.Models.OperationBlock_Shifts", "OperationBlock_Shifts")
                         .WithMany("Schedules")
                         .HasForeignKey("OperationBlock_ShiftsId");
+                });
+
+            modelBuilder.Entity("HospitalSchedule.Models.Schedule_Exchange1", b =>
+                {
+                    b.HasOne("HospitalSchedule.Models.Schedule", "Schedule")
+                        .WithMany("Schedule_Exchange1s")
+                        .HasForeignKey("ScheduleId");
+                });
+
+            modelBuilder.Entity("HospitalSchedule.Models.Schedule_Exchange2", b =>
+                {
+                    b.HasOne("HospitalSchedule.Models.Schedule", "Schedule")
+                        .WithMany("Schedule_Exchange2s")
+                        .HasForeignKey("ScheduleId");
                 });
 #pragma warning restore 612, 618
         }
