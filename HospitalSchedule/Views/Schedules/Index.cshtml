@@ -7,7 +7,7 @@
 <h2>Schedule</h2>
 
 <p>
-    <a asp-action="Create" class="btn btn-default" >Create New</a>
+    <a asp-action="Create" class="btn btn-default">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -19,18 +19,20 @@
             </script>
         }
 
+        @if (TempData["Alert"] != null)
+        {
+            <script type="text/javascript">
+                alert('@TempData["Alert"]');
+            </script>
+        }
+
         <tr>
             @using (Html.BeginForm())
             {
-            <p>
-                Find by nurse's name: <input type="text" name="Search" placeholder="" />
-                <input type="submit" value="Search" />
-            </p>
-            }
-
-            @if (TempData["Success"] != null)
-            {
-                <p>Created successfully</p>
+                <p>
+                    Find by nurse's name: <input type="text" name="Search" placeholder="" />
+                    <input type="submit" value="Search" />
+                </p>
             }
 
             <th>
@@ -47,9 +49,11 @@
             </th>
             <th></th>
         </tr>
-        
+
     </thead>
     <tbody>
+        @using (Html.BeginForm())
+        {
         @foreach (var item in Model.Schedules)
         {
             <tr>
@@ -65,6 +69,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.OperationBlock_Shifts.Shift.ShiftName)
                 </td>
+
+                <td>
+                    <input type="checkbox" value="@item.ScheduleId" name="checkboxResp" autocomplete="off" onclick="toggle_div_fun('sectiontohide');"/>
+                </td>
+
                 <td>
                     <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.ScheduleId">Edit</a>
                     <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.ScheduleId">Details</a>
@@ -72,8 +81,27 @@
                 </td>
             </tr>
         }
-    </tbody>
+            <div id="hideablediv" hidden>
+                <p>
+                    <input type="submit" value="Request Exchange" name="RequestExchange" class="btn btn-warning" />
+                </p>
+            </div>
+        }
+</tbody>
+    
 </table>
+
 <div page-model="@Model.PagingInfo" page-action="" class="btn-group pull-right">
 
 </div>
+
+<script type="text/javascript">
+    function toggle_div_fun(id) {
+
+        var divelement = document.getElementById('hideablediv');
+
+
+        divelement.style.display = 'block';
+
+    }
+</script>

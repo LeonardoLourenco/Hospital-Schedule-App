@@ -83,20 +83,34 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Exchange_RequestId,Schedule_Exchange1Id,Schedule_Exchange2Id,RequestState,Date_RequestState,Date_Exchange_Request")] Exchange_Request exchange_Request)
         {
-            if (ModelState.IsValid)
-            {
-                //Preecnhe automaticamente ao criar
+            //if (ModelState.IsValid)
+            //{
+            //Preenche automaticamente ao criar
+
+                var sched1 = _context.Schedule_Exchange1
+                    .Where(Schedule_Exchange1 => Schedule_Exchange1.ScheduleId
+                    == Convert.ToInt32(TempData["SchedEx1"]));
+                var schedex1 = sched1.First();
+                var sched2 = _context.Schedule_Exchange2
+                    .Where(Schedule_Exchange2 => Schedule_Exchange2.ScheduleId
+                    == Convert.ToInt32(TempData["SchedEx2"]));
+                var schedex2 = sched2.First();
+
+                exchange_Request.Schedule_Exchange1Id = schedex1.Schedule_Exchange1Id;
+                exchange_Request.Schedule_Exchange2Id = schedex2.Schedule_Exchange2Id;
                 exchange_Request.RequestState = "Pending";
                 exchange_Request.Date_Exchange_Request = DateTime.Now;
                 exchange_Request.Date_RequestState = DateTime.Now;
 
+
+                TempData["Success"] = "The Exchange Request has been created successfully";
                 _context.Add(exchange_Request);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["Schedule_Exchange1Id"] = new SelectList(_context.Schedule_Exchange1, "Schedule_Exchange1Id", "Schedule_Exchange1Id", exchange_Request.Schedule_Exchange1Id);
-            ViewData["Schedule_Exchange2Id"] = new SelectList(_context.Schedule_Exchange2, "Schedule_Exchange2Id", "Schedule_Exchange2Id", exchange_Request.Schedule_Exchange2Id);
-            return View(exchange_Request);
+            //}
+            //ViewData["Schedule_Exchange1Id"] = new SelectList(_context.Schedule_Exchange1, "Schedule_Exchange1Id", "Schedule_Exchange1Id", exchange_Request.Schedule_Exchange1Id);
+            //ViewData["Schedule_Exchange2Id"] = new SelectList(_context.Schedule_Exchange2, "Schedule_Exchange2Id", "Schedule_Exchange2Id", exchange_Request.Schedule_Exchange2Id);
+            //return View(exchange_Request);
         }
 
         // GET: Exchange_Request/Edit/5
