@@ -144,7 +144,7 @@ namespace HospitalSchedule.Controllers
                 if(TempData["SchedEx1"].Equals(TempData["SchedEx2"])) 
                 {
                     //Caso os ids dos Schedules sejam iguais estes não podem ser usados, não se pode fazer um pedido de troca para a mesma linha do horário.
-                    TempData["Alert"] = "You can't select the same schedule!!";
+                    TempData["Alert"] = "You can t select the same schedule!!";
                     TempData["SchedEx1"] = null;
                     TempData["SchedEx2"] = null;
 
