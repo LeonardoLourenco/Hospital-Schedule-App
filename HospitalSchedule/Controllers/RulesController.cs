@@ -270,6 +270,11 @@ namespace HospitalSchedule.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public ActionResult Error()
+        {
+            return View();
+        }
+
         private bool RulesExists(int id)
         {
             return _context.Rules.Any(e => e.RulesId == id);

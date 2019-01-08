@@ -397,9 +397,24 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var schedule = await _context.Schedule.FindAsync(id);
+            //Procurar se já há alguma ligação para o Horário a eliminar
+            var schedule_ex1 = _context.Schedule_Exchange1.Where(Schedule_Exchange1 => Schedule_Exchange1.ScheduleId == schedule.ScheduleId);
+            var schedule_ex2 = _context.Schedule_Exchange2.Where(Schedule_Exchange2 => Schedule_Exchange2.ScheduleId == schedule.ScheduleId);
+            //Se existir 1 ligação com pelo menos uma das tabelas intermédias, o VS dará erro após guardar assincronamente,
+            //nós queremos que apareça uma página de erro
+            if (schedule_ex1.Any()|schedule_ex2.Any())
+            {
+                TempData["Error"] = "The schedule that you are trying to delete is already connected to, at least, one intermediary table therefore you cant delete it.";
+                return RedirectToAction(nameof(Error));
+            }
             _context.Schedule.Remove(schedule);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         private bool ScheduleExists(int id)
