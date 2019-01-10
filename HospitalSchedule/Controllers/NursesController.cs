@@ -308,9 +308,23 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var nurse = await _context.Nurse.FindAsync(id);
+            //Procurar se já há alguma ligação para o Enfermeiro a eliminar
+            var schedule = _context.Schedule.Where(Schedule => Schedule.NurseId == nurse.NurseId);
+            //Se existir pelo menos 1 ligação (Horário/Linha no horário com um enfermeiro associado), o VS dará erro após guardar assincronamente,
+            //nós queremos que apareça uma página de erro
+            if (schedule.Any())
+            {
+                TempData["Error"] = "The nurse that you are trying to delete is already connected to, at least, one schedule therefore you cant delete it.";
+                return RedirectToAction(nameof(Error));
+            }
             _context.Nurse.Remove(nurse);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         private bool NurseExists(int id)

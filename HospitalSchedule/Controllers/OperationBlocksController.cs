@@ -237,9 +237,23 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var operationBlock = await _context.OperationBlock.FindAsync(id);
+            //Procurar se já há alguma ligação para o Bloco Operatório a eliminar
+            var operationBlockShift = _context.OperationBlock_Shifts.Where(OperationBlock_Shifts => OperationBlock_Shifts.OperationBlockId == operationBlock.OperationBlockId);
+            //Se existir pelo menos 1 ligação (Bloco Operátorio - Turno sendo este o bloco operatório associado), o VS dará erro após guardar assincronamente,
+            //nós queremos que apareça uma página de erro
+            if (operationBlockShift.Any())
+            {
+                TempData["Error"] = "The operation block that you are trying to delete is already connected to, at least, one operation block - shift connection therefore you cant delete it.";
+                return RedirectToAction(nameof(Error));
+            }
             _context.OperationBlock.Remove(operationBlock);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         private bool OperationBlockExists(int id)

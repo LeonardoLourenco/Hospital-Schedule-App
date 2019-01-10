@@ -18,12 +18,10 @@ namespace HospitalSchedule.Models
 
         [Required(ErrorMessage = "Please insert the hour in which the shift starts")]
         [RegularExpression(@"([0-9]{2})+:+([0-9]{2})", ErrorMessage = "Please insert the hour in which the shift starts in the format 00:00")]
-        [DisplayFormat(DataFormatString ="{0:HH:mm}",ApplyFormatInEditMode =false)]
         public string StartingHour { get; set; } //Hora de inicio do turno
 
         [Required(ErrorMessage = "Please insert duration of the shift")]
         [RegularExpression(@"([0-9]{2})+:+([0-9]{2})", ErrorMessage = "Please insert duration of the shift in the format 00:00")]
-        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = false)]
         public string Duration { get; set; } //Duração do turno
 
         public ICollection<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }

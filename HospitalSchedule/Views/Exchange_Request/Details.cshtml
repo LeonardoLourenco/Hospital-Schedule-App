@@ -1,0 +1,94 @@
+﻿@model HospitalSchedule.Models.Exchange_Request
+
+@{
+    ViewData["Title"] = "Exchange Request's Details";
+}
+
+<h2>Exchange Request's Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Schedule 1 Date
+            @*@Html.DisplayNameFor(model => model.Schedule_Exchange1)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Schedule_Exchange1.Schedule.Date);
+        </dd>
+        <dt>
+            Nurse 1
+            @*@Html.DisplayNameFor(model => model.Schedule_Exchange2)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Schedule_Exchange1.Schedule.Nurse.Name)
+        </dd>
+        <dt>
+            Block Name 1
+            @*@Html.DisplayNameFor(model => model.RequestState)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Schedule_Exchange1.Schedule.OperationBlock_Shifts.OperationBlock.BlockName)
+        </dd>
+        <dt>
+            Shift Name 1
+            @*@Html.DisplayNameFor(model => model.Date_RequestState)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Schedule_Exchange1.Schedule.OperationBlock_Shifts.Shift.ShiftName)
+        </dd>
+        <dt>
+            Schedule 2 Date
+            @*@Html.DisplayNameFor(model => model.Schedule_Exchange1)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Schedule_Exchange2.Schedule.Date);
+        </dd>
+        <dt>
+            Nurse 2
+            @*@Html.DisplayNameFor(model => model.Schedule_Exchange2)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Schedule_Exchange2.Schedule.Nurse.Name)
+        </dd>
+        <dt>
+            Block Name 2
+            @*@Html.DisplayNameFor(model => model.RequestState)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Schedule_Exchange2.Schedule.OperationBlock_Shifts.OperationBlock.BlockName)
+        </dd>
+        <dt>
+            Shift Name 2
+            @*@Html.DisplayNameFor(model => model.Date_RequestState)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Schedule_Exchange2.Schedule.OperationBlock_Shifts.Shift.ShiftName)
+        </dd>
+        <dt>
+            Request State
+            @*@Html.DisplayNameFor(model => model.Date_Exchange_Request)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RequestState)
+        </dd>
+        <dt>
+            Last Request State Change Date
+            @*@Html.DisplayNameFor(model => model.Date_Exchange_Request)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date_RequestState)
+        </dd>
+        <dt>
+            Exchange Request Date
+            @*@Html.DisplayNameFor(model => model.Date_Exchange_Request)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date_Exchange_Request)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Exchange_RequestId">Edit</a>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
