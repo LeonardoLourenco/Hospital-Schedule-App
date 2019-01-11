@@ -34,7 +34,7 @@ namespace HospitalSchedule.Models
 
 
         [Required(ErrorMessage = "Please insert the nurse's birth date")]
-        [RegularExpression(@"([0-9]{8}[A-Z0-9]{4})", ErrorMessage = "Insert the identification")] //Mudaar
+        [RegularExpression(@"([0-9]{8}[A-Z0-9]{4})", ErrorMessage = "Please insert a valid id card number")] //Mudaar
         public string IDCard { get; set; } //Cartão de Cidadão/Bilhete de Identidade (CC/BI)
 
         [Required]
