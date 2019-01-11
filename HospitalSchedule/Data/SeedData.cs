@@ -9,6 +9,12 @@ namespace HospitalSchedule.Data
 {
     public class SeedData
     {
+        const string ROLE_ADMINISTRATOR = "Administrator"; //Acesso a tudo
+        const string ROLE_BLOCK_DIRETOR = "Block Diretor"; //Acesso respectivo
+        const string ROLE_CHIEF_NURSE = "Chief Nurse"; //Acesso respectivo
+        const string ROLE_NURSE = "Nurse"; //Acesso respectivo
+
+
         internal static void Populate(IServiceProvider applicationServices)
         {
 
@@ -28,6 +34,110 @@ namespace HospitalSchedule.Data
             }
         }
 
+        private static async void MakeSureRoleExistsAsync(RoleManager<IdentityRole> roleManager, string role) //Verifica se o rele existe e cria-o
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+
+            }
+        }
+
+        public static async Task CreateApplicationRolesandAdminUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            const string ADMIN_USER = "admin@noemail.com";
+            const string ADMIN_PASSWORD = "sECRET$123";
+
+            MakeSureRoleExistsAsync(roleManager, ROLE_ADMINISTRATOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_BLOCK_DIRETOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_CHIEF_NURSE);
+            MakeSureRoleExistsAsync(roleManager, ROLE_NURSE);
+
+            IdentityUser user = await userManager.FindByNameAsync(ADMIN_USER);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = ADMIN_USER };
+                await userManager.CreateAsync(user, ADMIN_PASSWORD);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, ROLE_ADMINISTRATOR))
+            {
+                await userManager.AddToRoleAsync(user, ROLE_ADMINISTRATOR);
+            }
+        }
+
+        public static async Task CreateApplicationBlockDiretorRoleandUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            const string BLOCK_DIRETOR_USER = "BlockDiretor@noemail.com";
+            const string BLOCK_DIRETOR_PASSWORD = "IaMDir3to4";
+
+            MakeSureRoleExistsAsync(roleManager, ROLE_ADMINISTRATOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_BLOCK_DIRETOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_CHIEF_NURSE);
+            MakeSureRoleExistsAsync(roleManager, ROLE_NURSE);
+
+
+            IdentityUser user = await userManager.FindByNameAsync(BLOCK_DIRETOR_USER);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = BLOCK_DIRETOR_USER };
+                await userManager.CreateAsync(user, BLOCK_DIRETOR_PASSWORD);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, ROLE_BLOCK_DIRETOR))
+            {
+                await userManager.AddToRoleAsync(user, ROLE_BLOCK_DIRETOR);
+            }
+        }
+
+        public static async Task CreateApplicationChiefNurseRoleandUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            const string CHIEF_NURSE_USER = "ChiefNurse@noemail.com";
+            const string CHIEF_NURSE_PASSWORD = "IaMNu4s3CHEF";
+
+            MakeSureRoleExistsAsync(roleManager, ROLE_ADMINISTRATOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_BLOCK_DIRETOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_CHIEF_NURSE);
+            MakeSureRoleExistsAsync(roleManager, ROLE_NURSE);
+
+
+            IdentityUser user = await userManager.FindByNameAsync(CHIEF_NURSE_USER);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = CHIEF_NURSE_USER };
+                await userManager.CreateAsync(user, CHIEF_NURSE_PASSWORD);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, ROLE_CHIEF_NURSE))
+            {
+                await userManager.AddToRoleAsync(user, ROLE_CHIEF_NURSE);
+            }
+        }
+
+        public static async Task CreateApplicationNurseRoleandUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            const string NURSE_USER = "1011881@ipg.pt";
+            const string NURSE_PASSWORD = "IaMNu4s3";
+
+            MakeSureRoleExistsAsync(roleManager, ROLE_ADMINISTRATOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_BLOCK_DIRETOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_CHIEF_NURSE);
+            MakeSureRoleExistsAsync(roleManager, ROLE_NURSE);
+
+
+            IdentityUser user = await userManager.FindByNameAsync(NURSE_USER);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = NURSE_USER };
+                await userManager.CreateAsync(user, NURSE_PASSWORD);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, ROLE_NURSE))
+            {
+                await userManager.AddToRoleAsync(user, ROLE_NURSE);
+            }
+        }
+
         private static void SeedRules(HospitalScheduleDbContext db)
         {
             if (db.Rules.Any()) return;
@@ -35,43 +145,11 @@ namespace HospitalSchedule.Data
                   new Rules
                   {
 
-                      WeeklyHours = 1,
+                      WeeklyHours = 35,
                       NurseAge = 60,
                       ChildAge=5,
-                      InBetweenShiftTime="6"
-                  },
-                  new Rules
-                  {
-                      WeeklyHours = 1,
-                      NurseAge = 65,
-                      ChildAge = 20,
-                      InBetweenShiftTime = "6"
-
-                  },
-                   new Rules
-                   {
-                       WeeklyHours = 1,
-                       NurseAge = 50,
-                       ChildAge = 14,
-                       InBetweenShiftTime = "6"
-
-                   },
-                  new Rules
-                  {
-                      WeeklyHours = 1,
-                      NurseAge = 45,
-                      ChildAge = 2,
-                      InBetweenShiftTime = "6"
-
-                  },
-                      new Rules
-                      {
-                          WeeklyHours = 1,
-                          NurseAge = 29,
-                          ChildAge = 1,
-                          InBetweenShiftTime = "6"
-
-                      });
+                      InBetweenShiftTime="16:00"
+                  });
 
             db.SaveChanges();
         }
