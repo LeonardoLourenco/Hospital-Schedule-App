@@ -103,7 +103,7 @@ namespace HospitalSchedule.Migrations
                     CellPhoneNumber = table.Column<string>(nullable: false),
                     IDCard = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
-                    YoungestChildBirthDate = table.Column<DateTime>(nullable: true),
+                    YoungestChildBirthDate = table.Column<DateTime>(nullable: false),
                     SpecialtyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

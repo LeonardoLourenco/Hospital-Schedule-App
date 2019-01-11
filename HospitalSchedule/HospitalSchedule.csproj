@@ -27,9 +27,6 @@
     <Content Update="Views\Rules\Error.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Schedules\Error.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\Shifts\Error.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

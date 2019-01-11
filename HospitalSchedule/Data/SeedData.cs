@@ -1,4 +1,5 @@
 ﻿using HospitalSchedule.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -209,31 +210,39 @@ namespace HospitalSchedule.Data
 
 
                       ShiftId = 2,
-                      OperationBlockId = 2,
+                      OperationBlockId = 1,
+
+                  },
+                  new OperationBlock_Shifts
+                  {
+
+
+                      ShiftId = 3,
+                      OperationBlockId = 1,
 
                   },
                    new OperationBlock_Shifts
                    {
 
-                       ShiftId = 3,
-                       OperationBlockId = 3,
+                       ShiftId = 1,
+                       OperationBlockId = 2,
 
                    },
                   new OperationBlock_Shifts
                   {
 
-                      ShiftId = 4,
-                      OperationBlockId = 4,
+                      ShiftId = 3,
+                      OperationBlockId = 3,
 
                   },
-                      new OperationBlock_Shifts
-                      {
+                  new OperationBlock_Shifts
+                  {
 
 
-                          ShiftId = 5,
-                          OperationBlockId = 5,
+                      ShiftId = 3,
+                      OperationBlockId = 4,
 
-                      });
+                  });
 
             db.SaveChanges();
         }
@@ -246,39 +255,24 @@ namespace HospitalSchedule.Data
                   new Shift
                   {
 
-                      ShiftName = "Tarde",
+                      ShiftName = "Manhã",
                       StartingHour = "08:00",
-                      Duration = "08:00"
+                      Duration = "8:00"
                   },
                   new Shift
                   {
 
                       ShiftName = "Tarde",
-                      StartingHour = "08:00",
-                      Duration = "08:00"
+                      StartingHour = "16:00",
+                      Duration = "8:00"
                   },
-                   new Shift
-                   {
-
-                       ShiftName = "Noite",
-                       StartingHour = "00:00",
-                       Duration = "08:00"
-                   },
                   new Shift
                   {
 
                       ShiftName = "Noite",
-                      StartingHour = "12.00",
+                      StartingHour = "00:00",
                       Duration = "08:00"
-                  },
-                      new Shift
-                      {
-
-                          ShiftName = "Tarde",
-                          StartingHour = "16:00",
-                          Duration = "08:00"
-
-                      });
+                  });
 
             db.SaveChanges();
         }
@@ -329,14 +323,14 @@ namespace HospitalSchedule.Data
             db.Schedule.AddRange(
                   new Schedule
                   {
-                      Date = new DateTime(2018, 5, 1, 8, 30, 00),
+                      Date = new DateTime(2018, 5, 1),
                       NurseId = 1,
                       OperationBlock_ShiftsId = 1
 
                   },
                   new Schedule
                   {
-                      Date = new DateTime(2018, 5, 1, 8, 30, 00),
+                      Date = new DateTime(2018, 5, 1),
                       NurseId = 2,
                       OperationBlock_ShiftsId = 2
 

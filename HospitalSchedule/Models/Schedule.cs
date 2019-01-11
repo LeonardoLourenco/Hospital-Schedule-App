@@ -14,10 +14,10 @@ namespace HospitalSchedule.Models
         public int ScheduleId { get; set; }//Id do horário
         
         [Required(ErrorMessage ="Please insert the schedule's date")]
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }//Dia desse horário
 
-        //Nome do enfermerio,Nome do Bloco operatin Ex: Maternidade Prevençao e Tipo de turno, M,T ou N
-        //São buscados através das chaves estrangeiras
+        //Após o algoritmo de geração de horário estar feito não será necessário regex.
 
 
         public Nurse Nurse { get; set; }
