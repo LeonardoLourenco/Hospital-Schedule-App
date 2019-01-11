@@ -14,8 +14,9 @@ namespace HospitalSchedule.Models
 
         [Required(ErrorMessage ="Please insert the name of the Block")]
 
-        [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s0-9]+)", ErrorMessage = "Invalid Name")]
-        public string BlockName { get; set; }       //Nome do bloco       também é aqui que é indicado se é de prevenção ou não                  
+        [Required(ErrorMessage ="Please insert the name of the Block")]
+        [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s0-9]+)", ErrorMessage = "Please insert a valid name")]
+        public string BlockName { get; set; }//Nome do bloco, também é aqui que é indicado se é de prevenção ou não                  
 
 
         public ICollection<OperationBlock_Shifts> OperationBlock_Shifts { get; set; }
