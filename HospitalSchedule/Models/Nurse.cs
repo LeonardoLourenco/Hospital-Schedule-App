@@ -16,8 +16,12 @@ namespace HospitalSchedule.Models
         [RegularExpression(@"([A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]+)", ErrorMessage = "Please insert a valid name")]
         public string Name { get; set; } //Nome
 
-        [Required(ErrorMessage = "Please insert your email address")]  //incluir - hifens no email
-        [RegularExpression(@"([\w-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})", ErrorMessage = "Please insert a valid email address")]
+
+        [Required(ErrorMessage = "Please enter your email address correctly")]
+        //([\w\.\-]+) - this is for the first-level domain (many letters and numbers, also point and hyphen)
+        //([\w\-]+) - this is for second-level domain
+        //((\.(\w){2,3})+) - and this is for other level domains(from 3 to infinity) which includes a point and 2 or 3 literals
+        [RegularExpression(@"(^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$)", ErrorMessage = "Invalid email")]
         public string Email { get; set; } //Email
 
 
@@ -28,19 +32,28 @@ namespace HospitalSchedule.Models
         [RegularExpression(@"(2\d{8})|(9[1236]\d{7})", ErrorMessage = "Please insert a valid phone number")]
         public string CellPhoneNumber { get; set; } //Número de telemovel
 
-        [Required(ErrorMessage = "Please insert the id card number")]
-        [RegularExpression(@"(([0-9]{8}[A-Z0-9]{4}))", ErrorMessage = "Please insert a valid id card number")]
-        public string IDCard { get; set; } //Cartão de Cidadão/Bilhete de Identidade (CC/BI)
 
         [Required(ErrorMessage = "Please insert the nurse's birth date")]
+        [RegularExpression(@"([0-9]{8}[A-Z0-9]{4})", ErrorMessage = "Insert the identification")] //Mudaar
+        public string IDCard { get; set; } //Cartão de Cidadão/Bilhete de Identidade (CC/BI)
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+
         public DateTime BirthDate { get; set; } //Data de Nascimento
 
-        public DateTime? YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
 
         public ICollection<Schedule> Schedules { get; set; }
 
         public Specialty Specialty { get; set; }
 
         public int SpecialtyId { get; set; }
+
+
+
     }
 }

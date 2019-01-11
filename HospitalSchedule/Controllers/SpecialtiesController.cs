@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
+using System.Text.RegularExpressions;
 
 namespace HospitalSchedule.Controllers
 {
@@ -51,6 +52,9 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> Index(string search, int page = 1)
         {
             int numSpecialty = await _context.Specialty.CountAsync();
+            
+
+
 
             //se nao tiver nada na pesquisa retorna a view anterior
             if (String.IsNullOrEmpty(search))
@@ -119,6 +123,22 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SpecialtyId,Name")] Specialty specialty)
         {
+            var name = specialty.Name;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("Name", "Speciality is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("Name", "Specality already exist");
+            }
+
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(specialty);
@@ -132,6 +152,9 @@ namespace HospitalSchedule.Controllers
         // GET: Specialties/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+
+
+
             if (id == null)
             {
                 return NotFound();
@@ -152,6 +175,23 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("SpecialtyId,Name")] Specialty specialty)
         {
+
+
+            var name = specialty.Name;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("Name", "Speciality is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("Name", "Specality already exist");
+            }
+
+
             if (id != specialty.SpecialtyId)
             {
                 return NotFound();
@@ -184,6 +224,8 @@ namespace HospitalSchedule.Controllers
         // GET: Specialties/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+           
+
             if (id == null)
             {
                 return NotFound();
@@ -204,6 +246,10 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
+           
+
+
             var specialty = await _context.Specialty.FindAsync(id);
             //Procurar se já há alguma ligação para a Especialidade a eliminar
             var nurse = _context.Nurse.Where(Nurse => Nurse.SpecialtyId == specialty.SpecialtyId);
@@ -227,6 +273,44 @@ namespace HospitalSchedule.Controllers
         private bool SpecialtyExists(int id)
         {
             return _context.Specialty.Any(e => e.SpecialtyId == id);
+        }
+
+
+        private bool nameIsInvalid(string name)
+        {
+            bool IsInvalid = false;
+            //Procura na BD se existem enfermeiros com o mesmo email
+            var specialities = from e in _context.Specialty
+                         where e.Name.Contains(name)
+                         select e;
+
+            if (!specialities.Count().Equals(0))
+            {
+                IsInvalid = true;
+            }
+            return IsInvalid;
+        }
+
+
+        public static bool nameIsValid(string name)
+        {
+            string expression;
+            expression = "[a-zA-Z][a-zA-Z ]*";
+            if (Regex.IsMatch(name, expression))
+            {
+                if (Regex.Replace(name, expression, string.Empty).Length == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
