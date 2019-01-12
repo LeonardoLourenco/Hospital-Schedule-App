@@ -257,14 +257,14 @@ namespace HospitalSchedule.Data
 
                       ShiftName = "Manhã",
                       StartingHour = "08:00",
-                      Duration = "8:00"
+                      Duration = "08:00"
                   },
                   new Shift
                   {
 
                       ShiftName = "Tarde",
                       StartingHour = "16:00",
-                      Duration = "8:00"
+                      Duration = "08:00"
                   },
                   new Shift
                   {
