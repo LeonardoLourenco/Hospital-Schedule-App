@@ -441,7 +441,7 @@ namespace HospitalSchedule.Controllers
             int sum = 0;
             bool secondDigit = false;
             if (DocumentNumber.Length != 12)
-                throw new ArgumentException("Tamanho inválido para número de documento.");
+                throw new ArgumentException("Tamanho inválido para número de documento."); // Mandar para a error page
         for (int i = DocumentNumber.Length - 1; i >= 0; --i)
             {
                 //string upper = numeroDocumento.ToUpper();
@@ -498,7 +498,7 @@ namespace HospitalSchedule.Controllers
                 case 'Y': return 34;
                 case 'Z': return 35;
             }
-            throw new ArgumentException("Valor inválido no número de documento.");
+            throw new ArgumentException("Valor inválido no número de documento.");  // Mandar para a error page
         }
 
       
