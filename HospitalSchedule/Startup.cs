@@ -79,6 +79,7 @@ namespace HospitalSchedule
             });
 
             SeedData.Populate(app.ApplicationServices);
+            
         }
     }
 }

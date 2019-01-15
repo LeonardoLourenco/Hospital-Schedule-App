@@ -34,7 +34,7 @@ namespace HospitalSchedule.Controllers
 
         public AccountController(
              UserManager<ApplicationUser> userManager,
-             RoleManager<IdentityRole> roleManager,/* Aula 13 Dezembro*/
+             RoleManager<IdentityRole> roleManager,
              SignInManager<ApplicationUser> signInManager,
              IEmailSender emailSender,
              ILogger<AccountController> logger,
@@ -247,17 +247,17 @@ namespace HospitalSchedule.Controllers
 
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                // var result2 = await _userManagerT.CreateAsync(turista, model.Password);
+                // var result2 = await _userManagerT.CreateAsync(nurse, model.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, "Turista"); //Priviégios do Turista
-                                                                        //await _userManagerT.AddToRoleAsync(user2, "Turista"); //Priviégios do Turista
+                    await _userManager.AddToRoleAsync(user, "nurse"); //Priviégios do nurse
+                                                                        //await _userManagerT.AddToRoleAsync(user2, "nurse"); //Priviégios do nurse
 
                     _context.Add(nurse);
                     await _context.SaveChangesAsync();
-                    //return RedirectToAction("Create", "Turistas");
+                    //return RedirectToAction("Create", "nurse");
 
 
 
