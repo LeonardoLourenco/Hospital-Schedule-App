@@ -39,10 +39,10 @@ namespace HospitalSchedule.Models
 
         [Required(ErrorMessage = "Please insert the nurse's birth date")]
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; } //Data de Nascimento
+        public DateTime? BirthDate { get; set; } //Data de Nascimento
 
         [DataType(DataType.Date)]
-        public DateTime YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
+        public DateTime? YoungestChildBirthDate { get; set; } //Data de Nascimento do filho mais novo
 
         public ICollection<Schedule> Schedules { get; set; }
 

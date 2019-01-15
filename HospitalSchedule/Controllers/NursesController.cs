@@ -128,15 +128,19 @@ namespace HospitalSchedule.Controllers
 
             var nCC = nurse.IDCard;
             var n_email = nurse.Email;
-            DateTime Age = nurse.BirthDate;
-            DateTime Child = nurse.YoungestChildBirthDate;
+            DateTime? Age = nurse.BirthDate;
+            DateTime? Child = nurse.YoungestChildBirthDate;
 
 
 
             //validaçoes de data de nascimento 
-            if (YoungestChildBirthDateIsInvalid(Child))
+            if (Child != null)
             {
-                ModelState.AddModelError("YoungestChildBirthDate", "YoungestChildBirthDate is invalid");
+                DateTime Child1 = (DateTime)Child;
+                if (YoungestChildBirthDateIsInvalid(Child1))
+                {
+                    ModelState.AddModelError("YoungestChildBirthDate", "YoungestChildBirthDate is invalid");
+                }
             }
 
 
@@ -144,9 +148,13 @@ namespace HospitalSchedule.Controllers
 
 
             //validaçoes de data de nascimento 
-            if (BirthDateIsInvalid(Age))
+            if (Age != null)
             {
-                ModelState.AddModelError("BirthDate", "BirthDate is invalid");
+                DateTime Age1 = (DateTime) Age;
+                if (BirthDateIsInvalid(Age1))
+                {
+                    ModelState.AddModelError("BirthDate", "BirthDate is invalid");
+                }
             }
 
 
@@ -444,8 +452,8 @@ namespace HospitalSchedule.Controllers
                 throw new ArgumentException("Tamanho inválido para número de documento."); // Mandar para a error page
         for (int i = DocumentNumber.Length - 1; i >= 0; --i)
             {
-                //string upper = numeroDocumento.ToUpper();
-                int valor = GetNumberFromChar(DocumentNumber[i]);
+                string upper = DocumentNumber.ToUpper();
+                int valor = GetNumberFromChar(upper[i]);
                 if (secondDigit)
                 {
                     valor *= 2;
