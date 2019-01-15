@@ -139,7 +139,7 @@ namespace HospitalSchedule.Controllers
                 DateTime Child1 = (DateTime)Child;
                 if (YoungestChildBirthDateIsInvalid(Child1))
                 {
-                    ModelState.AddModelError("YoungestChildBirthDate", "YoungestChildBirthDate is invalid");
+                    ModelState.AddModelError("YoungestChildBirthDate", "Please insert a valid Date");
                 }
             }
 
@@ -153,7 +153,7 @@ namespace HospitalSchedule.Controllers
                 DateTime Age1 = (DateTime) Age;
                 if (BirthDateIsInvalid(Age1))
                 {
-                    ModelState.AddModelError("BirthDate", "BirthDate is invalid");
+                    ModelState.AddModelError("BirthDate", "Please insert a valid Date");
                 }
             }
 
@@ -161,12 +161,12 @@ namespace HospitalSchedule.Controllers
             //validaçoes de email na DataBase
             if (!emailIsValid(n_email))
             {
-                ModelState.AddModelError("Email", "Email is invalid");
+                ModelState.AddModelError("Email", "Please insert a valid email");
             }
             
             if (emailIsInvalid(n_email) ==true)
             {
-                ModelState.AddModelError("Email", "email already exist");
+                ModelState.AddModelError("Email", "The email you inserted is already being used");
             }
 
    
@@ -174,13 +174,13 @@ namespace HospitalSchedule.Controllers
             //validaçao do ID na BD create
             if (!ValidateDocumentNumber(nCC))
             {
-                ModelState.AddModelError("IDCard", "Number IDCard is invalid");
+                ModelState.AddModelError("IDCard", "Please insert a valid ID Card");
 
             }
 
             if(IDCardIsInvalid(nCC))
                 {
-                ModelState.AddModelError("IDCard", "Number IDCard already exist");
+                ModelState.AddModelError("IDCard", "The IDCard you inserted is already being used");
             }
 
 
@@ -449,7 +449,10 @@ namespace HospitalSchedule.Controllers
             int sum = 0;
             bool secondDigit = false;
             if (DocumentNumber.Length != 12)
-                throw new ArgumentException("Tamanho inválido para número de documento."); // Mandar para a error page
+            {
+                TempData["Error"] = "The nurse id card has an invalid size";
+                RedirectToAction(nameof(Error));
+            }
         for (int i = DocumentNumber.Length - 1; i >= 0; --i)
             {
                 string upper = DocumentNumber.ToUpper();
@@ -506,6 +509,8 @@ namespace HospitalSchedule.Controllers
                 case 'Y': return 34;
                 case 'Z': return 35;
             }
+            TempData["Error"] = "The nurse id card is invalid, please make sure you insert a valid id card";
+            RedirectToAction(nameof(Error));
             throw new ArgumentException("Valor inválido no número de documento.");  // Mandar para a error page
         }
 
