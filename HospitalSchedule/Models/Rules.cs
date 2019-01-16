@@ -26,7 +26,8 @@ namespace HospitalSchedule.Models
         [Required(ErrorMessage = "Please insert the resting time a nurse has between shifts")]
         [RegularExpression(@"([0-9]{2})+:+([0-9]{2})", ErrorMessage = "Please insert a number for the resting time a nurse has between shifts in this format 00:00")]
         public string InBetweenShiftTime { get; set; } //Qual a o tempo entre turnos
-        //Regras para o algoritmo vão aqui
+
+       
         //Exemplo (Data_Actual - Nurse.Birthdate) > Age ENTÃO não faz Noites
         //Exemplo (Data_Actual - Nurse.YoungestBirthdate) > ChildAge ENTÃO não faz Noites
     }

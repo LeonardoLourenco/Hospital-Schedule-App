@@ -16,6 +16,10 @@
         Find by name: @Html.TextBox("SearchString")
         <input type="submit" value="Search" />
     </p>
+    <p>
+        Sort your search: @Html.TextBox("sortOrder")
+        <input type="submit" value="Search" />
+    </p>
 }
 
 @if (TempData["Success"] != null)

@@ -34,7 +34,7 @@ namespace HospitalSchedule.Controllers
                     .ToListAsync();
 
             return View(
-                new ShiftsView
+                new ShiftView
                 {
                     Shifts = Shift, 
                     PagingInfo = new PagingInfo
@@ -56,7 +56,7 @@ namespace HospitalSchedule.Controllers
             if (String.IsNullOrEmpty(search))
             {
                 ViewData["Searched"] = false;
-                return View(new ShiftsView()
+                return View(new ShiftView()
                 {
                     Shifts = await _context.Shift.ToListAsync(),
                     PagingInfo = new PagingInfo()
@@ -69,7 +69,7 @@ namespace HospitalSchedule.Controllers
             }
             //se nao devolve a pesquisa
             ViewData["Searched"] = true;
-            return View(new ShiftsView()
+            return View(new ShiftView()
             {
                 Shifts = await _context.Shift.Where(shifts => shifts.ShiftName.ToLower().Contains(search.ToLower())).ToListAsync(),
                 PagingInfo = new PagingInfo()

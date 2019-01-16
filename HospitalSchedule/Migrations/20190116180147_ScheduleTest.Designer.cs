@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalSchedule.Migrations
 {
     [DbContext(typeof(HospitalScheduleDbContext))]
-    [Migration("20181218001517_Initial2")]
-    partial class Initial2
+    [Migration("20190116180147_ScheduleTest")]
+    partial class ScheduleTest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,7 +45,7 @@ namespace HospitalSchedule.Migrations
 
                     b.Property<int>("Type");
 
-                    b.Property<DateTime?>("YoungestChildBirthDate");
+                    b.Property<DateTime>("YoungestChildBirthDate");
 
                     b.HasKey("NurseId");
 
@@ -116,11 +116,11 @@ namespace HospitalSchedule.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date");
-
                     b.Property<int>("NurseId");
 
                     b.Property<int>("OperationBlock_ShiftsId");
+
+                    b.Property<DateTime>("initialDate");
 
                     b.HasKey("ScheduleId");
 
