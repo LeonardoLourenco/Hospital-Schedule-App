@@ -231,31 +231,68 @@ namespace HospitalSchedule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("ScheduleId,Date,NurseId,OperationBlock_ShiftsId")] Schedule schedule)
+        public  IActionResult Create([Bind("ScheduleId,initialDate,NurseId,OperationBlock_ShiftsId")] Schedule schedule)
         {
-            DateTime date = schedule.initialDate;//Número de enfermeiros para preencher os turnos
+            //Número de enfermeiros para preencher os turnos
 
             /*Validações*/
             //Só podem entrar datas a partir de uma segunda feira
-
-            if (ModelState.IsValid)
+             if (ModelState.IsValid)
             {
-                DinamicSchedule(_context, date);
-                return  RedirectToAction(nameof(Index));
+                    _context.Add(schedule);
+                    DateTime date = schedule.initialDate;
+                    DinamicSchedule(_context, date);
+                TempData["Success"] = "The Schedule has been generated successfully";
+                return RedirectToAction(nameof(Index));
+          
             }
-
-           return View(schedule);
+            
+            return View(schedule);
         }
+
+
+        private int[] NursesId()
+        {
+            var NurseIds = from nurse in _context.Nurse
+                                  select nurse.NurseId;
+
+            int[] arrayNurseIds = NurseIds.ToArray();
+                
+
+            return arrayNurseIds;
+        }
+
+        private int[] NursesWithChild_OR_HigherAged(int limitChildAge, int limitNurseAge)
+        {
+            var NurseIds = from nurse in _context.Nurse
+                           where nurse.BirthDate.Year <= (DateTime.Now.Year - limitNurseAge)
+                           select nurse.NurseId;
+
+            int[] arrayNurseIds = NurseIds.ToArray();
+
+            return arrayNurseIds;
+        }
+
+
+        private int[] NonRestrictedNurses(int limitChildAge, int limitNurseAge)//não têm filhos e não têm limite
+        {
+            var NurseIds = from nurse in _context.Nurse
+                           where nurse.BirthDate.Year >= (DateTime.Now.Year - limitNurseAge)
+                           select nurse.NurseId;
+
+            int[] arrayNurseIds = NurseIds.ToArray();
+
+            return arrayNurseIds;
+
+         }
+
 
         private void DinamicSchedule(HospitalScheduleDbContext db, DateTime initialdate)
         {
-
             if (db == null)
             {
                 db = _context;
             }
-
-
             //Rules and Variables
             string nurseInBetweenShiftTime = db.Rules.Where(a => a.RulesId == 1)
                                                  .OrderByDescending(a => a.InBetweenShiftTime)
@@ -272,12 +309,11 @@ namespace HospitalSchedule.Controllers
                                                  .Select(a => a.NurseAge)
                                                  .FirstOrDefault();
 
-
-
-            int nurseWeeklyHours = db.Rules.Where(a => a.RulesId == 1)
+           int nurseWeeklyHours = db.Rules.Where(a => a.RulesId == 1)
                                                 .OrderByDescending(a => a.WeeklyHours)
                                                 .Select(a => a.WeeklyHours)
                                                 .FirstOrDefault();
+            
             //Array com os Enf todos
             int[] Nurses = NursesId();
 
@@ -287,123 +323,115 @@ namespace HospitalSchedule.Controllers
             //Array com os Enf que têm filhos menores e que têm mais do limite de idade para enfs
             int[] idNonRestrictedNurses = NonRestrictedNurses(limitChildAge, limitNurseAge);
 
-            
+
 
             List<int> NurseList = new List<int>(Nurses);//Lista de enfermeiros
-            List<int> RestrictedNursesList = new List<int>();//Lista para os enf s/filhos com menos do limite de idade
-            List<int> NonRestrictedNursesList = new List<int>();//Lista para os enf c/filhos com mais do limite de idade
-            
-
-            //Array com 
+            List<int> RestrictedNursesList ;//Lista para os enf s/filhos com menos do limite de idade
+            List<int> NonRestrictedNursesList;//Lista para os enf c/filhos com mais do limite de idade
 
 
             Random rad = new Random();
 
             int choosenNurse = 0;//Enf escolhido
             int choosenShift = 0;//Turno escolhido
-           
+
 
             //3.Obter a duração do turno
+           int nShifts = 24/8;
 
-            String[] shiftDuration = db.Shift.Select(a => a.Duration).ToArray();
-            int[] D_hours = null;
-            int[] nShifts = null;
-            for (int i = 0; i < shiftDuration.Count(); i++)
-            {
-               var a = Convert.ToInt32(shiftDuration[i].Substring(0, 1));
-                a = D_hours[i];
+            
+            var startingHour = from shift in _context.Shift
+                                    where shift.ShiftName == "Manha"
+                                    select shift.StartingHour;
+            String[] startingHourList = startingHour.ToArray();
 
-                nShifts[i] = 24 / D_hours[i];
-                 //nShifts[i] = 24 / 8;
+            var startingHour1 = from shift in _context.Shift
+                               where shift.ShiftName == "Tarde"
+                               select shift.StartingHour;
+            String[] startingHourList1 = startingHour1.ToArray();
 
-            }
+            var startingHour2 = from shift in _context.Shift
+                                where shift.ShiftName == "Noite"
+                                select shift.StartingHour;
+            String[] startingHourList2 = startingHour2.ToArray();
 
-            String[] startingHour = db.Shift.Select(a => a.StartingHour).ToArray();
-            int[] S_hours = null;
 
-            for (int i = 0; i < startingHour.Count(); i++)
-            {
-                S_hours[i] = Convert.ToInt32(startingHour[i].Substring(0, 1).ToString());
-            }
 
             //OperationBlock_Shifts que pertencem a turnos que são de manhã
-            int[] notNigtShift = _context.OperationBlock_Shifts.Where(a => a.Shift.ShiftName.Equals("Manha")
-                                                        && a.Shift.ShiftName.Equals("Tarde"))
-                                         .Select(a => a.OperationBlock_ShiftsId).ToArray();
+            var notNigtShift1 = from x in _context.OperationBlock_Shifts
+                                 where x.Shift.ShiftName == "Manha"
+                                 select x.OperationBlockId;
+            int[] notNigtShiftList = notNigtShift1.ToArray();
+
+            var notNigtShift2 = from x in _context.OperationBlock_Shifts
+                                where x.Shift.ShiftName == "Tarde"
+                                 select x.OperationBlockId;
+            int[] notNigtShiftList1 = notNigtShift2.ToArray();
+
+            var nightShift = from x in _context.OperationBlock_Shifts
+                             where x.Shift.ShiftName == "Noite"
+                             select x.OperationBlockId;
+
+            int[] nightShiftList = nightShift.ToArray();
 
             
-            int[] nightShift = _context.OperationBlock_Shifts.Where(a => a.Shift.ShiftName.Equals("Night"))
-                                        .Select(a => a.OperationBlock_ShiftsId).ToArray();
 
-            List<int> Block_Night_ShiftsList = new List<int>(nightShift);
-            List<int> Block_Non_Night_ShiftList = new List<int>(notNigtShift);
-            
 
             //OperationBlock_Shifts que pertencem a turnos que são de noite
 
             //Ciclo para uma semana e 4 vezes 
-            for (int i = initialdate.Day; i <= initialdate.Day+6; i++)
+            for (int i = initialdate.Day; i <= initialdate.Day + 6; i++)
             {
                 RestrictedNursesList = new List<int>(idRestrictedNurses);//Lista para os enf s/filhos com menos do limite de idade
                 NonRestrictedNursesList = new List<int>(idNonRestrictedNurses);//Lista para os enf c/filhos com mais do limite de idade
-                
-               
+
+
 
                 //REMOVER ENFS
-                if (NonRestrictedNursesList.Count()!=0) //Noite
+                /*if (NonRestrictedNursesList.Count() != 0) //Noite
                 {
-
+                    if (startingHourList2[i] == "24:00") { 
                     choosenNurse = NonRestrictedNursesList[rad.Next(0, NonRestrictedNursesList.Count())];
 
-                    choosenShift = Block_Night_ShiftsList[rad.Next(0, Block_Night_ShiftsList.Count())];
-                }
-                else if(RestrictedNursesList.Count()!=0)
+                    choosenShift = nightShiftList[rad.Next(0, nightShiftList.Count())];
+                    }
+                }else if (NonRestrictedNursesList.Count() == 0)
                 {
-                    choosenNurse = RestrictedNursesList[rad.Next(0,RestrictedNursesList.Count())];
-                    choosenShift = Block_Non_Night_ShiftList[rad.Next(0,Block_Non_Night_ShiftList.Count())];
 
+                }*/
+                if (RestrictedNursesList.Count() != 0)
+                {
+                    if (startingHourList[i] =="08:00") { 
+                    choosenNurse = RestrictedNursesList[rad.Next(0, RestrictedNursesList.Count())];
+                    choosenShift = notNigtShiftList[rad.Next(0, notNigtShiftList.Count())];
+                    }
+                    else if(startingHourList1[i] == "16:00")
+                    {
+                        choosenNurse = RestrictedNursesList[rad.Next(0, RestrictedNursesList.Count())];
+                        choosenShift = notNigtShiftList[rad.Next(0, notNigtShiftList.Count())];
+                    }
                 }
 
                 _context.Schedule.Add(
                new Schedule { initialDate = initialdate, NurseId = choosenNurse, OperationBlock_ShiftsId = choosenShift }
                );
+                //Remover o escolhido da lista
+                //NonRestrictedNursesList.Remove(choosenNurse);
+                RestrictedNursesList.Remove(choosenNurse);
 
                 _context.SaveChanges();
-
-
-                int nurseAge = DateTime.Now.Year - db.Nurse.Select(a => a.BirthDate.Year).First();
-                int childAge = nurseAge - db.Nurse.Select(a => a.YoungestChildBirthDate.Year).First();
-
-
-
-                String blockName = db.OperationBlock_Shifts.Where(a => a.OperationBlockId == 1)
-                                                       .Select(a => a.OperationBlock.BlockName).Single().ToString();
             }
-        }
-        
-        private int[] NursesId()
-        {
-            int[] arrayNurseIds = _context.Nurse.Select(a => a.NurseId).ToArray();
 
-            return arrayNurseIds;
-        }
-
-        private int[] NursesWithChild_OR_HigherAged(int limitChildAge, int limitNurseAge)
-        {
-            int[] arrayNurseIds = _context.Nurse.Where(a=> a.BirthDate.Year <= (DateTime.Now.Year - limitNurseAge))
-                                         .Select(a => a.NurseId).ToArray();
-
-            return arrayNurseIds;
-        }
-
-        
-        private int[] NonRestrictedNurses(int limitChildAge, int limitNurseAge)//não têm filhos e não têm limite
-        {           
-            int[] arrayNurseIds = _context.Nurse.Where(a => a.BirthDate.Year <= (DateTime.Now.Year - limitNurseAge))
-                                            .Select(a => a.NurseId).ToArray();
+            int nurseAge = DateTime.Now.Year - db.Nurse.Select(a => a.BirthDate.Year).First();
+            int childAge = nurseAge - db.Nurse.Select(a => a.YoungestChildBirthDate.Year).First();
 
 
-            return arrayNurseIds;
+
+            String blockName = db.OperationBlock_Shifts.Where(a => a.OperationBlockId == 1)
+                                                   .Select(a => a.OperationBlock.BlockName).Single().ToString();
+
+
+
         }
 
       
