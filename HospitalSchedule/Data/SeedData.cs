@@ -1,4 +1,5 @@
 ﻿using HospitalSchedule.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,12 @@ namespace HospitalSchedule.Data
 {
     public class SeedData
     {
+        const string ROLE_ADMINISTRATOR = "Administrator"; //Acesso a tudo
+        const string ROLE_BLOCK_DIRETOR = "Block Diretor"; //Acesso respectivo
+        const string ROLE_CHIEF_NURSE = "Chief Nurse"; //Acesso respectivo
+        const string ROLE_NURSE = "Nurse"; //Acesso respectivo
+
+
         internal static void Populate(IServiceProvider applicationServices)
         {
 
@@ -22,9 +29,113 @@ namespace HospitalSchedule.Data
                 SeedShifts(db);
                 SeedOperationBlock_Shifts(db);
                 SeedNurses(db);
-                //SeedSchedule(db);
+                SeedSchedule(db);
                 SeedRules(db);
                 
+            }
+        }
+
+        private static async void MakeSureRoleExistsAsync(RoleManager<IdentityRole> roleManager, string role) //Verifica se o rele existe e cria-o
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+
+            }
+        }
+
+        public static async Task CreateApplicationRolesandAdminUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            const string ADMIN_USER = "admin@noemail.com";
+            const string ADMIN_PASSWORD = "sECRET$123";
+
+            MakeSureRoleExistsAsync(roleManager, ROLE_ADMINISTRATOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_BLOCK_DIRETOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_CHIEF_NURSE);
+            MakeSureRoleExistsAsync(roleManager, ROLE_NURSE);
+
+            IdentityUser user = await userManager.FindByNameAsync(ADMIN_USER);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = ADMIN_USER };
+                await userManager.CreateAsync(user, ADMIN_PASSWORD);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, ROLE_ADMINISTRATOR))
+            {
+                await userManager.AddToRoleAsync(user, ROLE_ADMINISTRATOR);
+            }
+        }
+
+        public static async Task CreateApplicationBlockDiretorRoleandUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            const string BLOCK_DIRETOR_USER = "BlockDiretor@noemail.com";
+            const string BLOCK_DIRETOR_PASSWORD = "IaMDir3to4";
+
+            MakeSureRoleExistsAsync(roleManager, ROLE_ADMINISTRATOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_BLOCK_DIRETOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_CHIEF_NURSE);
+            MakeSureRoleExistsAsync(roleManager, ROLE_NURSE);
+
+
+            IdentityUser user = await userManager.FindByNameAsync(BLOCK_DIRETOR_USER);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = BLOCK_DIRETOR_USER };
+                await userManager.CreateAsync(user, BLOCK_DIRETOR_PASSWORD);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, ROLE_BLOCK_DIRETOR))
+            {
+                await userManager.AddToRoleAsync(user, ROLE_BLOCK_DIRETOR);
+            }
+        }
+
+        public static async Task CreateApplicationChiefNurseRoleandUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            const string CHIEF_NURSE_USER = "ChiefNurse@noemail.com";
+            const string CHIEF_NURSE_PASSWORD = "IaMNu4s3CHEF";
+
+            MakeSureRoleExistsAsync(roleManager, ROLE_ADMINISTRATOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_BLOCK_DIRETOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_CHIEF_NURSE);
+            MakeSureRoleExistsAsync(roleManager, ROLE_NURSE);
+
+
+            IdentityUser user = await userManager.FindByNameAsync(CHIEF_NURSE_USER);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = CHIEF_NURSE_USER };
+                await userManager.CreateAsync(user, CHIEF_NURSE_PASSWORD);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, ROLE_CHIEF_NURSE))
+            {
+                await userManager.AddToRoleAsync(user, ROLE_CHIEF_NURSE);
+            }
+        }
+
+        public static async Task CreateApplicationNurseRoleandUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            const string NURSE_USER = "1011881@ipg.pt";
+            const string NURSE_PASSWORD = "IaMNu4s3";
+
+            MakeSureRoleExistsAsync(roleManager, ROLE_ADMINISTRATOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_BLOCK_DIRETOR);
+            MakeSureRoleExistsAsync(roleManager, ROLE_CHIEF_NURSE);
+            MakeSureRoleExistsAsync(roleManager, ROLE_NURSE);
+
+
+            IdentityUser user = await userManager.FindByNameAsync(NURSE_USER);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = NURSE_USER };
+                await userManager.CreateAsync(user, NURSE_PASSWORD);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, ROLE_NURSE))
+            {
+                await userManager.AddToRoleAsync(user, ROLE_NURSE);
             }
         }
 
@@ -34,53 +145,12 @@ namespace HospitalSchedule.Data
             db.Rules.AddRange(
                   new Rules
                   {
-                      //id=1
-                      RulesName = "NUMERO UM",
+
                       WeeklyHours = 35,
                       NurseAge = 60,
                       ChildAge=5,
-                      InBetweenShiftTime="6"
-                  },
-                  new Rules
-                  {
-                      //id=2
-                      RulesName = "NUMERO DOIS",
-                      WeeklyHours = 40,
-                      NurseAge = 65,
-                      ChildAge = 20,
-                      InBetweenShiftTime = "6"
-
-                  },
-                   new Rules
-                   {
-                       //id=3
-                       RulesName = "NUMERO TRÊS",
-                       WeeklyHours = 1,
-                       NurseAge = 50,
-                       ChildAge = 14,
-                       InBetweenShiftTime = "6"
-
-                   },
-                  new Rules
-                  {
-                      //id=4
-                      RulesName = "NUMERO QUATRO",
-                      WeeklyHours = 1,
-                      NurseAge = 45,
-                      ChildAge = 2,
-                      InBetweenShiftTime = "6"
-
-                  },
-                      new Rules
-                      {
-                          //id=5
-                          RulesName = "NUMERO CINCO",
-                          WeeklyHours = 1,
-                          NurseAge = 29,
-                          ChildAge = 1,
-                          InBetweenShiftTime = "6"
-
-                      });
+                      InBetweenShiftTime="16:00"
+                  });
 
             db.SaveChanges();
         }
@@ -140,31 +210,39 @@ namespace HospitalSchedule.Data
 
 
                       ShiftId = 2,
-                      OperationBlockId = 2,
+                      OperationBlockId = 1,
+
+                  },
+                  new OperationBlock_Shifts
+                  {
+
+
+                      ShiftId = 3,
+                      OperationBlockId = 1,
 
                   },
                    new OperationBlock_Shifts
                    {
 
-                       ShiftId = 3,
-                       OperationBlockId = 3,
+                       ShiftId = 1,
+                       OperationBlockId = 2,
 
                    },
                   new OperationBlock_Shifts
                   {
 
-                      ShiftId = 4,
-                      OperationBlockId = 4,
+                      ShiftId = 3,
+                      OperationBlockId = 3,
 
                   },
-                      new OperationBlock_Shifts
-                      {
+                  new OperationBlock_Shifts
+                  {
 
 
-                          ShiftId = 5,
-                          OperationBlockId = 5,
+                      ShiftId = 3,
+                      OperationBlockId = 4,
 
-                      });
+                  });
 
             db.SaveChanges();
         }
@@ -176,40 +254,25 @@ namespace HospitalSchedule.Data
             db.Shift.AddRange(
                   new Shift
                   {
-                      
-                      ShiftName = "Manha",
+
+                      ShiftName = "Manhã",
                       StartingHour = "08:00",
                       Duration = "08:00"
                   },
                   new Shift
                   {
 
-                      ShiftName = "Manha",
-                      StartingHour = "08:00",
+                      ShiftName = "Tarde",
+                      StartingHour = "16:00",
                       Duration = "08:00"
                   },
-                   new Shift
-                   {
-
-                       ShiftName = "Tarde",
-                       StartingHour = "16:00",
-                       Duration = "08:00"
-                   },
                   new Shift
                   {
 
                       ShiftName = "Noite",
-                      StartingHour = "24:00",
+                      StartingHour = "00:00",
                       Duration = "08:00"
-                  },
-                      new Shift
-                      {
-
-                          ShiftName = "Noite",
-                          StartingHour = "24:00",
-                          Duration = "08:00"
-
-                      });
+                  });
 
             db.SaveChanges();
         }
@@ -254,19 +317,20 @@ namespace HospitalSchedule.Data
         {
             if (db.Schedule.Any()) return;
 
-
+        
             //criei um objeto do tipo schedule onde vai returnar um elemento unico onde s do tipo shcedule tem como nome fabio...
-
+          
             db.Schedule.AddRange(
                   new Schedule
                   {
-                      initialDate = new DateTime(2018, 5, 1, 8, 30, 00),
+                      Date = new DateTime(2018, 5, 1),
                       NurseId = 1,
-                      OperationBlock_ShiftsId = 1,
-                   },
+                      OperationBlock_ShiftsId = 1
+
+                  },
                   new Schedule
                   {
-                      initialDate = new DateTime(2018, 5, 1, 8, 30, 00),
+                      Date = new DateTime(2018, 5, 1),
                       NurseId = 2,
                       OperationBlock_ShiftsId = 2
 
@@ -290,7 +354,7 @@ namespace HospitalSchedule.Data
                       SpecialtyId = 1,
                       Email = "1011881@ipg.pt",
                       CellPhoneNumber = "921234543",
-                      //YoungestChildBirthDate = DateTime.Parse("15-05-1987")
+                      YoungestChildBirthDate = DateTime.Parse("15-05-1987")
                   },
                   new Nurse
                   {
@@ -301,7 +365,7 @@ namespace HospitalSchedule.Data
                       SpecialtyId = 2,
                       Email = "1010381@ipg.pt",
                       CellPhoneNumber = "924354464",
-                    //  YoungestChildBirthDate = DateTime.Parse("15-05-1987")
+                      YoungestChildBirthDate = DateTime.Parse("15-05-1987")
                   },
                   new Nurse
                   {
@@ -345,7 +409,7 @@ namespace HospitalSchedule.Data
                       SpecialtyId = 3,
                       Email = "101121@ipg.pt",
                       CellPhoneNumber = "924354114",
-                      //YoungestChildBirthDate = DateTime.Parse("10-07-1990")
+                      YoungestChildBirthDate = DateTime.Parse("10-07-1990")
                   }
                   );
 

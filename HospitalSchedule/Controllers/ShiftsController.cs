@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
+using System.Text.RegularExpressions;
 
 namespace HospitalSchedule.Controllers
 {
@@ -27,7 +28,7 @@ namespace HospitalSchedule.Controllers
 
 
             var Shift = await _context.Shift
-                .OrderBy(p => p.ShiftName)
+                    .OrderBy(p => p.ShiftName)
 
                     .Skip(PageSize * (page - 1))
                     .Take(PageSize)
@@ -58,7 +59,9 @@ namespace HospitalSchedule.Controllers
                 ViewData["Searched"] = false;
                 return View(new ShiftView()
                 {
-                    Shifts = await _context.Shift.ToListAsync(),
+                    Shifts = await _context.Shift
+                    .OrderBy(p => p.ShiftName)
+                    .ToListAsync(),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -71,7 +74,10 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new ShiftView()
             {
-                Shifts = await _context.Shift.Where(shifts => shifts.ShiftName.ToLower().Contains(search.ToLower())).ToListAsync(),
+                Shifts = await _context.Shift
+                .Where(shifts => shifts.ShiftName.ToLower().Contains(search.ToLower()))
+                .OrderBy(p => p.ShiftName)
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,
@@ -113,6 +119,22 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ShiftId,ShiftName,StartingHour,Duration")] Shift shift)
         {
+
+            var name = shift.ShiftName;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("ShiftName", "Shift is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("ShiftName", "Shift already exist");
+            }
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(shift);
@@ -146,6 +168,21 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ShiftId,ShiftName,StartingHour,Duration")] Shift shift)
         {
+
+            var name = shift.ShiftName;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("ShiftName", "Shift is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("ShiftName", "Shift already exist");
+            }
+
             if (id != shift.ShiftId)
             {
                 return NotFound();
@@ -169,6 +206,7 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Shift " + shift.ShiftName + " has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(shift);
@@ -198,14 +236,70 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var shift = await _context.Shift.FindAsync(id);
+            //Procurar se já há alguma ligação para o Turno a eliminar
+            var operationBlockShift = _context.OperationBlock_Shifts.Where(OperationBlock_Shifts => OperationBlock_Shifts.ShiftId == shift.ShiftId);
+            //Se existir pelo menos 1 ligação (Bloco Operátorio - Turno sendo este o turno associado), o VS dará erro após guardar assincronamente,
+            //nós queremos que apareça uma página de erro
+            if (operationBlockShift.Any())
+            {
+                TempData["Error"] = "The shift that you are trying to delete is already connected to, at least, one operation block - shift connection therefore you cant delete it.";
+                return RedirectToAction(nameof(Error));
+            }
             _context.Shift.Remove(shift);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         private bool ShiftExists(int id)
         {
             return _context.Shift.Any(e => e.ShiftId == id);
         }
+
+
+
+
+        private bool nameIsInvalid(string name)
+        {
+            bool IsInvalid = false;
+            //Procura na BD se existem turnos iguais
+            var Shifts = from e in _context.Shift
+                         where e.ShiftName.Contains(name)
+                               select e;
+
+            if (!Shifts.Count().Equals(0))
+            {
+                IsInvalid = true;
+            }
+            return IsInvalid;
+        }
+
+
+
+        public static bool nameIsValid(string name)
+        {
+            string expression;
+            expression = "[a-zA-Z][a-zA-Z ]*";
+            if (Regex.IsMatch(name, expression))
+            {
+                if (Regex.Replace(name, expression, string.Empty).Length == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

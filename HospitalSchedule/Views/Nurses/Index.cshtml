@@ -4,7 +4,9 @@
     ViewData["Title"] = "Nurse";
 }
 
-<h2>Nurse</h2>
+
+<h2>Nurses List</h2>
+
 
 <p>
     <a asp-action="Create" class="btn btn-default" >Create New</a>
@@ -15,7 +17,7 @@
             @using (Html.BeginForm())
             {
                 <p>
-                    Find by name: <input type="text" name="Search"  placeholder="Insert nurse name" />
+                    Find by nurse's name: <input type="text" name="Search"  placeholder="" />
                     <input type="submit" value="Search" />
                 </p>
             }

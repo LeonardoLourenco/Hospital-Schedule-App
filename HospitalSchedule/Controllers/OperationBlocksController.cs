@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalSchedule.Models;
+using System.Text.RegularExpressions;
 
 namespace HospitalSchedule.Controllers
 {
@@ -27,7 +28,6 @@ namespace HospitalSchedule.Controllers
 
             var OperationBlocks = await
                 _context.OperationBlock
-                .Include(e => e.OperationBlock_Shifts)
                 .OrderBy(p => p.BlockName)
 
                 .Skip(PageSize * (page - 1))
@@ -59,7 +59,9 @@ namespace HospitalSchedule.Controllers
                 ViewData["Searched"] = false;
                 return View(new OperationBlockView()
                 {
-                    OperationBlocks = await _context.OperationBlock.ToListAsync(),
+                    OperationBlocks = await _context.OperationBlock
+                    .OrderBy(p => p.BlockName)
+                    .ToListAsync(),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -72,7 +74,10 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new OperationBlockView()
             {
-                OperationBlocks = await _context.OperationBlock.Where(OperationBlock => OperationBlock.BlockName.ToLower().Contains(search.ToLower())).ToListAsync(),
+                OperationBlocks = await _context.OperationBlock
+                .Where(OperationBlock => OperationBlock.BlockName.ToLower().Contains(search.ToLower()))
+                .OrderBy(p => p.BlockName)
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,
@@ -112,6 +117,22 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OperationBlockId,BlockName")] OperationBlock operationBlock)
         {
+
+            var name = operationBlock.BlockName;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("BlockName", "Shift is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("BlockName", "Shift already exist");
+            }
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(operationBlock);
@@ -145,6 +166,24 @@ namespace HospitalSchedule.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OperationBlockId,BlockName")] OperationBlock operationBlock)
         {
+
+
+            var name = operationBlock.BlockName;
+
+            //validaçoes de email na DataBase
+            if (!nameIsValid(name))
+            {
+                ModelState.AddModelError("BlockName", "Shift is invalid");
+            }
+
+
+            if (nameIsInvalid(name) == true)
+            {
+                ModelState.AddModelError("BlockName", "Shift already exist");
+            }
+
+
+
             if (id != operationBlock.OperationBlockId)
             {
                 return NotFound();
@@ -168,6 +207,7 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "The Operation Block " + operationBlock.BlockName + " has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(operationBlock);
@@ -197,14 +237,69 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var operationBlock = await _context.OperationBlock.FindAsync(id);
+            //Procurar se já há alguma ligação para o Bloco Operatório a eliminar
+            var operationBlockShift = _context.OperationBlock_Shifts.Where(OperationBlock_Shifts => OperationBlock_Shifts.OperationBlockId == operationBlock.OperationBlockId);
+            //Se existir pelo menos 1 ligação (Bloco Operátorio - Turno sendo este o bloco operatório associado), o VS dará erro após guardar assincronamente,
+            //nós queremos que apareça uma página de erro
+            if (operationBlockShift.Any())
+            {
+                TempData["Error"] = "The operation block that you are trying to delete is already connected to, at least, one operation block - shift connection therefore you cant delete it.";
+                return RedirectToAction(nameof(Error));
+            }
             _context.OperationBlock.Remove(operationBlock);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         private bool OperationBlockExists(int id)
         {
             return _context.OperationBlock.Any(e => e.OperationBlockId == id);
         }
+
+
+
+        private bool nameIsInvalid(string name)
+        {
+            bool IsInvalid = false;
+            //Procura na BD se existem turnos iguais
+            var OperationBloks = from e in _context.OperationBlock
+                         where e.BlockName.Contains(name)
+                         select e;
+
+            if (!OperationBloks.Count().Equals(0))
+            {
+                IsInvalid = true;
+            }
+            return IsInvalid;
+        }
+
+
+
+        public static bool nameIsValid(string name)
+        {
+            string expression;
+            expression = "[a-zA-Z0-9][a-zA-Z 0-9]*";
+            if (Regex.IsMatch(name, expression))
+            {
+                if (Regex.Replace(name, expression, string.Empty).Length == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

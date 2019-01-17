@@ -63,7 +63,11 @@ namespace HospitalSchedule.Controllers
                 ViewData["Searched"] = false;
                 return View(new OperationBlock_ShiftView()
                 {
-                    OperationBlock_Shifts = await _context.OperationBlock_Shifts.ToListAsync(),
+                    OperationBlock_Shifts = await _context.OperationBlock_Shifts
+                    .Include(a => a.OperationBlock)
+                    .Include(a => a.Shift)
+                    .OrderBy(p => p.OperationBlock.BlockName)
+                    .ToListAsync(),
                     PagingInfo = new PagingInfo()
                     {
                         CurrentPage = page,
@@ -76,7 +80,12 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new OperationBlock_ShiftView()
             {
-                OperationBlock_Shifts = await _context.OperationBlock_Shifts.Where(OperationBlock_Shifts => OperationBlock_Shifts.OperationBlock.BlockName.ToLower().Contains(search.ToLower())).ToListAsync(),
+                OperationBlock_Shifts = await _context.OperationBlock_Shifts
+                .Include(a => a.OperationBlock)
+                .Include(a => a.Shift)
+                .Where(OperationBlock_Shifts => OperationBlock_Shifts.OperationBlock.BlockName.ToLower().Contains(search.ToLower()))
+                .OrderBy(p => p.OperationBlock.BlockName)
+                .ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
 
@@ -185,6 +194,10 @@ namespace HospitalSchedule.Controllers
                         throw;
                     }
                 }
+                var block = await _context.OperationBlock.FindAsync(operationBlock_Shifts.OperationBlockId); 
+                var shift = await _context.Shift.FindAsync(operationBlock_Shifts.OperationBlockId);                   
+                TempData["Success"] = "The connection between the Operation Block " + block.BlockName + " and the Shift " +
+                    shift.ShiftName + " has been edited successfully";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OperationBlockId"] = new SelectList(_context.OperationBlock, "OperationBlockId", "BlockName", operationBlock_Shifts.OperationBlockId);
@@ -218,9 +231,23 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var operationBlock_Shifts = await _context.OperationBlock_Shifts.FindAsync(id);
+            //Procurar se já há alguma ligação para a ligação Bloco Operatório - turno a eliminar
+            var schedule = _context.Schedule.Where(Schedule => Schedule.OperationBlock_ShiftsId == operationBlock_Shifts.OperationBlock_ShiftsId);
+            //Se existir pelo menos 1 ligação (Horário/Linha no horário com uma ligação bloco operatório - turno associada), o VS dará erro após guardar assincronamente,
+            //nós queremos que apareça uma página de erro
+            if (schedule.Any())
+            {
+                TempData["Error"] = "The operation block - shift connection that you are trying to delete is already connected to, at least, one schedule therefore you cant delete it.";
+                return RedirectToAction(nameof(Error));
+            }
             _context.OperationBlock_Shifts.Remove(operationBlock_Shifts);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         private bool OperationBlock_ShiftsExists(int id)

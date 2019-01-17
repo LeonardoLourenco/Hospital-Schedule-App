@@ -12,12 +12,14 @@ namespace HospitalSchedule.Models
     {
         [Required]
         public int ScheduleId { get; set; }//Id do horário
+        
+        [Required(ErrorMessage ="Please insert the schedule's date")]
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }//Dia desse horário
 
-        [Required(ErrorMessage = "Please insert a date")]
-        public DateTime initialDate { get; set; }//Dia desse horário
+        //Após o algoritmo de geração de horário estar feito não será necessário regex.
 
-        //Nome do enfermerio,Nome do Bloco operatin Ex: Maternidade Prevençao e Tipo de turno, M,T ou N
-        //São buscados através das chaves estrangeiras
+
         public Nurse Nurse { get; set; }
         [Required]
         public int NurseId { get; set; }
@@ -25,5 +27,9 @@ namespace HospitalSchedule.Models
         public OperationBlock_Shifts OperationBlock_Shifts { get; set; }
         [Required]
         public int OperationBlock_ShiftsId { get; set; }
+
+        public ICollection<Schedule_Exchange1> Schedule_Exchange1s { get; set; }
+
+        public ICollection<Schedule_Exchange2> Schedule_Exchange2s { get; set; }
     }
 }

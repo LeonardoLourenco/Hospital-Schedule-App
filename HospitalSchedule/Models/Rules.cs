@@ -21,7 +21,9 @@ namespace HospitalSchedule.Models
         public int ChildAge { get; set; } //Qual a Idade do filho mais novo para fazer n turnos noturnos
 
         [Required(ErrorMessage = "Please insert the resting time a nurse has between shifts")]
-        [RegularExpression(@"([0-9]{2})+:+([0-9]{2})", ErrorMessage = "Please insert a number for the resting time a nurse has between shifts in this format 00:00")]
+        [RegularExpression(@"([0-1]{1}([0-9]{1})|([2]+([0-3])))+:+([0-5]{1}([0-9]{1}))", ErrorMessage = "Please insert a number for the resting time a nurse has between shifts in this format 00:00, the maximum value is 23:59")]
+        //([0-1]{1}([0-9]{1})|([2]+([0-3])))+:+([0-5]{1}([0-9]{1})) Apenas deixa entrar valores de 1º digito 0 - 1, segundo digito 0 - 9, caso o primerio digito seja 2, o segundo so vai de 0 a 3,
+        //o terceiro digito vai de 0 - 5 e o 4 de 0 - 9
         public string InBetweenShiftTime { get; set; } //Qual a o tempo entre turnos
         //Regras para o algoritmo vão aqui
         //Exemplo (Data_Actual - Nurse.Birthdate) > Age ENTÃO não faz Noites

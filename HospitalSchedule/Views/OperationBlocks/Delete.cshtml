@@ -18,10 +18,28 @@
             @Html.DisplayFor(model => model.BlockName)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="OperationBlockId" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-primary">Back to List</a>
-    </form>
+
+    <input type="submit" value="Delete" class="btn btn-warning" onclick="toggle_div_fun('sectiontohide');" />
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+
+    <div id="hideablediv" hidden>
+        <p></p>
+        <h5>Are you really sure you want to delete this?</h5>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="OperationBlockId" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </form>
+    </div>
 </div>
+
+<script type="text/javascript">
+    function toggle_div_fun(id) {
+
+        var divelement = document.getElementById('hideablediv');
+
+
+        divelement.style.display = 'block';
+
+    }
+</script>
