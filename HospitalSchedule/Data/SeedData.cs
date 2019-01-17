@@ -22,7 +22,7 @@ namespace HospitalSchedule.Data
                 SeedShifts(db);
                 SeedOperationBlock_Shifts(db);
                 SeedNurses(db);
-                SeedSchedule(db);
+                //SeedSchedule(db);
                 SeedRules(db);
                 
             }
@@ -34,15 +34,18 @@ namespace HospitalSchedule.Data
             db.Rules.AddRange(
                   new Rules
                   {
-
-                      WeeklyHours = 1,
+                      //id=1
+                      RulesName = "NUMERO UM",
+                      WeeklyHours = 35,
                       NurseAge = 60,
                       ChildAge=5,
                       InBetweenShiftTime="6"
                   },
                   new Rules
                   {
-                      WeeklyHours = 1,
+                      //id=2
+                      RulesName = "NUMERO DOIS",
+                      WeeklyHours = 40,
                       NurseAge = 65,
                       ChildAge = 20,
                       InBetweenShiftTime = "6"
@@ -50,6 +53,8 @@ namespace HospitalSchedule.Data
                   },
                    new Rules
                    {
+                       //id=3
+                       RulesName = "NUMERO TRÊS",
                        WeeklyHours = 1,
                        NurseAge = 50,
                        ChildAge = 14,
@@ -58,6 +63,8 @@ namespace HospitalSchedule.Data
                    },
                   new Rules
                   {
+                      //id=4
+                      RulesName = "NUMERO QUATRO",
                       WeeklyHours = 1,
                       NurseAge = 45,
                       ChildAge = 2,
@@ -66,6 +73,8 @@ namespace HospitalSchedule.Data
                   },
                       new Rules
                       {
+                          //id=5
+                          RulesName = "NUMERO CINCO",
                           WeeklyHours = 1,
                           NurseAge = 29,
                           ChildAge = 1,
@@ -167,37 +176,37 @@ namespace HospitalSchedule.Data
             db.Shift.AddRange(
                   new Shift
                   {
-
-                      ShiftName = "Tarde",
+                      
+                      ShiftName = "Manha",
                       StartingHour = "08:00",
                       Duration = "08:00"
                   },
                   new Shift
                   {
 
-                      ShiftName = "Tarde",
+                      ShiftName = "Manha",
                       StartingHour = "08:00",
                       Duration = "08:00"
                   },
                    new Shift
                    {
 
-                       ShiftName = "Noite",
-                       StartingHour = "00:00",
+                       ShiftName = "Tarde",
+                       StartingHour = "16:00",
                        Duration = "08:00"
                    },
                   new Shift
                   {
 
                       ShiftName = "Noite",
-                      StartingHour = "12.00",
+                      StartingHour = "24:00",
                       Duration = "08:00"
                   },
                       new Shift
                       {
 
-                          ShiftName = "Tarde",
-                          StartingHour = "16:00",
+                          ShiftName = "Noite",
+                          StartingHour = "24:00",
                           Duration = "08:00"
 
                       });
@@ -245,20 +254,19 @@ namespace HospitalSchedule.Data
         {
             if (db.Schedule.Any()) return;
 
-        
+
             //criei um objeto do tipo schedule onde vai returnar um elemento unico onde s do tipo shcedule tem como nome fabio...
-          
+
             db.Schedule.AddRange(
                   new Schedule
                   {
-                      Date = new DateTime(2018, 5, 1, 8, 30, 00),
+                      initialDate = new DateTime(2018, 5, 1, 8, 30, 00),
                       NurseId = 1,
-                      OperationBlock_ShiftsId = 1
-
-                  },
+                      OperationBlock_ShiftsId = 1,
+                   },
                   new Schedule
                   {
-                      Date = new DateTime(2018, 5, 1, 8, 30, 00),
+                      initialDate = new DateTime(2018, 5, 1, 8, 30, 00),
                       NurseId = 2,
                       OperationBlock_ShiftsId = 2
 
@@ -282,7 +290,7 @@ namespace HospitalSchedule.Data
                       SpecialtyId = 1,
                       Email = "1011881@ipg.pt",
                       CellPhoneNumber = "921234543",
-                      YoungestChildBirthDate = DateTime.Parse("15-05-1987")
+                      //YoungestChildBirthDate = DateTime.Parse("15-05-1987")
                   },
                   new Nurse
                   {
@@ -293,7 +301,7 @@ namespace HospitalSchedule.Data
                       SpecialtyId = 2,
                       Email = "1010381@ipg.pt",
                       CellPhoneNumber = "924354464",
-                      YoungestChildBirthDate = DateTime.Parse("15-05-1987")
+                    //  YoungestChildBirthDate = DateTime.Parse("15-05-1987")
                   },
                   new Nurse
                   {
@@ -337,7 +345,7 @@ namespace HospitalSchedule.Data
                       SpecialtyId = 3,
                       Email = "101121@ipg.pt",
                       CellPhoneNumber = "924354114",
-                      YoungestChildBirthDate = DateTime.Parse("10-07-1990")
+                      //YoungestChildBirthDate = DateTime.Parse("10-07-1990")
                   }
                   );
 

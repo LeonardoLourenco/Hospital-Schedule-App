@@ -27,7 +27,7 @@ namespace HospitalSchedule.Controllers
 
             var OperationBlock_Shifts = await _context.OperationBlock_Shifts
                     .Include(a => a.OperationBlock)
-                    .Include(a => a.Shift )
+                    .Include(a => a.Shift)
                     .OrderBy(p => p.OperationBlock.BlockName)
 
                     .Skip(PageSize * (page - 1))
@@ -52,6 +52,10 @@ namespace HospitalSchedule.Controllers
         public async Task<IActionResult> Index(string search, int page = 1)
         {
             int numOperationBlock_Shifts = await _context.OperationBlock_Shifts.CountAsync();
+
+
+
+
 
             //se nao tiver nada na pesquisa retorna a view anterior
             if (String.IsNullOrEmpty(search))

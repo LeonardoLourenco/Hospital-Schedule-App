@@ -10,6 +10,6 @@ namespace HospitalSchedule.Models
         public IEnumerable<Nurse> Nurses { get; set; }
 
         public PagingInfo PagingInfo { get; set; }
-        
+
     }
 }

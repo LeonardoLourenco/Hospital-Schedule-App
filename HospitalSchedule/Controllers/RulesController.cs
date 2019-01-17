@@ -69,7 +69,7 @@ namespace HospitalSchedule.Controllers
             ViewData["Searched"] = true;
             return View(new RulesView()
             {
-                Rules = await _context.Rules.Where(rules => rules.InBetweenShiftTime.ToLower().Contains(search.ToLower())).ToListAsync(),
+                Rules = await _context.Rules.Where(rules => rules.RulesName.ToLower().Contains(search.ToLower())).ToListAsync(),
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,
@@ -78,71 +78,7 @@ namespace HospitalSchedule.Controllers
                 }
             });
         }
-        /*
-         public async Task<IActionResult> Index(int page = 1)
-        {
-            int numOperationBlocks = await _context.OperationBlock.CountAsync();
 
-            var OperationBlocks = await
-                _context.OperationBlock
-                .Include(e => e.OperationBlock_Shifts)
-                .OrderBy(p => p.BlockName)
-
-                .Skip(PageSize * (page - 1))
-                .Take(PageSize)
-                .ToListAsync();
-
-
-
-
-            return View(
-                new OperationBlockView
-                {
-                    OperationBlocks = OperationBlocks,
-                    PagingInfo = new PagingInfo
-                    {
-                        CurrentPage = page,
-                        ItemsPerPage = PageSize,
-                        TotalItems = numOperationBlocks
-                    }
-                }
-            );
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Index(string search, int page = 1)
-        {
-            int numOperationBlocks = await _context.OperationBlock.CountAsync();
-
-            //se nao tiver nada na pesquisa retorna a view anterior
-            if (String.IsNullOrEmpty(search))
-            {
-                ViewData["Searched"] = false;
-                return View(new OperationBlockView()
-                {
-                    OperationBlocks = await _context.OperationBlock.ToListAsync(),
-                    PagingInfo = new PagingInfo()
-                    {
-                        CurrentPage = page,
-                        ItemsPerPage = PageSize,
-                        TotalItems = numOperationBlocks
-                    }
-                });
-            }
-
-            ViewData["Searched"] = true;
-            return View(new OperationBlockView()
-            {
-                OperationBlocks = await _context.OperationBlock.Where(OperationBlock => OperationBlock.BlockName.ToLower().Contains(search.ToLower())).ToListAsync(),
-                PagingInfo = new PagingInfo()
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = PageSize,
-                    TotalItems = numOperationBlocks
-                }
-            });
-        }*/
         // GET: Rules/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -16,5 +16,8 @@ namespace HospitalSchedule.Models
 
         public bool HasPreviousPage => (CurrentPage > 1);
         public bool HasNextPage => (CurrentPage < TotalPages);
+
+        public string Order { get; set; }
+
     }
 }

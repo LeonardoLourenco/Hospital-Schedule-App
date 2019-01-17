@@ -53,6 +53,9 @@ namespace HospitalSchedule.Controllers
         {
             int numSpecialty = await _context.Specialty.CountAsync();
 
+         
+
+
             //se nao tiver nada na pesquisa retorna a view anterior
             if (String.IsNullOrEmpty(search))
             {

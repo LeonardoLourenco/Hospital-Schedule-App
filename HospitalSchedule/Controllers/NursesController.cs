@@ -13,7 +13,8 @@ namespace HospitalSchedule.Controllers
     public class NursesController : Controller
     {
         private readonly HospitalScheduleDbContext _context;
-        public int PageSize = 3;
+        public  int PageSize = 3;
+        private List<Nurse> nurseList;
 
         public NursesController(HospitalScheduleDbContext context)
         {
@@ -22,16 +23,13 @@ namespace HospitalSchedule.Controllers
 
 
         // GET: Nurses
-        public async Task<IActionResult> Index(int page = 1)
+       public async Task<IActionResult> Index(int page = 1)
         {
             int numNurses = await _context.Nurse.CountAsync();
 
 
-            var Nurse = await 
-                _context.Nurse
-                    .Include(e => e.Specialty)
+            var Nurse =  await _context.Nurse
                     .OrderBy(p => p.Name)
-                  
                     .Skip(PageSize * (page - 1))
                     .Take(PageSize)
                     .ToListAsync();
@@ -49,12 +47,16 @@ namespace HospitalSchedule.Controllers
                 }
             );
         }
+
         [HttpPost]
-        public async Task<IActionResult> Index(string search,int page = 1)
+        public async Task<IActionResult> Index(string search, string sortOrder, int page = 1)
         {
+
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialty, "SpecialtyId", "Name");
+
             int numNurses = await _context.Nurse.CountAsync();
 
-            //se nao tiver nada na pesquisa retorna a view anterior
+
             if (String.IsNullOrEmpty(search))
             {
                 ViewData["Searched"] = false;
@@ -71,17 +73,114 @@ namespace HospitalSchedule.Controllers
             }
             //se nao devolve a pesquisa
             ViewData["Searched"] = true;
+
+
+           
+            switch (sortOrder)
+            {
+                case "Name":
+                     nurseList = await _context.Nurse.Where(a => a.Name.ToLower()
+                                                       .Contains(search.ToLower()))
+                                                       .ToListAsync();
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+
+                    break;
+
+                case "Email":
+
+                    nurseList = await _context.Nurse.Where(a => a.Email.ToLower()
+                                                       .Contains(search.ToLower()))
+                                                       .ToListAsync();
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+
+                    break;
+
+                case "Type":
+
+                    nurseList = await _context.Nurse.Where(a => a.Type.ToString().ToLower()
+                                                       .Contains(search.ToLower()))
+                                                       .ToListAsync();
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+                    break;
+
+                case "CellPhoneNumber":
+
+                    nurseList = await _context.Nurse.Where(a => a.CellPhoneNumber.ToString()
+                                                       .ToLower()
+                                                       .Contains(search.ToLower()))
+                                                       .ToListAsync();
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+                    break;
+
+                case "IDCard":
+
+                    nurseList = await _context.Nurse.Where(a => a.IDCard.ToString()
+                                                       .ToLower()
+                                                       .Contains(search.ToLower()))
+                                                       .ToListAsync();
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+                    break;
+
+                case "BirthDate":
+
+                    nurseList = await _context.Nurse.Where(a => a.BirthDate.ToString()
+                                                       .ToLower()
+                                                       .Contains(search.ToLower()))
+                                                       .ToListAsync();
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+                    break;
+
+                case "YoungestChildBirthDate":
+
+                    nurseList = await _context.Nurse.Where(a => a.YoungestChildBirthDate.ToString()
+                                                       .ToLower()
+                                                       .Contains(search.ToLower()))
+                                                       .ToListAsync();
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+                    break;
+
+                case "Specialty":
+
+                    nurseList = await _context.Nurse.Where(a => a.Specialty.Name
+                                                       .ToLower()
+                                                       .Contains(search.ToLower()))
+                                                       .ToListAsync();
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+                    break;
+            
+            default:
+                     nurseList = await _context.Nurse.Where(a => a.Name.ToLower()
+                                               .Contains(search.ToLower()))
+                                               .ToListAsync();//Lista por default
+                    PageSize = nurseList.Count();
+                    nurseList.AsEnumerable();
+                    break;
+            }
+
+
             return View(new NursesView()
             {
-                Nurses = await _context.Nurse.Where(nurse => nurse.Name.ToLower().Contains(search.ToLower())).ToListAsync(),
+                
+
+                Nurses = nurseList,
+                //todo:Na view falta meter um campo para poder ser inserido uma order
                 PagingInfo = new PagingInfo()
                 {
                     CurrentPage = page,
-                    ItemsPerPage = PageSize,
+                    ItemsPerPage = nurseList.Count(),
                     TotalItems = numNurses
                 }
             });
         }
+
 
         // GET: Nurses/Details/5
         public async Task<IActionResult> Details(int? id)
